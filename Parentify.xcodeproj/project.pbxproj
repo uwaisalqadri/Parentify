@@ -13,6 +13,21 @@
 		91413FC427BA95AA00799155 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FB227BA95A700799155 /* ContentView.swift */; };
 		91413FC527BA95AA00799155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91413FB327BA95AA00799155 /* Assets.xcassets */; };
 		91413FC627BA95AA00799155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91413FB327BA95AA00799155 /* Assets.xcassets */; };
+		91413FD227BA997300799155 /* AppAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FD127BA997300799155 /* AppAssembler.swift */; };
+		91413FE327BA9AD600799155 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FE227BA9AD600799155 /* ViewState.swift */; };
+		91413FE427BA9AD600799155 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FE227BA9AD600799155 /* ViewState.swift */; };
+		91413FE627BA9AFC00799155 /* CardShadowModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FE527BA9AFC00799155 /* CardShadowModifier.swift */; };
+		91413FE727BA9AFC00799155 /* CardShadowModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FE527BA9AFC00799155 /* CardShadowModifier.swift */; };
+		91413FED27BAA07A00799155 /* Color+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FEC27BAA07A00799155 /* Color+Ext.swift */; };
+		91413FEE27BAA07A00799155 /* Color+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FEC27BAA07A00799155 /* Color+Ext.swift */; };
+		91413FF027BAA08C00799155 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FEF27BAA08C00799155 /* Date+Ext.swift */; };
+		91413FF127BAA08C00799155 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FEF27BAA08C00799155 /* Date+Ext.swift */; };
+		91413FF327BAA0AB00799155 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FF227BAA0AB00799155 /* String+Ext.swift */; };
+		91413FF427BAA0AB00799155 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FF227BAA0AB00799155 /* String+Ext.swift */; };
+		91413FF627BAA0C500799155 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FF527BAA0C500799155 /* View+Ext.swift */; };
+		91413FF727BAA0C500799155 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FF527BAA0C500799155 /* View+Ext.swift */; };
+		91413FF927BAA12000799155 /* DefaultError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FF827BAA12000799155 /* DefaultError.swift */; };
+		91413FFA27BAA12000799155 /* DefaultError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FF827BAA12000799155 /* DefaultError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +37,14 @@
 		91413FB827BA95AA00799155 /* Parentify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parentify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91413FBE27BA95AA00799155 /* Parentify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parentify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91413FC027BA95AA00799155 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		91413FD127BA997300799155 /* AppAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembler.swift; sourceTree = "<group>"; };
+		91413FE227BA9AD600799155 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		91413FE527BA9AFC00799155 /* CardShadowModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardShadowModifier.swift; sourceTree = "<group>"; };
+		91413FEC27BAA07A00799155 /* Color+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Ext.swift"; sourceTree = "<group>"; };
+		91413FEF27BAA08C00799155 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
+		91413FF227BAA0AB00799155 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
+		91413FF527BAA0C500799155 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
+		91413FF827BAA12000799155 /* DefaultError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,20 +68,22 @@
 		91413FAB27BA95A700799155 = {
 			isa = PBXGroup;
 			children = (
-				91413FB027BA95A700799155 /* Shared */,
+				91413FB027BA95A700799155 /* Parentify */,
 				91413FBF27BA95AA00799155 /* macOS */,
 				91413FB927BA95AA00799155 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		91413FB027BA95A700799155 /* Shared */ = {
+		91413FB027BA95A700799155 /* Parentify */ = {
 			isa = PBXGroup;
 			children = (
-				91413FB127BA95A700799155 /* ParentifyApp.swift */,
+				91413FCF27BA993B00799155 /* Dependency */,
+				91413FD327BA998100799155 /* App */,
+				91413FD427BA998800799155 /* Data */,
 				91413FB227BA95A700799155 /* ContentView.swift */,
 				91413FB327BA95AA00799155 /* Assets.xcassets */,
 			);
-			path = Shared;
+			path = Parentify;
 			sourceTree = "<group>";
 		};
 		91413FB927BA95AA00799155 /* Products */ = {
@@ -76,6 +101,132 @@
 				91413FC027BA95AA00799155 /* macOS.entitlements */,
 			);
 			path = macOS;
+			sourceTree = "<group>";
+		};
+		91413FCF27BA993B00799155 /* Dependency */ = {
+			isa = PBXGroup;
+			children = (
+				91413FD027BA994D00799155 /* Features */,
+				91413FD127BA997300799155 /* AppAssembler.swift */,
+			);
+			path = Dependency;
+			sourceTree = "<group>";
+		};
+		91413FD027BA994D00799155 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		91413FD327BA998100799155 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				91413FD527BA999B00799155 /* Features */,
+				91413FD627BA99A400799155 /* Main */,
+				91413FD727BA99AE00799155 /* Resources */,
+				91413FD827BA99BA00799155 /* Utils */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		91413FD427BA998800799155 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				91413FD927BA9A0000799155 /* Mapper */,
+				91413FDA27BA9A0600799155 /* Model */,
+				91413FDB27BA9A1100799155 /* Source */,
+				91413FDC27BA9A1800799155 /* Entity */,
+				91413FF827BAA12000799155 /* DefaultError.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		91413FD527BA999B00799155 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		91413FD627BA99A400799155 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				91413FB127BA95A700799155 /* ParentifyApp.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		91413FD727BA99AE00799155 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		91413FD827BA99BA00799155 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				91413FDD27BA9A8A00799155 /* CustomViews */,
+				91413FDE27BA9A9600799155 /* Extensions */,
+				91413FDF27BA9AA000799155 /* Modifiers */,
+				91413FE227BA9AD600799155 /* ViewState.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		91413FD927BA9A0000799155 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mapper;
+			sourceTree = "<group>";
+		};
+		91413FDA27BA9A0600799155 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		91413FDB27BA9A1100799155 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		91413FDC27BA9A1800799155 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		91413FDD27BA9A8A00799155 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		91413FDE27BA9A9600799155 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				91413FEC27BAA07A00799155 /* Color+Ext.swift */,
+				91413FEF27BAA08C00799155 /* Date+Ext.swift */,
+				91413FF227BAA0AB00799155 /* String+Ext.swift */,
+				91413FF527BAA0C500799155 /* View+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		91413FDF27BA9AA000799155 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				91413FE527BA9AFC00799155 /* CardShadowModifier.swift */,
+			);
+			path = Modifiers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,8 +327,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91413FF927BAA12000799155 /* DefaultError.swift in Sources */,
 				91413FC327BA95AA00799155 /* ContentView.swift in Sources */,
 				91413FC127BA95AA00799155 /* ParentifyApp.swift in Sources */,
+				91413FF627BAA0C500799155 /* View+Ext.swift in Sources */,
+				91413FE327BA9AD600799155 /* ViewState.swift in Sources */,
+				91413FD227BA997300799155 /* AppAssembler.swift in Sources */,
+				91413FE627BA9AFC00799155 /* CardShadowModifier.swift in Sources */,
+				91413FF027BAA08C00799155 /* Date+Ext.swift in Sources */,
+				91413FF327BAA0AB00799155 /* String+Ext.swift in Sources */,
+				91413FED27BAA07A00799155 /* Color+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,8 +344,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91413FF727BAA0C500799155 /* View+Ext.swift in Sources */,
 				91413FC427BA95AA00799155 /* ContentView.swift in Sources */,
+				91413FF427BAA0AB00799155 /* String+Ext.swift in Sources */,
 				91413FC227BA95AA00799155 /* ParentifyApp.swift in Sources */,
+				91413FFA27BAA12000799155 /* DefaultError.swift in Sources */,
+				91413FE727BA9AFC00799155 /* CardShadowModifier.swift in Sources */,
+				91413FF127BAA08C00799155 /* Date+Ext.swift in Sources */,
+				91413FE427BA9AD600799155 /* ViewState.swift in Sources */,
+				91413FEE27BAA07A00799155 /* Color+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
