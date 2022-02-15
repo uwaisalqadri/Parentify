@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct ParentifyApp: App {
   var body: some Scene {
     WindowGroup {
       ContentView()
+        .onAppear {
+          FirebaseApp.configure()
+        }
     }
   }
 }
