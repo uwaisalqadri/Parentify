@@ -60,7 +60,7 @@ struct MessagesCard: View {
   }
 }
 
-struct DetailCard: View {
+struct OpenChatCard: View {
 
   var body: some View {
     HStack {
@@ -71,11 +71,24 @@ struct DetailCard: View {
 
       Spacer()
 
-      Image("ArrowIcon")
-        .resizable()
-        .frame(width: 26, height: 26, alignment: .center)
-        .shadow(radius: 3)
-        .padding(.trailing, 21)
+      ZStack(alignment: .topTrailing) {
+        Image("ArrowIcon")
+          .resizable()
+          .frame(width: 26, height: 26, alignment: .center)
+          .shadow(radius: 3)
+          .padding(.trailing, 35)
+
+        Text("2")
+          .foregroundColor(.white)
+          .font(.system(size: 12, weight: .bold))
+          .padding(.horizontal, 5)
+          .padding(.vertical, 3)
+          .background(Color.redColor)
+          .clipShape(Capsule())
+          .padding(.top, -10)
+          .padding(.trailing, 27)
+      }
+      .frame(width: 28, height: 28, alignment: .center)
     }
     .padding(.vertical, 21)
     .cardShadow(cornerRadius: 23)
