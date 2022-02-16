@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
 
-  @State private var profile: Profile = .initialize
+  @State private var profile: User = .initialize
   @State private var profileImage = UIImage()
   @State private var profileImageData = Data()
   @State private var isShowMemojiTextView = false

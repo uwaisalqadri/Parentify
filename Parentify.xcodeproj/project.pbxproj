@@ -29,7 +29,7 @@
 		91B3295A27BCD81B00FBFA00 /* Dropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3295927BCD81B00FBFA00 /* Dropdown.swift */; };
 		91B3295C27BCD86000FBFA00 /* ImageCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3295B27BCD86000FBFA00 /* ImageCard.swift */; };
 		91B3295E27BCD8AC00FBFA00 /* MessagesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3295D27BCD8AC00FBFA00 /* MessagesCard.swift */; };
-		91B3296027BCDA3300FBFA00 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3295F27BCDA3300FBFA00 /* Profile.swift */; };
+		91B3296027BCDA3300FBFA00 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3295F27BCDA3300FBFA00 /* User.swift */; };
 		91B3296227BCDD8B00FBFA00 /* MembershipRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3296127BCDD8B00FBFA00 /* MembershipRouter.swift */; };
 		91B3296427BCDDE800FBFA00 /* ChatRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3296327BCDDE800FBFA00 /* ChatRouter.swift */; };
 		91B3296627BCDDFE00FBFA00 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3296527BCDDFE00FBFA00 /* ChatView.swift */; };
@@ -45,6 +45,10 @@
 		91B3297A27BCE00B00FBFA00 /* ChatAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3297927BCE00B00FBFA00 /* ChatAssembler.swift */; };
 		91B3297C27BCE02C00FBFA00 /* MembershipAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3297B27BCE02C00FBFA00 /* MembershipAssembler.swift */; };
 		91B3297E27BCE04B00FBFA00 /* HomeAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3297D27BCE04B00FBFA00 /* HomeAssembler.swift */; };
+		91B3298027BCE2AE00FBFA00 /* AssignmentItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3297F27BCE2AE00FBFA00 /* AssignmentItemView.swift */; };
+		91B3298227BCE37100FBFA00 /* Assignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3298127BCE37100FBFA00 /* Assignment.swift */; };
+		91B3298427BCE61B00FBFA00 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3298327BCE61B00FBFA00 /* Chat.swift */; };
+		91B3298627BCEC4A00FBFA00 /* Dummies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3298527BCEC4A00FBFA00 /* Dummies.swift */; };
 		91F7EEEB27BB340E0008DDD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91F7EEEA27BB340E0008DDD6 /* GoogleService-Info.plist */; };
 		91F7EEEF27BB36FC0008DDD6 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 91F7EEEE27BB36FC0008DDD6 /* FirebaseAppCheck */; };
 		91F7EEF127BB36FC0008DDD6 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 91F7EEF027BB36FC0008DDD6 /* FirebaseAppDistribution-Beta */; };
@@ -85,7 +89,7 @@
 		91B3295927BCD81B00FBFA00 /* Dropdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dropdown.swift; sourceTree = "<group>"; };
 		91B3295B27BCD86000FBFA00 /* ImageCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCard.swift; sourceTree = "<group>"; };
 		91B3295D27BCD8AC00FBFA00 /* MessagesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesCard.swift; sourceTree = "<group>"; };
-		91B3295F27BCDA3300FBFA00 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		91B3295F27BCDA3300FBFA00 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		91B3296127BCDD8B00FBFA00 /* MembershipRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipRouter.swift; sourceTree = "<group>"; };
 		91B3296327BCDDE800FBFA00 /* ChatRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRouter.swift; sourceTree = "<group>"; };
 		91B3296527BCDDFE00FBFA00 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -101,6 +105,10 @@
 		91B3297927BCE00B00FBFA00 /* ChatAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAssembler.swift; sourceTree = "<group>"; };
 		91B3297B27BCE02C00FBFA00 /* MembershipAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipAssembler.swift; sourceTree = "<group>"; };
 		91B3297D27BCE04B00FBFA00 /* HomeAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAssembler.swift; sourceTree = "<group>"; };
+		91B3297F27BCE2AE00FBFA00 /* AssignmentItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentItemView.swift; sourceTree = "<group>"; };
+		91B3298127BCE37100FBFA00 /* Assignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assignment.swift; sourceTree = "<group>"; };
+		91B3298327BCE61B00FBFA00 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		91B3298527BCEC4A00FBFA00 /* Dummies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummies.swift; sourceTree = "<group>"; };
 		91F7EEEA27BB340E0008DDD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -248,7 +256,9 @@
 		91413FDA27BA9A0600799155 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				91B3295F27BCDA3300FBFA00 /* Profile.swift */,
+				91B3295F27BCDA3300FBFA00 /* User.swift */,
+				91B3298127BCE37100FBFA00 /* Assignment.swift */,
+				91B3298327BCE61B00FBFA00 /* Chat.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -256,6 +266,7 @@
 		91413FDB27BA9A1100799155 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				91B3298527BCEC4A00FBFA00 /* Dummies.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -360,6 +371,8 @@
 				91B3294C27BCD70900FBFA00 /* Router */,
 				91B3294D27BCD70F00FBFA00 /* Presenter */,
 				91B3294E27BCD71500FBFA00 /* Views */,
+				91B3296727BCDE3400FBFA00 /* AssignmentDetailView.swift */,
+				91B3296927BCDE4800FBFA00 /* AssignmentGroupView.swift */,
 			);
 			path = Assignment;
 			sourceTree = "<group>";
@@ -383,8 +396,7 @@
 		91B3294E27BCD71500FBFA00 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				91B3296727BCDE3400FBFA00 /* AssignmentDetailView.swift */,
-				91B3296927BCDE4800FBFA00 /* AssignmentGroupView.swift */,
+				91B3297F27BCE2AE00FBFA00 /* AssignmentItemView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -449,9 +461,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		91413FB727BA95AA00799155 /* Parentify (iOS) */ = {
+		91413FB727BA95AA00799155 /* Parentify */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 91413FC927BA95AA00799155 /* Build configuration list for PBXNativeTarget "Parentify (iOS)" */;
+			buildConfigurationList = 91413FC927BA95AA00799155 /* Build configuration list for PBXNativeTarget "Parentify" */;
 			buildPhases = (
 				91413FB427BA95AA00799155 /* Sources */,
 				91413FB527BA95AA00799155 /* Frameworks */,
@@ -461,7 +473,7 @@
 			);
 			dependencies = (
 			);
-			name = "Parentify (iOS)";
+			name = Parentify;
 			packageProductDependencies = (
 				91F7EEEE27BB36FC0008DDD6 /* FirebaseAppCheck */,
 				91F7EEF027BB36FC0008DDD6 /* FirebaseAppDistribution-Beta */,
@@ -512,7 +524,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				91413FB727BA95AA00799155 /* Parentify (iOS) */,
+				91413FB727BA95AA00799155 /* Parentify */,
 			);
 		};
 /* End PBXProject section */
@@ -547,9 +559,11 @@
 				91413FF927BAA12000799155 /* DefaultError.swift in Sources */,
 				91B3297227BCDF6F00FBFA00 /* ChatPresenter.swift in Sources */,
 				91413FC327BA95AA00799155 /* ContentView.swift in Sources */,
+				91B3298427BCE61B00FBFA00 /* Chat.swift in Sources */,
 				91413FC127BA95AA00799155 /* ParentifyApp.swift in Sources */,
 				91413FF627BAA0C500799155 /* View+Ext.swift in Sources */,
 				91B3296227BCDD8B00FBFA00 /* MembershipRouter.swift in Sources */,
+				91B3298027BCE2AE00FBFA00 /* AssignmentItemView.swift in Sources */,
 				91B3296427BCDDE800FBFA00 /* ChatRouter.swift in Sources */,
 				91B3295827BCD7C500FBFA00 /* ProfileView.swift in Sources */,
 				91413FE327BA9AD600799155 /* ViewState.swift in Sources */,
@@ -565,10 +579,12 @@
 				91413FF027BAA08C00799155 /* Date+Ext.swift in Sources */,
 				91413FF327BAA0AB00799155 /* String+Ext.swift in Sources */,
 				91B3296827BCDE3400FBFA00 /* AssignmentDetailView.swift in Sources */,
-				91B3296027BCDA3300FBFA00 /* Profile.swift in Sources */,
+				91B3296027BCDA3300FBFA00 /* User.swift in Sources */,
 				91B3297A27BCE00B00FBFA00 /* ChatAssembler.swift in Sources */,
+				91B3298627BCEC4A00FBFA00 /* Dummies.swift in Sources */,
 				91B3297E27BCE04B00FBFA00 /* HomeAssembler.swift in Sources */,
 				91413FED27BAA07A00799155 /* Color+Ext.swift in Sources */,
+				91B3298227BCE37100FBFA00 /* Assignment.swift in Sources */,
 				91B3294227BCD31400FBFA00 /* MemojiTextView.swift in Sources */,
 				91B3296C27BCDED100FBFA00 /* AssignmentRouter.swift in Sources */,
 			);
@@ -765,7 +781,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		91413FC927BA95AA00799155 /* Build configuration list for PBXNativeTarget "Parentify (iOS)" */ = {
+		91413FC927BA95AA00799155 /* Build configuration list for PBXNativeTarget "Parentify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				91413FCA27BA95AA00799155 /* Debug */,

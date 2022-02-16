@@ -15,7 +15,17 @@ struct HomeRouter {
   }
 
   func route() -> HomeView {
-    return HomeView()
+    return HomeView(router: self, assignmentRouter: assembler.resolve())
+  }
+
+  func routeToProfile() -> ProfileView {
+    let router: MembershipRouter = assembler.resolve()
+    return router.route()
+  }
+
+  func routeToChat() -> ChatView {
+    let router: ChatRouter = assembler.resolve()
+    return router.route()
   }
 
 }

@@ -10,9 +10,12 @@ import Firebase
 
 @main
 struct ParentifyApp: App {
+
+  private let assembler = AppAssembler()
+
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      HomeView(router: assembler.resolve(), assignmentRouter: assembler.resolve())
         .onAppear {
           FirebaseApp.configure()
         }

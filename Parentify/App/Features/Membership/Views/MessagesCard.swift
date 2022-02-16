@@ -15,8 +15,10 @@ struct MessagesCard: View {
 
   var body: some View {
     VStack(alignment: .leading) {
-      HStack(alignment: .center) {}
-      .padding(.leading, 25)
+      Spacer()
+      HStack(alignment: .center) {
+        Spacer()
+      }
     }.cardShadow(cornerRadius: 23)
   }
 }
