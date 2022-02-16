@@ -12,7 +12,6 @@ struct CommonTextField: View {
   var placeholder: String = ""
   @Binding var text: String
   var image: UIImage?
-  var isDatePicker = false
   var isNumberPad = false
 
   var clickHandler: (() -> Void)? = nil
