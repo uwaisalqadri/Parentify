@@ -43,7 +43,6 @@ extension Color {
 }
 
 extension Color {
-  #if os(iOS)
   func uiColor() -> UIColor {
     if #available(iOS 14.0, *) {
       return UIColor(self)
@@ -52,13 +51,6 @@ extension Color {
     let components = self.components()
     return UIColor(red: components.r, green: components.g, blue: components.b, alpha: components.a)
   }
-  #endif
-
-  #if os(macOS)
-  func nsColor() -> NSColor {
-    return NSColor(self)
-  }
-  #endif
 
   private func components() -> (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
     let scanner = Scanner(string: self.description.trimmingCharacters(in: CharacterSet.alphanumerics.inverted))
@@ -76,7 +68,6 @@ extension Color {
   }
 }
 
-#if canImport(UIKit)
 extension UIColor {
 
   func colorData() -> Data? {
@@ -89,5 +80,3 @@ extension Data {
     return try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(self) as? UIColor
   }
 }
-#endif
-
