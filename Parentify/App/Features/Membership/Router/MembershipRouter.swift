@@ -18,4 +18,8 @@ struct MembershipRouter {
     return ProfileView()
   }
 
+  func route() -> MessagesView {
+    return MessagesView()
+  }
+
 }

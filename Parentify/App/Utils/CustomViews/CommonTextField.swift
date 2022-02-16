@@ -29,9 +29,8 @@ struct CommonTextField: View {
         clickHandler?()
       }) {
         Image(uiImage: image!)
-          .resizable()
+          .scaleEffect(1)
           .foregroundColor(.black)
-          .frame(width: 25, height: 25, alignment: .center)
           .padding()
           .padding(.horizontal, 5)
           .overlay(

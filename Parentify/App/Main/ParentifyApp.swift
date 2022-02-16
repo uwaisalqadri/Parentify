@@ -12,13 +12,21 @@ import Firebase
 struct ParentifyApp: App {
 
   private let assembler = AppAssembler()
+  private var isLoggedIn = false
 
   var body: some Scene {
     WindowGroup {
-      HomeView(router: assembler.resolve(), assignmentRouter: assembler.resolve())
-        .onAppear {
-          FirebaseApp.configure()
-        }
+      if isLoggedIn {
+        HomeView(router: assembler.resolve(), assignmentRouter: assembler.resolve())
+          .onAppear {
+            FirebaseApp.configure()
+          }
+      } else {
+        LoginView()
+          .onAppear {
+            FirebaseApp.configure()
+          }
+      }
     }
   }
 }

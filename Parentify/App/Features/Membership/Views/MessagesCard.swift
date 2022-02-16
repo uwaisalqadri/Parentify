@@ -7,19 +7,56 @@
 
 import SwiftUI
 
-struct MessagesCard: View {
+struct MessagesText: View {
 
-  @State var isShowBalance = false
-
-  private let months = Calendar.current.shortMonthSymbols
+  @State var sender: String = ""
+  @State var message: String = ""
 
   var body: some View {
-    VStack(alignment: .leading) {
-      Spacer()
-      HStack(alignment: .center) {
+    Text("\(sender): ")
+      .font(.system(size: 13, weight: .semibold))
+      .foregroundColor(.purpleColor)
+    +
+    Text(message)
+      .font(.system(size: 13, weight: .regular))
+  }
+}
+
+struct MessagesCard: View {
+
+  @State var isShowAll = false
+  let messagesView: MessagesView
+
+  var body: some View {
+    NavigationLink(destination: messagesView) {
+      VStack(alignment: .leading) {
+        HStack(alignment: .center) {
+          Text("Pesan Penting")
+            .font(.system(size: 15, weight: .bold))
+
+          Spacer()
+
+          Dropdown(isExpand: $isShowAll) {
+            print("oke")
+          }
+        }.padding(.top, 19)
+          .padding(.horizontal, 23)
+
+        ForEach(0..<3) { _ in
+          HStack {
+            MessagesText(
+              sender: "Mamak",
+              message: "Jangan lupa ngerjain PR ya bil, udah ditagih sama bu guru Fatimah"
+            )
+
+          }.padding(.top, 10)
+
+        }.padding(.horizontal, 23)
+
         Spacer()
       }
-    }.cardShadow(cornerRadius: 23)
+    }.buttonStyle(FlatLinkStyle())
+    .cardShadow(cornerRadius: 23)
   }
 }
 
@@ -46,8 +83,10 @@ struct DetailCard: View {
 }
 
 struct DashboardCard_Previews: PreviewProvider {
+
   static var previews: some View {
-    MessagesCard().previewLayout(.fixed(width: 300, height: 253))
+    let router = MembershipRouter(assembler: AppAssembler.shared)
+    MessagesCard(messagesView: router.route()).previewLayout(.fixed(width: 300, height: 253))
     //DetailCard().previewLayout(.sizeThatFits)
   }
 }

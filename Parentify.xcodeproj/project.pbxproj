@@ -49,6 +49,11 @@
 		91B3298227BCE37100FBFA00 /* Assignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3298127BCE37100FBFA00 /* Assignment.swift */; };
 		91B3298427BCE61B00FBFA00 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3298327BCE61B00FBFA00 /* Chat.swift */; };
 		91B3298627BCEC4A00FBFA00 /* Dummies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3298527BCEC4A00FBFA00 /* Dummies.swift */; };
+		91B3298827BD11DB00FBFA00 /* ChatItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3298727BD11DB00FBFA00 /* ChatItemView.swift */; };
+		91B3298A27BD29D900FBFA00 /* ChatInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3298927BD29D900FBFA00 /* ChatInputField.swift */; };
+		91B3298C27BD309B00FBFA00 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3298B27BD309B00FBFA00 /* MessagesView.swift */; };
+		91B3298E27BD30CB00FBFA00 /* MessagesItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3298D27BD30CB00FBFA00 /* MessagesItemView.swift */; };
+		91B3299027BD35A000FBFA00 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3298F27BD35A000FBFA00 /* LoginView.swift */; };
 		91F7EEEB27BB340E0008DDD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91F7EEEA27BB340E0008DDD6 /* GoogleService-Info.plist */; };
 		91F7EEEF27BB36FC0008DDD6 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 91F7EEEE27BB36FC0008DDD6 /* FirebaseAppCheck */; };
 		91F7EEF127BB36FC0008DDD6 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 91F7EEF027BB36FC0008DDD6 /* FirebaseAppDistribution-Beta */; };
@@ -109,6 +114,11 @@
 		91B3298127BCE37100FBFA00 /* Assignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assignment.swift; sourceTree = "<group>"; };
 		91B3298327BCE61B00FBFA00 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		91B3298527BCEC4A00FBFA00 /* Dummies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dummies.swift; sourceTree = "<group>"; };
+		91B3298727BD11DB00FBFA00 /* ChatItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatItemView.swift; sourceTree = "<group>"; };
+		91B3298927BD29D900FBFA00 /* ChatInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputField.swift; sourceTree = "<group>"; };
+		91B3298B27BD309B00FBFA00 /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
+		91B3298D27BD30CB00FBFA00 /* MessagesItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesItemView.swift; sourceTree = "<group>"; };
+		91B3298F27BD35A000FBFA00 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		91F7EEEA27BB340E0008DDD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -327,6 +337,8 @@
 				91B3295027BCD72100FBFA00 /* Presenter */,
 				91B3295127BCD72800FBFA00 /* Views */,
 				91B3295727BCD7C500FBFA00 /* ProfileView.swift */,
+				91B3298B27BD309B00FBFA00 /* MessagesView.swift */,
+				91B3298F27BD35A000FBFA00 /* LoginView.swift */,
 			);
 			path = Membership;
 			sourceTree = "<group>";
@@ -337,6 +349,7 @@
 				91B3294827BCD51F00FBFA00 /* Router */,
 				91B3294A27BCD52B00FBFA00 /* Presenter */,
 				91B3294927BCD52500FBFA00 /* Views */,
+				91B3296527BCDDFE00FBFA00 /* ChatView.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -352,7 +365,8 @@
 		91B3294927BCD52500FBFA00 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				91B3296527BCDDFE00FBFA00 /* ChatView.swift */,
+				91B3298727BD11DB00FBFA00 /* ChatItemView.swift */,
+				91B3298927BD29D900FBFA00 /* ChatInputField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -423,6 +437,7 @@
 				91B3295927BCD81B00FBFA00 /* Dropdown.swift */,
 				91B3295B27BCD86000FBFA00 /* ImageCard.swift */,
 				91B3295D27BCD8AC00FBFA00 /* MessagesCard.swift */,
+				91B3298D27BD30CB00FBFA00 /* MessagesItemView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -550,6 +565,7 @@
 				91B3294027BCD31400FBFA00 /* CommonTextField.swift in Sources */,
 				91B3294127BCD31400FBFA00 /* BlurView.swift in Sources */,
 				91B3293E27BCD31300FBFA00 /* ButtonStyles.swift in Sources */,
+				91B3299027BD35A000FBFA00 /* LoginView.swift in Sources */,
 				91B3296E27BCDF0600FBFA00 /* HomeRouter.swift in Sources */,
 				91B3296A27BCDE4800FBFA00 /* AssignmentGroupView.swift in Sources */,
 				91B3294427BCD34800FBFA00 /* RoundedCornersModifier.swift in Sources */,
@@ -564,6 +580,7 @@
 				91413FF627BAA0C500799155 /* View+Ext.swift in Sources */,
 				91B3296227BCDD8B00FBFA00 /* MembershipRouter.swift in Sources */,
 				91B3298027BCE2AE00FBFA00 /* AssignmentItemView.swift in Sources */,
+				91B3298E27BD30CB00FBFA00 /* MessagesItemView.swift in Sources */,
 				91B3296427BCDDE800FBFA00 /* ChatRouter.swift in Sources */,
 				91B3295827BCD7C500FBFA00 /* ProfileView.swift in Sources */,
 				91413FE327BA9AD600799155 /* ViewState.swift in Sources */,
@@ -571,6 +588,7 @@
 				91413FD227BA997300799155 /* AppAssembler.swift in Sources */,
 				91413FE627BA9AFC00799155 /* CardShadowModifier.swift in Sources */,
 				91B3297627BCDF9C00FBFA00 /* HomePresenter.swift in Sources */,
+				91B3298827BD11DB00FBFA00 /* ChatItemView.swift in Sources */,
 				91B3296627BCDDFE00FBFA00 /* ChatView.swift in Sources */,
 				91B3295A27BCD81B00FBFA00 /* Dropdown.swift in Sources */,
 				91B3295C27BCD86000FBFA00 /* ImageCard.swift in Sources */,
@@ -584,6 +602,8 @@
 				91B3298627BCEC4A00FBFA00 /* Dummies.swift in Sources */,
 				91B3297E27BCE04B00FBFA00 /* HomeAssembler.swift in Sources */,
 				91413FED27BAA07A00799155 /* Color+Ext.swift in Sources */,
+				91B3298A27BD29D900FBFA00 /* ChatInputField.swift in Sources */,
+				91B3298C27BD309B00FBFA00 /* MessagesView.swift in Sources */,
 				91B3298227BCE37100FBFA00 /* Assignment.swift in Sources */,
 				91B3294227BCD31400FBFA00 /* MemojiTextView.swift in Sources */,
 				91B3296C27BCDED100FBFA00 /* AssignmentRouter.swift in Sources */,

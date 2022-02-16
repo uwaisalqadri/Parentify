@@ -20,6 +20,7 @@ struct Chat {
 
   var id: String = ""
   var sender: User = .initialize
+  var message: String = ""
   var sentDate: Date = Date()
   var seenBy: [User] = []
 }

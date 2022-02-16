@@ -43,7 +43,7 @@ struct HomeView: View {
 
             }.padding([.horizontal, .top], 32)
 
-            MessagesCard()
+            MessagesCard(messagesView: router.routeToMessage())
               .frame(height: 243)
               .padding(.top, 20)
               .padding(.horizontal, 25)

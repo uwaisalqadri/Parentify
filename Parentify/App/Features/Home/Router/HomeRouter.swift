@@ -23,6 +23,11 @@ struct HomeRouter {
     return router.route()
   }
 
+  func routeToMessage() -> MessagesView {
+    let router: MembershipRouter = assembler.resolve()
+    return router.route()
+  }
+
   func routeToChat() -> ChatView {
     let router: ChatRouter = assembler.resolve()
     return router.route()
