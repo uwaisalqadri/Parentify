@@ -20,6 +20,15 @@
         }
       },
       {
+        "package": "BottomSheet",
+        "repositoryURL": "https://github.com/adamfootdev/BottomSheet",
+        "state": {
+          "branch": "main",
+          "revision": "0e6db002eeb5e3ba402e94dfe6a120f78b5a64df",
+          "version": null
+        }
+      },
+      {
         "package": "Firebase",
         "repositoryURL": "https://github.com/firebase/firebase-ios-sdk",
         "state": {

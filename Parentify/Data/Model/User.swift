@@ -21,6 +21,6 @@ struct User {
   var name: String = ""
   var email: String = ""
   var password: String = ""
-  var isTaskFinished: Bool = false
+  var isParent: Bool = false
   var profilePict: UIImage = UIImage()
 }

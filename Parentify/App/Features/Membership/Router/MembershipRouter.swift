@@ -15,7 +15,7 @@ struct MembershipRouter {
   }
 
   func route() -> ProfileView {
-    return ProfileView()
+    return ProfileView(presenter: assembler.resolve())
   }
 
   func route() -> MessagesView {

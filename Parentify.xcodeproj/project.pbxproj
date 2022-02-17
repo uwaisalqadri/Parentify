@@ -71,6 +71,8 @@
 		91FF767227BDF791001B9CED /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FF767127BDF791001B9CED /* Constant.swift */; };
 		91FF767427BDFA0A001B9CED /* BodyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FF767327BDFA0A001B9CED /* BodyCodable.swift */; };
 		91FF767627BE0223001B9CED /* UserMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FF767527BE0223001B9CED /* UserMapper.swift */; };
+		91FF767D27BE3935001B9CED /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 91FF767C27BE3935001B9CED /* BottomSheet */; };
+		91FF767F27BE3E43001B9CED /* BottomSheetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FF767E27BE3E43001B9CED /* BottomSheetModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,6 +128,7 @@
 		91FF767127BDF791001B9CED /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		91FF767327BDFA0A001B9CED /* BodyCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyCodable.swift; sourceTree = "<group>"; };
 		91FF767527BE0223001B9CED /* UserMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMapper.swift; sourceTree = "<group>"; };
+		91FF767E27BE3E43001B9CED /* BottomSheetModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +145,7 @@
 				91F7EEF127BB36FC0008DDD6 /* FirebaseAppDistribution-Beta in Frameworks */,
 				91F7EF0727BB36FC0008DDD6 /* FirebaseStorageSwift-Beta in Frameworks */,
 				91F7EEFF27BB36FC0008DDD6 /* FirebaseFirestoreSwift-Beta in Frameworks */,
+				91FF767D27BE3935001B9CED /* BottomSheet in Frameworks */,
 				91F7EF0327BB36FC0008DDD6 /* FirebaseStorage in Frameworks */,
 				91F7EEF927BB36FC0008DDD6 /* FirebaseDynamicLinks in Frameworks */,
 				91F7EF0527BB36FC0008DDD6 /* FirebaseStorageCombine-Community in Frameworks */,
@@ -322,6 +326,7 @@
 		91413FDF27BA9AA000799155 /* Modifiers */ = {
 			isa = PBXGroup;
 			children = (
+				91FF767E27BE3E43001B9CED /* BottomSheetModifier.swift */,
 				91B3294327BCD34800FBFA00 /* RoundedCornersModifier.swift */,
 				91413FE527BA9AFC00799155 /* CardShadowModifier.swift */,
 			);
@@ -520,6 +525,7 @@
 				91F7EF0227BB36FC0008DDD6 /* FirebaseStorage */,
 				91F7EF0427BB36FC0008DDD6 /* FirebaseStorageCombine-Community */,
 				91F7EF0627BB36FC0008DDD6 /* FirebaseStorageSwift-Beta */,
+				91FF767C27BE3935001B9CED /* BottomSheet */,
 			);
 			productName = "Parentify (iOS)";
 			productReference = 91413FB827BA95AA00799155 /* Parentify.app */;
@@ -551,6 +557,7 @@
 			mainGroup = 91413FAB27BA95A700799155;
 			packageReferences = (
 				91F7EEED27BB36FC0008DDD6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				91FF767B27BE3934001B9CED /* XCRemoteSwiftPackageReference "BottomSheet" */,
 			);
 			productRefGroup = 91413FB927BA95AA00799155 /* Products */;
 			projectDirPath = "";
@@ -615,6 +622,7 @@
 				91413FF027BAA08C00799155 /* Date+Ext.swift in Sources */,
 				91413FF327BAA0AB00799155 /* String+Ext.swift in Sources */,
 				91B3296827BCDE3400FBFA00 /* AssignmentDetailView.swift in Sources */,
+				91FF767F27BE3E43001B9CED /* BottomSheetModifier.swift in Sources */,
 				91B3296027BCDA3300FBFA00 /* User.swift in Sources */,
 				91B3297A27BCE00B00FBFA00 /* ChatAssembler.swift in Sources */,
 				91B3298627BCEC4A00FBFA00 /* Dummies.swift in Sources */,
@@ -841,6 +849,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		91FF767B27BE3934001B9CED /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/adamfootdev/BottomSheet";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -908,6 +924,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 91F7EEED27BB36FC0008DDD6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageSwift-Beta";
+		};
+		91FF767C27BE3935001B9CED /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91FF767B27BE3934001B9CED /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

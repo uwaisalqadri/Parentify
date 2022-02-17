@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 import FirebaseAuth
 import FirebaseStorageSwift
+import FirebaseFirestoreSwift
 
 typealias CompletionResult<T> = (Result<T, FirebaseError>) -> Void
 
@@ -21,6 +22,7 @@ enum FirebaseError: Error {
 protocol FirebaseManager {
   func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func loginUser(email: String, password: String, completion: @escaping CompletionResult<Bool>)
+  func logoutUser(completion: @escaping CompletionResult<Bool>)
   func getUser(completion: @escaping CompletionResult<UserEntity>)
 }
 
@@ -37,7 +39,7 @@ class DefaultFirebaseManager: FirebaseManager {
           .collection(Constant.membership)
           .document(email)
           .setData(user.asFormDictionary()) { error in
-            if error != nil, let error = error {
+            if let error = error {
               return completion(.failure(.invalidRequest(error: error)))
             }
           }
@@ -50,7 +52,7 @@ class DefaultFirebaseManager: FirebaseManager {
 
   func loginUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {
     firebaseAuth.signIn(withEmail: email, password: password) { result, error in
-      if error != nil, let error = error {
+      if let error = error {
         completion(.failure(.invalidRequest(error: error)))
       } else {
         completion(.success(true))
@@ -58,7 +60,34 @@ class DefaultFirebaseManager: FirebaseManager {
     }
   }
 
-  func getUser(completion: @escaping CompletionResult<UserEntity>) {
+  func logoutUser(completion: @escaping CompletionResult<Bool>) {
+    do {
+      try firebaseAuth.signOut()
+      completion(.success(true))
+    } catch {
+      completion(.success(false))
+    }
+  }
 
+  func getUser(completion: @escaping CompletionResult<UserEntity>) {
+    guard let email = firebaseAuth.currentUser?.email else { return }
+    firestoreDatabase
+      .collection(Constant.membership)
+      .document(email)
+      .getDocument { snapshot, error in
+        if let error = error {
+          completion(.failure(.invalidRequest(error: error)))
+        } else {
+          let result = Result { try snapshot?.data(as: UserEntity.self) }
+          switch result {
+          case .success(let data):
+            if let data = data {
+              completion(.success(data))
+            }
+          case .failure:
+            completion(.failure(.unknownError))
+          }
+        }
+      }
   }
 }

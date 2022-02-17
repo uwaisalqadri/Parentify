@@ -12,7 +12,7 @@ import Firebase
 struct ParentifyApp: App {
 
   private let assembler = AppAssembler()
-  private var isLoggedIn = false
+  private var isLoggedIn = true
 
   init() {
     FirebaseApp.configure()

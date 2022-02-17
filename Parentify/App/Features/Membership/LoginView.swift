@@ -40,7 +40,7 @@ struct LoginView: View {
         )
 
         Button(action: {
-          presenter.createUser(user: .init(userId: "OKDNUE8393J", role: .father, name: "Uwais Alqadri", email: email, password: password, isTaskFinished: false, profilePict: UIImage()))
+          presenter.loginUser(email: email, password: password)
         }) {
           HStack {
             Spacer()
@@ -75,6 +75,11 @@ struct LoginView: View {
 
         Spacer()
 
+      }
+      .onAppear {
+        if case .success(let state) = presenter.loginState {
+          print("SUCCESS", state)
+        }
       }
       .padding(.horizontal, 25)
     }

@@ -15,7 +15,7 @@ extension UserEntity {
       name: name.orEmpty(),
       email: email.orEmpty(),
       password: password.orEmpty(),
-      isTaskFinished: isTaskFinished ?? false,
+      isParent: isParent ?? false,
       profilePict: UIImage(data: profilePict ?? Data()) ?? UIImage()
     )
   }
@@ -29,7 +29,7 @@ extension User {
       name: name,
       email: email,
       password: password,
-      isTaskFinished: isTaskFinished,
+      isParent: isParent,
       profilePict: profilePict.pngData()
     )
   }

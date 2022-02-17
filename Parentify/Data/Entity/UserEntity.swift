@@ -21,7 +21,7 @@ class UserEntity: Codable, BodyCodable {
     case name = "name"
     case email = "email"
     case password = "password"
-    case isTaskFinished = "is_task_finished"
+    case isParent = "is_parent"
     case profilePict = "profile_pict"
   }
 
@@ -30,16 +30,16 @@ class UserEntity: Codable, BodyCodable {
   var name: String?
   var email: String?
   var password: String?
-  var isTaskFinished: Bool?
+  var isParent: Bool?
   var profilePict: Data?
 
-  init(userId: String?, role: UserRoleEntity?, name: String?, email: String?, password: String?, isTaskFinished: Bool?, profilePict: Data?) {
+  init(userId: String?, role: UserRoleEntity?, name: String?, email: String?, password: String?, isParent: Bool?, profilePict: Data?) {
     self.userId = userId
     self.role = role
     self.name = name
     self.email = email
     self.password = password
-    self.isTaskFinished = isTaskFinished
+    self.isParent = isParent
     self.profilePict = profilePict
   }
 }
