@@ -69,7 +69,7 @@
 		91FF766D27BDF37B001B9CED /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FF766C27BDF37B001B9CED /* FirebaseManager.swift */; };
 		91FF766F27BDF443001B9CED /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FF766E27BDF443001B9CED /* UserEntity.swift */; };
 		91FF767227BDF791001B9CED /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FF767127BDF791001B9CED /* Constant.swift */; };
-		91FF767427BDFA0A001B9CED /* BaseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FF767327BDFA0A001B9CED /* BaseBody.swift */; };
+		91FF767427BDFA0A001B9CED /* BodyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FF767327BDFA0A001B9CED /* BodyCodable.swift */; };
 		91FF767627BE0223001B9CED /* UserMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FF767527BE0223001B9CED /* UserMapper.swift */; };
 /* End PBXBuildFile section */
 
@@ -124,7 +124,7 @@
 		91FF766C27BDF37B001B9CED /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		91FF766E27BDF443001B9CED /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		91FF767127BDF791001B9CED /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
-		91FF767327BDFA0A001B9CED /* BaseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBody.swift; sourceTree = "<group>"; };
+		91FF767327BDFA0A001B9CED /* BodyCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyCodable.swift; sourceTree = "<group>"; };
 		91FF767527BE0223001B9CED /* UserMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -485,7 +485,7 @@
 			isa = PBXGroup;
 			children = (
 				91FF767127BDF791001B9CED /* Constant.swift */,
-				91FF767327BDFA0A001B9CED /* BaseBody.swift */,
+				91FF767327BDFA0A001B9CED /* BodyCodable.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -580,7 +580,7 @@
 			files = (
 				91B3295E27BCD8AC00FBFA00 /* MessagesCard.swift in Sources */,
 				91B3294027BCD31400FBFA00 /* CommonTextField.swift in Sources */,
-				91FF767427BDFA0A001B9CED /* BaseBody.swift in Sources */,
+				91FF767427BDFA0A001B9CED /* BodyCodable.swift in Sources */,
 				91FF767227BDF791001B9CED /* Constant.swift in Sources */,
 				91B3294127BCD31400FBFA00 /* BlurView.swift in Sources */,
 				91B3293E27BCD31300FBFA00 /* ButtonStyles.swift in Sources */,

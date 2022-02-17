@@ -10,6 +10,8 @@ import Firebase
 import FirebaseAuth
 import FirebaseStorageSwift
 
+typealias CompletionResult<T> = (Result<T, FirebaseError>) -> Void
+
 enum FirebaseError: Error {
   case cantCreateUser
   case invalidRequest(error: Error)
@@ -17,9 +19,9 @@ enum FirebaseError: Error {
 }
 
 protocol FirebaseManager {
-  func createUser(user: UserEntity, completion: @escaping (Result<Bool, FirebaseError>) -> Void)
-  func loginUser(email: String, password: String, completion: @escaping (Result<UserEntity, FirebaseError>) -> Void)
-  func getUser(completion: @escaping (Result<UserEntity, FirebaseError>) -> Void)
+  func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
+  func loginUser(email: String, password: String, completion: @escaping CompletionResult<Bool>)
+  func getUser(completion: @escaping CompletionResult<UserEntity>)
 }
 
 class DefaultFirebaseManager: FirebaseManager {
@@ -27,7 +29,7 @@ class DefaultFirebaseManager: FirebaseManager {
   private let firebaseAuth = Auth.auth()
   private let firestoreDatabase = Firestore.firestore()
 
-  func createUser(user: UserEntity, completion: @escaping (Result<Bool, FirebaseError>) -> Void) {
+  func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>) {
     guard let email = user.email, let password = user.password else { return }
     firebaseAuth.createUser(withEmail: email, password: password) { result, error in
       if error == nil {
@@ -46,11 +48,17 @@ class DefaultFirebaseManager: FirebaseManager {
     }
   }
 
-  func loginUser(email: String, password: String, completion: @escaping (Result<UserEntity, FirebaseError>) -> Void) {
-
+  func loginUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {
+    firebaseAuth.signIn(withEmail: email, password: password) { result, error in
+      if error != nil, let error = error {
+        completion(.failure(.invalidRequest(error: error)))
+      } else {
+        completion(.success(true))
+      }
+    }
   }
 
-  func getUser(completion: @escaping (Result<UserEntity, FirebaseError>) -> Void) {
+  func getUser(completion: @escaping CompletionResult<UserEntity>) {
 
   }
 }
