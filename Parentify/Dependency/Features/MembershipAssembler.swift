@@ -10,6 +10,8 @@ import Foundation
 protocol MembershipAssembler {
   func resolve() -> MembershipRouter
   func resolve() -> MembershipPresenter
+
+  func resolve() -> FirebaseManager
 }
 
 extension MembershipAssembler where Self: Assembler {
@@ -19,6 +21,10 @@ extension MembershipAssembler where Self: Assembler {
   }
 
   func resolve() -> MembershipPresenter {
-    return MembershipPresenter()
+    return MembershipPresenter(firebaseManager: resolve())
+  }
+
+  func resolve() -> FirebaseManager {
+    return DefaultFirebaseManager()
   }
 }

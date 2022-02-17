@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
 
+  @ObservedObject var presenter: MembershipPresenter
   @State var email: String = ""
   @State var password: String = ""
 
@@ -39,7 +40,7 @@ struct LoginView: View {
         )
 
         Button(action: {
-          // TODO: Save edited profile
+          presenter.createUser(user: .init(userId: "OKDNUE8393J", role: .father, name: "Uwais Alqadri", email: email, password: password, isTaskFinished: false, profilePict: UIImage()))
         }) {
           HStack {
             Spacer()
@@ -56,7 +57,7 @@ struct LoginView: View {
         .padding(.top, 67)
 
         Button(action: {
-          // TODO: Save edited profile
+          // TODO: Login via Google
         }) {
           HStack {
             Spacer()
@@ -82,6 +83,6 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
   static var previews: some View {
-    LoginView()
+    LoginView(presenter: AppAssembler.shared.resolve())
   }
 }

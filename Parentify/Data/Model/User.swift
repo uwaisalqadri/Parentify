@@ -20,6 +20,7 @@ struct User {
   var role: UserRole = .children
   var name: String = ""
   var email: String = ""
+  var password: String = ""
   var isTaskFinished: Bool = false
   var profilePict: UIImage = UIImage()
 }
