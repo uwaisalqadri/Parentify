@@ -22,4 +22,12 @@ struct MembershipRouter {
     return MessagesView()
   }
 
+  func route() -> LoginView {
+    return LoginView(presenter: assembler.resolve(), router: self)
+  }
+
+  func route(onSelectRole: @escaping ((UserRole) -> Void)) -> SelectRoleView {
+    return SelectRoleView(onSelectRole: onSelectRole)
+  }
+
 }
