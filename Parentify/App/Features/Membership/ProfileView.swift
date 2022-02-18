@@ -9,21 +9,26 @@ import SwiftUI
 
 struct ProfileView: View {
 
-  @ObservedObject var presenter: MembershipPresenter
+  @ObservedObject private var presenter: MembershipPresenter
 
-  @State private var profile: User = .initialize
   @State private var profileImage = UIImage()
-  @State private var profileImageData = Data()
+  @State private var name: String = ""
+  @State private var email: String = ""
   @State private var isShowMemojiTextView = false
   @State private var isShowEditProfile = true
   @State private var isShowDeveloper = false
+
+  init(presenter: MembershipPresenter) {
+    self.presenter = presenter
+    self.presenter.getUser()
+  }
 
   var body: some View {
     ScrollView {
       if case .success(let profile) = presenter.userState {
         VStack {
           HStack {
-            ImageCard(profileImage: profile.profilePict) {
+            ImageCard(profileImage: profileImage) {
               isShowMemojiTextView = true
             }
             .frame(width: 70, height: 70, alignment: .center)
@@ -55,7 +60,7 @@ struct ProfileView: View {
             }
 
             if isShowEditProfile {
-              TextField("Name", text: $profile.name)
+              TextField("Name", text: $name)
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(.black)
                 .padding(18)
@@ -64,7 +69,7 @@ struct ProfileView: View {
                 .cardShadow(cornerRadius: 13)
                 .padding(.top, 12)
 
-              TextField("Email", text: $profile.email)
+              TextField("Email", text: $email)
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(.black)
                 .padding(18)
@@ -96,7 +101,7 @@ struct ProfileView: View {
             Spacer()
 
           }
-          .frame(height: isShowEditProfile ? 300 : 30)
+          .frame(height: isShowEditProfile ? 280 : 30)
           .padding(.bottom, 20)
           .padding([.top, .horizontal], 30)
           .cardShadow(cornerRadius: 25)
@@ -118,24 +123,31 @@ struct ProfileView: View {
                 .resizable()
                 .frame(width: 17, height: 20)
             }
-            .padding(30)
+            .padding(.vertical, 20)
+            .padding(.horizontal, 30)
             .cardShadow(backgroundColor: .red, cornerRadius: 25)
           }
           .padding(.horizontal, 22)
           .padding(.top, 60)
 
 
-        }.onTapGesture {
-          hideKeyboard()
+        }
+        .onAppear {
+          if let profile = presenter.userState.value {
+            profileImage = profile.profilePict
+            name = profile.name
+            email = profile.email
+          }
         }
       }
     }
+    .progressHUD(isShowing: $presenter.isLoading)
     .navigationTitle("Profile")
     .sheet(isPresented: $isShowMemojiTextView) {
       NavigationView {
         MemojiTextView(image: $profileImage)
           .onChange(of: profileImage) { value in
-            profile.profilePict = value
+            profileImage = value
             isShowMemojiTextView = false
           }
           .navigationTitle("Memoji")
@@ -150,15 +162,8 @@ struct ProfileView: View {
           }
       }
     }
-    .onAppear {
-      presenter.getUser()
-      if case .success(let profile) = presenter.userState {
-        self.profile = profile
-        print("PROFILE", self.profile, profile)
-      }
-    }
     .onDisappear {
-      // TODO: Execute something
+      // TODO: Save changes if any
     }
 
   }

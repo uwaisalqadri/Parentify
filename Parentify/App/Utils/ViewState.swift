@@ -20,4 +20,11 @@ enum ViewState<T> {
     }
     return nil
   }
+
+  var isLoading: Bool {
+    if case .loading = self {
+      return true
+    }
+    return false
+  }
 }

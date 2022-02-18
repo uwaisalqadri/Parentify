@@ -21,11 +21,7 @@ struct ParentifyApp: App {
 
   var body: some Scene {
     WindowGroup {
-      if isLoggedIn {
-        HomeView(router: assembler.resolve(), assignmentRouter: assembler.resolve())
-      } else {
-        LoginView(presenter: assembler.resolve(), router: assembler.resolve())
-      }
+      ContentView(assembler: assembler, isLoggedIn: isLoggedIn)
     }
   }
 }

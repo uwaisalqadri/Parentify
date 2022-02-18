@@ -32,9 +32,6 @@ struct ChatView: View {
         .offset(x: 0, y: -80)
       , alignment: .topTrailing
     )
-    .onTapGesture {
-      hideKeyboard()
-    }
   }
 }
 

@@ -14,6 +14,8 @@ class MembershipPresenter: ObservableObject {
   @Published var loginState: ViewState<Bool> = .initiate
   @Published var logoutState: ViewState<Bool> = .initiate
 
+  @Published var isLoading: Bool = false
+
   private let firebaseManager: FirebaseManager
 
   init(firebaseManager: FirebaseManager) {
@@ -21,13 +23,15 @@ class MembershipPresenter: ObservableObject {
   }
 
   func getUser() {
-    userState = .loading
+    isLoading = true
     firebaseManager.getUser { result in
       switch result {
       case .success(let data):
         self.userState = .success(data: data.map())
+        self.isLoading = false
       case .failure(let error):
         self.userState = .error(error: error)
+        self.isLoading = false
       }
     }
   }
