@@ -14,7 +14,7 @@ struct ChatRouter {
     self.assembler = assembler
   }
 
-  func route() -> ChatView {
+  func routeChat() -> ChatView {
     return ChatView()
   }
 

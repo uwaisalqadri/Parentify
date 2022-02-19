@@ -37,5 +37,8 @@ struct ChatInputField: View {
     }
     .cardShadow(cornerRadius: 26)
     .padding([.horizontal, .bottom], 20)
+    .onTapGesture {
+      hideKeyboard()
+    }
   }
 }

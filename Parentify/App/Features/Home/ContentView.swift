@@ -20,11 +20,6 @@ struct ContentView: View {
         LoginView(presenter: assembler.resolve(), router: assembler.resolve())
       }
     }
-//    .simultaneousGesture(
-//      TapGesture().onEnded { _ in
-//        hideKeyboard()
-//      }
-//    )
   }
 }
 

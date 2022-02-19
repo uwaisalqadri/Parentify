@@ -20,6 +20,7 @@ enum FirebaseError: Error {
 }
 
 protocol FirebaseManager {
+  func registerUser(email: String, password: String, completion: @escaping CompletionResult<Bool>)
   func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func loginUser(email: String, password: String, completion: @escaping CompletionResult<Bool>)
   func logoutUser(completion: @escaping CompletionResult<Bool>)
@@ -31,23 +32,28 @@ class DefaultFirebaseManager: FirebaseManager {
   private let firebaseAuth = Auth.auth()
   private let firestoreDatabase = Firestore.firestore()
 
-  func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>) {
-    guard let email = user.email, let password = user.password else { return }
+  func registerUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {
     firebaseAuth.createUser(withEmail: email, password: password) { result, error in
-      if error == nil {
-        self.firestoreDatabase
-          .collection(Constant.membership)
-          .document(email)
-          .setData(user.asFormDictionary()) { error in
-            if let error = error {
-              return completion(.failure(.invalidRequest(error: error)))
-            }
-          }
-        completion(.success(true))
+      if let error = error {
+        completion(.failure(.invalidRequest(error: error)))
       } else {
-        completion(.failure(.cantCreateUser))
+        completion(.success(true))
       }
     }
+  }
+
+  func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>) {
+    guard let email = user.email else { return }
+    firestoreDatabase
+      .collection(Constant.membership)
+      .document(email)
+      .setData(user.asFormDictionary()) { error in
+        if let error = error {
+          return completion(.failure(.invalidRequest(error: error)))
+        } else {
+          return completion(.success(true))
+        }
+      }
   }
 
   func loginUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {

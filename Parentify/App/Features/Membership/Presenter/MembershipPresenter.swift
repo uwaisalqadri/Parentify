@@ -11,10 +11,13 @@ class MembershipPresenter: ObservableObject {
 
   @Published var userState: ViewState<User> = .initiate
   @Published var createUserState: ViewState<Bool> = .initiate
+  @Published var registerState: ViewState<Bool> = .initiate
   @Published var loginState: ViewState<Bool> = .initiate
   @Published var logoutState: ViewState<Bool> = .initiate
 
   @Published var isLoading: Bool = false
+  @Published var isSuccessLogin: Bool = false
+  @Published var isSuccessRegister: Bool = false
 
   private let firebaseManager: FirebaseManager
 
@@ -48,12 +51,26 @@ class MembershipPresenter: ObservableObject {
     }
   }
 
+  func registerUser(email: String, password: String) {
+    registerState = .loading
+    firebaseManager.registerUser(email: email, password: password) { result in
+      switch result {
+      case .success(let isSuccess):
+        self.registerState = .success(data: isSuccess)
+        self.isSuccessRegister = isSuccess
+      case .failure(let error):
+        self.registerState = .error(error: error)
+      }
+    }
+  }
+
   func loginUser(email: String, password: String) {
     loginState = .loading
     firebaseManager.loginUser(email: email, password: password) { result in
       switch result {
-      case .success(let data):
-        self.loginState = .success(data: data)
+      case .success(let isSuccess):
+        self.loginState = .success(data: isSuccess)
+        self.isSuccessLogin = isSuccess
       case .failure(let error):
         self.loginState = .error(error: error)
       }

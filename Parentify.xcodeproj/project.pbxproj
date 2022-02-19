@@ -19,6 +19,7 @@
 		9170623327BF7274005C2983 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170623227BF7274005C2983 /* ContentView.swift */; };
 		9170623527BF79D9005C2983 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170623427BF79D9005C2983 /* ActivityIndicator.swift */; };
 		9170623727BF85E8005C2983 /* ProgressHUDModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170623627BF85E8005C2983 /* ProgressHUDModifier.swift */; };
+		91A5C0A327C117CD00D861DA /* MemojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A5C0A227C117CD00D861DA /* MemojiView.swift */; };
 		91B3293E27BCD31300FBFA00 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3293927BCD31300FBFA00 /* ButtonStyles.swift */; };
 		91B3293F27BCD31400FBFA00 /* DateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3293A27BCD31300FBFA00 /* DateTextField.swift */; };
 		91B3294027BCD31400FBFA00 /* CommonTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3293B27BCD31300FBFA00 /* CommonTextField.swift */; };
@@ -93,6 +94,7 @@
 		9170623227BF7274005C2983 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9170623427BF79D9005C2983 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		9170623627BF85E8005C2983 /* ProgressHUDModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUDModifier.swift; sourceTree = "<group>"; };
+		91A5C0A227C117CD00D861DA /* MemojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemojiView.swift; sourceTree = "<group>"; };
 		91B3293927BCD31300FBFA00 /* ButtonStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		91B3293A27BCD31300FBFA00 /* DateTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTextField.swift; sourceTree = "<group>"; };
 		91B3293B27BCD31300FBFA00 /* CommonTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTextField.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		91B3298D27BD30CB00FBFA00 /* MessagesItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesItemView.swift; sourceTree = "<group>"; };
 		91B3298F27BD35A000FBFA00 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		91F7EEEA27BB340E0008DDD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		91FE127727BFD91C00A4270D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		91FF766C27BDF37B001B9CED /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		91FF766E27BDF443001B9CED /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		91FF767127BDF791001B9CED /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -176,6 +179,7 @@
 		91413FB027BA95A700799155 /* Parentify */ = {
 			isa = PBXGroup;
 			children = (
+				91FE127727BFD91C00A4270D /* Info.plist */,
 				91413FCF27BA993B00799155 /* Dependency */,
 				91413FD327BA998100799155 /* App */,
 				91413FD427BA998800799155 /* Data */,
@@ -463,6 +467,7 @@
 				91B3295B27BCD86000FBFA00 /* ImageCard.swift */,
 				91B3295D27BCD8AC00FBFA00 /* MessagesCard.swift */,
 				91B3298D27BD30CB00FBFA00 /* MessagesItemView.swift */,
+				91A5C0A227C117CD00D861DA /* MemojiView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -641,6 +646,7 @@
 				91B3296027BCDA3300FBFA00 /* User.swift in Sources */,
 				91B3297A27BCE00B00FBFA00 /* ChatAssembler.swift in Sources */,
 				9170623727BF85E8005C2983 /* ProgressHUDModifier.swift in Sources */,
+				91A5C0A327C117CD00D861DA /* MemojiView.swift in Sources */,
 				91B3298627BCEC4A00FBFA00 /* Dummies.swift in Sources */,
 				91B3297E27BCE04B00FBFA00 /* HomeAssembler.swift in Sources */,
 				91413FED27BAA07A00799155 /* Color+Ext.swift in Sources */,
@@ -773,12 +779,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Parentify (iOS).entitlements";
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SM8JGRFPQU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Parentify/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -805,12 +812,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Parentify (iOS).entitlements";
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SM8JGRFPQU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Parentify/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

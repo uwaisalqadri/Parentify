@@ -30,7 +30,7 @@ struct AssignmentGroupItemView: View {
 
       Spacer()
 
-      NavigationLink(destination: router.route(assignmentGroup: assignmentGroup)) {
+      NavigationLink(destination: router.routeAssignmentGroup(assignmentGroup: assignmentGroup)) {
         Text(actionTitle)
           .foregroundColor(.purpleColor)
           .font(.system(size: 13, weight: .medium))
@@ -41,8 +41,7 @@ struct AssignmentGroupItemView: View {
     .padding(.horizontal, 32)
 
     ForEach(Array(assignmentGroup.assignments.prefix(3).enumerated()), id: \.offset) { index, item in
-      let nextView: AssignmentDetailView = router.route()
-      NavigationLink(destination: nextView, isActive: $isShowDetail) {
+      NavigationLink(destination: router.routeAssignmentDetail(), isActive: $isShowDetail) {
         AssignmentItemView(assignment: item) { action in
           print("action", action)
         } onDelete: {

@@ -14,20 +14,25 @@ struct MembershipRouter {
     self.assembler = assembler
   }
 
-  func route() -> ProfileView {
-    return ProfileView(presenter: assembler.resolve())
+  func routeProfile(isNewUser: Bool, user: User) -> ProfileView {
+    return ProfileView(presenter: assembler.resolve(), isNewUser: isNewUser, profile: user)
   }
 
-  func route() -> MessagesView {
+  func routeMessages() -> MessagesView {
     return MessagesView()
   }
 
-  func route() -> LoginView {
+  func routeLogin() -> LoginView {
     return LoginView(presenter: assembler.resolve(), router: self)
   }
 
-  func route(onSelectRole: @escaping ((UserRole) -> Void)) -> SelectRoleView {
-    return SelectRoleView(onSelectRole: onSelectRole)
+  func routeHome() -> HomeView {
+    let router: HomeRouter = assembler.resolve()
+    return router.routeHome()
+  }
+
+  func routeSelectRole(email: String, password: String, onSelectRole: @escaping ((UserRole) -> Void)) -> SelectRoleView {
+    return SelectRoleView(email: email, password: password, onSelectRole: onSelectRole, router: self)
   }
 
 }

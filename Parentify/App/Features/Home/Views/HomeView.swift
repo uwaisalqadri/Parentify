@@ -40,19 +40,19 @@ struct HomeView: View {
 
             Spacer()
 
-            NavigationLink(destination: router.routeToProfile()) {
+            NavigationLink(destination: router.routeProfile()) {
               ImageCard(profileImage: presenter.userState.value?.profilePict ?? UIImage())
                 .frame(width: 50, height: 50, alignment: .center)
             }
 
           }.padding([.horizontal, .top], 32)
 
-          MessagesCard(messagesView: router.routeToMessage())
+          MessagesCard(messagesView: router.routeMessages())
             .frame(height: 243)
             .padding(.top, 20)
             .padding(.horizontal, 25)
 
-          NavigationLink(destination: router.routeToChat()) {
+          NavigationLink(destination: router.routeChat()) {
             OpenChatCard()
               .padding(.top, 28)
               .padding(.horizontal, 25)

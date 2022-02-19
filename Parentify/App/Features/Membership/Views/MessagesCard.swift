@@ -99,7 +99,8 @@ struct DashboardCard_Previews: PreviewProvider {
 
   static var previews: some View {
     let router = MembershipRouter(assembler: AppAssembler.shared)
-    MessagesCard(messagesView: router.route()).previewLayout(.fixed(width: 300, height: 253))
+    MessagesCard(messagesView: router.routeMessages())
+      .previewLayout(.fixed(width: 300, height: 253))
     //DetailCard().previewLayout(.sizeThatFits)
   }
 }

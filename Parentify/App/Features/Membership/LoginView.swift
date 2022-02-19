@@ -10,7 +10,7 @@ import SwiftUI
 struct LoginView: View {
 
   @ObservedObject var presenter: MembershipPresenter
-  @AppStorage("isUserNew") var isUserNew: Bool = false
+  @AppStorage(Constant.isNewUser) private var isNewUser: Bool = true
 
   @State var email: String = ""
   @State var password: String = ""
@@ -25,7 +25,7 @@ struct LoginView: View {
         ImageCard(profileImage: UIImage(named: "AppIcon")!)
           .frame(width: 66, height: 66)
           .padding(.bottom, 55)
-          .padding(.top, 40)
+          .padding(.top, 30)
 
         Text("Login")
           .font(.system(size: 35, weight: .bold))
@@ -45,12 +45,12 @@ struct LoginView: View {
         )
 
         Button(action: {
-          if isUserNew {
-            // TODO: select role, make profile and create user
+          if isNewUser {
             isSelectRole.toggle()
+            presenter.registerUser(email: email, password: password)
+            isNewUser = false
           } else {
             presenter.loginUser(email: email, password: password)
-            //presenter.createUser(user: .init(userId: "838KNDNDKW", role: .children, name: "Uwais", email: email, password: password, isParent: false, profilePict: UIImage()))
           }
         }) {
           HStack {
@@ -88,18 +88,24 @@ struct LoginView: View {
         Spacer()
 
       }
-      .onAppear {
-        if case .success(let state) = presenter.loginState {
-          print("SUCCESS", state)
-        }
-      }
       .padding(.horizontal, 25)
       .showSheet(isPresented: $isSelectRole) {
-        let _: SelectRoleView = router.route { role in
-          print("ROLE", role)
+        router.routeSelectRole(email: email, password: password) { role in
+          print("JEJEJE", role)
         }
       }
+      .background(
+        NavigationLink(destination: router.routeHome(), isActive: $presenter.isSuccessLogin) {
+          EmptyView()
+        }
+      )
 
+    }
+    .onTapGesture {
+      hideKeyboard()
+    }
+    .onAppear {
+      //isSelectRole = presenter.isSuccessRegister
     }
   }
 }

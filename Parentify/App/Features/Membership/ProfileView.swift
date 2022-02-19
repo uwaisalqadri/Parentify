@@ -6,109 +6,114 @@
 //
 
 import SwiftUI
+import Combine
+import Firebase
 
 struct ProfileView: View {
 
-  @ObservedObject private var presenter: MembershipPresenter
+  @Environment(\.presentationMode) var presentationMode
+  @ObservedObject var presenter: MembershipPresenter
+
+  @State var isNewUser: Bool
+  @State var profile: User
 
   @State private var profileImage = UIImage()
-  @State private var name: String = ""
-  @State private var email: String = ""
   @State private var isShowMemojiTextView = false
   @State private var isShowEditProfile = true
   @State private var isShowDeveloper = false
 
-  init(presenter: MembershipPresenter) {
-    self.presenter = presenter
-    self.presenter.getUser()
-  }
-
   var body: some View {
     ScrollView {
-      if case .success(let profile) = presenter.userState {
+      VStack {
+        HStack {
+          ImageCard(profileImage: profileImage) {
+            isShowMemojiTextView = true
+          }
+          .frame(width: 70, height: 70, alignment: .center)
+
+          VStack(alignment: .leading) {
+            Text(profile.name)
+              .font(.system(size: 18, weight: .bold))
+
+            Text(profile.email)
+              .foregroundColor(.gray)
+              .font(.system(size: 16, weight: .semibold))
+          }.padding(.leading, 14)
+
+          Spacer()
+        }.padding([.leading, .top], 22)
+
         VStack {
           HStack {
-            ImageCard(profileImage: profileImage) {
-              isShowMemojiTextView = true
-            }
-            .frame(width: 70, height: 70, alignment: .center)
-
-            VStack(alignment: .leading) {
-              Text(profile.name)
-                .font(.system(size: 18, weight: .bold))
-
-              Text(profile.email)
-                .foregroundColor(.gray)
-                .font(.system(size: 16, weight: .semibold))
-            }.padding(.leading, 14)
+            Text(isNewUser ? "Complete Profile" : "Edit Profile")
+              .font(.system(size: 17, weight: .bold))
 
             Spacer()
-          }.padding([.leading, .top], 22)
 
-          VStack {
-            HStack {
-              Text("Edit Profile")
-                .font(.system(size: 17, weight: .bold))
-
-              Spacer()
-
-              Dropdown(isExpand: $isShowEditProfile) {
-                withAnimation {
-                  isShowEditProfile.toggle()
-                }
-              }
-            }
-
-            if isShowEditProfile {
-              TextField("Name", text: $name)
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundColor(.black)
-                .padding(18)
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
-                .cardShadow(cornerRadius: 13)
-                .padding(.top, 12)
-
-              TextField("Email", text: $email)
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundColor(.black)
-                .padding(18)
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
-                .cardShadow(cornerRadius: 13)
-                .padding(.top, 12)
-
-              Button(action: {
-                // TODO: Save edited profile
+            Dropdown(isExpand: $isShowEditProfile) {
+              withAnimation {
                 isShowEditProfile.toggle()
-              }) {
-                HStack {
-                  Spacer()
-
-                  Text("Save")
-                    .foregroundColor(.white)
-                    .font(.system(size: 18, weight: .bold))
-
-                  Spacer()
-                }
               }
-              .padding(15)
-              .cardShadow(backgroundColor: .purpleColor, cornerRadius: 15)
-              .padding(.top, 20)
-
             }
+          }
 
-            Spacer()
+          if isShowEditProfile {
+            TextField("Name", text: $profile.name)
+              .font(.system(size: 16, weight: .semibold))
+              .foregroundColor(.black)
+              .padding(18)
+              .autocapitalization(.none)
+              .disableAutocorrection(true)
+              .cardShadow(cornerRadius: 13)
+              .padding(.top, 12)
+
+            TextField("Email", text: $profile.email)
+              .font(.system(size: 16, weight: .semibold))
+              .foregroundColor(.black)
+              .padding(18)
+              .autocapitalization(.none)
+              .disableAutocorrection(true)
+              .cardShadow(cornerRadius: 13)
+              .padding(.top, 12)
+
+            Button(action: {
+              if isNewUser {
+                if let user = Auth.auth().currentUser {
+                  presenter.createUser(user: .init(userId: user.uid, role: profile.role, name: profile.name, email: profile.email, password: profile.password, isParent: profile.role != .children ? true : false, profilePict: profileImage))
+                }
+                presentationMode.wrappedValue.dismiss()
+              } else {
+                isShowEditProfile.toggle()
+              }
+            }) {
+              HStack {
+                Spacer()
+
+                Text("Save")
+                  .foregroundColor(.white)
+                  .font(.system(size: 18, weight: .bold))
+
+                Spacer()
+              }
+            }
+            .padding(15)
+            .cardShadow(backgroundColor: .purpleColor, cornerRadius: 15)
+            .padding(.top, 20)
 
           }
-          .frame(height: isShowEditProfile ? 280 : 30)
-          .padding(.bottom, 20)
-          .padding([.top, .horizontal], 30)
-          .cardShadow(cornerRadius: 25)
-          .padding([.top, .horizontal], 22)
 
           Spacer()
 
+        }
+        .frame(height: isShowEditProfile ? 280 : 30)
+        .padding(.bottom, 20)
+        .padding([.top, .horizontal], 30)
+        .cardShadow(cornerRadius: 25)
+        .padding([.top, .horizontal], 22)
+
+        Spacer()
+
+        if !isNewUser {
           Button(action: {
             presenter.logoutUser()
           }) {
@@ -129,37 +134,27 @@ struct ProfileView: View {
           }
           .padding(.horizontal, 22)
           .padding(.top, 60)
-
-
         }
-        .onAppear {
-          if let profile = presenter.userState.value {
-            profileImage = profile.profilePict
-            name = profile.name
-            email = profile.email
-          }
+
+      }
+      .onAppear {
+        if let user = presenter.userState.value, !isNewUser {
+          profile = user
+          profileImage = user.profilePict
         }
       }
     }
     .progressHUD(isShowing: $presenter.isLoading)
     .navigationTitle("Profile")
     .sheet(isPresented: $isShowMemojiTextView) {
-      NavigationView {
-        MemojiTextView(image: $profileImage)
-          .onChange(of: profileImage) { value in
-            profileImage = value
-            isShowMemojiTextView = false
-          }
-          .navigationTitle("Memoji")
-          .toolbar {
-            ToolbarItem(id: "done") {
-              Button(action: {
-                isShowMemojiTextView = false
-              }) {
-                Text("Done")
-              }
-            }
-          }
+      MemojiView(profileImage: $profileImage, isShowMemojiTextView: $isShowMemojiTextView)
+    }
+    .onTapGesture {
+      hideKeyboard()
+    }
+    .onAppear {
+      if !isNewUser {
+        presenter.getUser()
       }
     }
     .onDisappear {
@@ -168,10 +163,3 @@ struct ProfileView: View {
 
   }
 }
-
-struct ProfileView_Previews: PreviewProvider {
-  static var previews: some View {
-    ProfileView(presenter: AppAssembler.shared.resolve())
-  }
-}
-

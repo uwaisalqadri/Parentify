@@ -14,23 +14,23 @@ struct HomeRouter {
     self.assembler = assembler
   }
 
-  func route() -> HomeView {
+  func routeHome() -> HomeView {
     return HomeView(presenter: assembler.resolve(), router: self, assignmentRouter: assembler.resolve())
   }
 
-  func routeToProfile() -> ProfileView {
+  func routeProfile(isNewUser: Bool = false, user: User = .initialize) -> ProfileView {
     let router: MembershipRouter = assembler.resolve()
-    return router.route()
+    return router.routeProfile(isNewUser: isNewUser, user: user)
   }
 
-  func routeToMessage() -> MessagesView {
+  func routeMessages() -> MessagesView {
     let router: MembershipRouter = assembler.resolve()
-    return router.route()
+    return router.routeMessages()
   }
 
-  func routeToChat() -> ChatView {
+  func routeChat() -> ChatView {
     let router: ChatRouter = assembler.resolve()
-    return router.route()
+    return router.routeChat()
   }
 
 }

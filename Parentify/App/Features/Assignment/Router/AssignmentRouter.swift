@@ -14,11 +14,11 @@ struct AssignmentRouter {
     self.assembler = assembler
   }
 
-  func route(assignmentGroup: AssignmentGroup) -> AssignmentGroupView {
+  func routeAssignmentGroup(assignmentGroup: AssignmentGroup) -> AssignmentGroupView {
     return AssignmentGroupView(assignmentGroup: assignmentGroup, router: self)
   }
 
-  func route() -> AssignmentDetailView {
+  func routeAssignmentDetail() -> AssignmentDetailView {
     return AssignmentDetailView()
   }
 

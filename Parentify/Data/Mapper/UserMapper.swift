@@ -9,6 +9,7 @@ import SwiftUI
 
 extension UserEntity {
   func map() -> User {
+    let profileData = profilePict?.data(using: .utf8)
     return User(
       userId: userId.orEmpty(),
       role: UserRole(rawValue: role?.rawValue ?? "")!,
@@ -16,13 +17,14 @@ extension UserEntity {
       email: email.orEmpty(),
       password: password.orEmpty(),
       isParent: isParent ?? false,
-      profilePict: UIImage(data: profilePict ?? Data()) ?? UIImage()
+      profilePict: UIImage(data: profileData ?? Data()) ?? UIImage()
     )
   }
 }
 
 extension User {
   func map() -> UserEntity {
+    let profileString = String(decoding: profilePict.pngData() ?? Data(), as: UTF8.self)
     return UserEntity(
       userId: userId,
       role: UserRoleEntity(rawValue: role.rawValue),
@@ -30,7 +32,7 @@ extension User {
       email: email,
       password: password,
       isParent: isParent,
-      profilePict: profilePict.pngData()
+      profilePict: profileString
     )
   }
 }

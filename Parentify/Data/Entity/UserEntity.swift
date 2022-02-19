@@ -31,9 +31,9 @@ class UserEntity: Codable, BodyCodable {
   var email: String?
   var password: String?
   var isParent: Bool?
-  var profilePict: Data?
+  var profilePict: String?
 
-  init(userId: String?, role: UserRoleEntity?, name: String?, email: String?, password: String?, isParent: Bool?, profilePict: Data?) {
+  init(userId: String?, role: UserRoleEntity?, name: String?, email: String?, password: String?, isParent: Bool?, profilePict: String?) {
     self.userId = userId
     self.role = role
     self.name = name

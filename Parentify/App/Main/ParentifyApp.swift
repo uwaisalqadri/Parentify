@@ -22,6 +22,7 @@ struct ParentifyApp: App {
   var body: some Scene {
     WindowGroup {
       ContentView(assembler: assembler, isLoggedIn: isLoggedIn)
+        .environment(\.colorScheme, .light)
     }
   }
 }

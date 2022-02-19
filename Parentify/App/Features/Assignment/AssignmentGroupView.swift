@@ -25,8 +25,7 @@ struct AssignmentGroupView: View {
       VStack(alignment: .leading) {
 
         ForEach(Array(assignmentGroup.assignments.enumerated()), id: \.offset) { index, item in
-          let nextView: AssignmentDetailView = router.route()
-          NavigationLink(destination: nextView, isActive: $isShowDetail) {
+          NavigationLink(destination: router.routeAssignmentDetail(), isActive: $isShowDetail) {
             AssignmentItemView(
               assignment: item,
               onShowDetail: {
