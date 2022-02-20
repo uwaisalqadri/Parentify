@@ -13,6 +13,14 @@ extension Optional where Wrapped == String {
   }
 }
 
+func ??<T>(binding: Binding<T?>, fallback: T) -> Binding<T> {
+  return Binding(get: {
+    binding.wrappedValue ?? fallback
+  }, set: {
+    binding.wrappedValue = $0
+  })
+}
+
 extension String {
 
   var int: Int {

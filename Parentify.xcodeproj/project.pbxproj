@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9104EFC127C1C1260099A294 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC027C1C1260099A294 /* Notifications.swift */; };
 		91413FC127BA95AA00799155 /* ParentifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FB127BA95A700799155 /* ParentifyApp.swift */; };
 		91413FC527BA95AA00799155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91413FB327BA95AA00799155 /* Assets.xcassets */; };
 		91413FD227BA997300799155 /* AppAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FD127BA997300799155 /* AppAssembler.swift */; };
@@ -81,6 +82,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9104EFC027C1C1260099A294 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		91413FB127BA95A700799155 /* ParentifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentifyApp.swift; sourceTree = "<group>"; };
 		91413FB327BA95AA00799155 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91413FB827BA95AA00799155 /* Parentify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parentify.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -273,6 +275,7 @@
 				91413FDE27BA9A9600799155 /* Extensions */,
 				91413FDF27BA9AA000799155 /* Modifiers */,
 				91413FE227BA9AD600799155 /* ViewState.swift */,
+				9104EFC027C1C1260099A294 /* Notifications.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -610,6 +613,7 @@
 				91B3293E27BCD31300FBFA00 /* ButtonStyles.swift in Sources */,
 				91B3299027BD35A000FBFA00 /* LoginView.swift in Sources */,
 				91B3296E27BCDF0600FBFA00 /* HomeRouter.swift in Sources */,
+				9104EFC127C1C1260099A294 /* Notifications.swift in Sources */,
 				91B3296A27BCDE4800FBFA00 /* AssignmentGroupView.swift in Sources */,
 				91FF766F27BDF443001B9CED /* UserEntity.swift in Sources */,
 				9170623327BF7274005C2983 /* ContentView.swift in Sources */,

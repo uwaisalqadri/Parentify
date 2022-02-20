@@ -13,12 +13,10 @@ struct ContentView: View {
   var isLoggedIn: Bool
 
   var body: some View {
-    NavigationView {
-      if isLoggedIn {
-        HomeView(presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
-      } else {
-        LoginView(presenter: assembler.resolve(), router: assembler.resolve())
-      }
+    if isLoggedIn {
+      HomeView(presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
+    } else {
+      LoginView(presenter: assembler.resolve(), router: assembler.resolve())
     }
   }
 }

@@ -15,16 +15,49 @@ enum ViewState<T> {
   case success(data: T)
 
   var value: T? {
-    if case .success(let data) = self {
-      return data
+    get {
+      if case .success(let data) = self {
+        return data
+      }
+      return nil
     }
-    return nil
+
+    set {
+      if newValue is Bool {
+        self = .success(data: newValue!)
+      }
+    }
   }
 
   var isLoading: Bool {
-    if case .loading = self {
-      return true
+    get {
+      if case .loading = self {
+        return true
+      }
+      return false
     }
-    return false
+    set {
+      if newValue {
+        self = .loading
+      }
+    }
+  }
+
+  var error: FirebaseError {
+    if case .error(let error) = self {
+      return .invalidRequest(error: error)
+    }
+    return .unknownError
+  }
+}
+
+extension ViewState: Equatable {
+  static func == (lhs: ViewState<T>, rhs: ViewState<T>) -> Bool {
+    switch (lhs, rhs) {
+    case (.initiate, .initiate), (.empty, .empty), (.success, .success), (.loading, .loading), (.error, .error):
+      return true
+    default:
+      return false
+    }
   }
 }

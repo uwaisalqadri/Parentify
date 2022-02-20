@@ -11,7 +11,6 @@ import Firebase
 
 struct ProfileView: View {
 
-  @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: MembershipPresenter
 
   @State var isNewUser: Bool
@@ -21,6 +20,8 @@ struct ProfileView: View {
   @State private var isShowMemojiTextView = false
   @State private var isShowEditProfile = true
   @State private var isShowDeveloper = false
+
+  let router: MembershipRouter
 
   var body: some View {
     ScrollView {
@@ -77,11 +78,8 @@ struct ProfileView: View {
               .padding(.top, 12)
 
             Button(action: {
-              if isNewUser {
-                if let user = Auth.auth().currentUser {
-                  presenter.createUser(user: .init(userId: user.uid, role: profile.role, name: profile.name, email: profile.email, password: profile.password, isParent: profile.role != .children ? true : false, profilePict: profileImage))
-                }
-                presentationMode.wrappedValue.dismiss()
+              if let user = Auth.auth().currentUser, isNewUser {
+                presenter.createUser(user: .init(userId: user.uid, role: profile.role, name: profile.name, email: profile.email, password: profile.password, isParent: profile.role != .children ? true : false, profilePict: profileImage))
               } else {
                 isShowEditProfile.toggle()
               }
@@ -137,17 +135,23 @@ struct ProfileView: View {
         }
 
       }
-      .onAppear {
-        if let user = presenter.userState.value, !isNewUser {
-          profile = user
-          profileImage = user.profilePict
+      .onReceive(presenter.$userState) { state in
+        if case .success(let user) = state {
+          if !isNewUser {
+            profile = user
+            profileImage = user.profilePict
+          }
         }
       }
+
     }
-    .progressHUD(isShowing: $presenter.isLoading)
+    .progressHUD(isShowing: $presenter.userState.isLoading)
     .navigationTitle("Profile")
     .sheet(isPresented: $isShowMemojiTextView) {
       MemojiView(profileImage: $profileImage, isShowMemojiTextView: $isShowMemojiTextView)
+    }
+    .fullScreenCover(isPresented: $presenter.logoutState.value ?? false) {
+      router.routeLogin()
     }
     .onTapGesture {
       hideKeyboard()
@@ -159,6 +163,11 @@ struct ProfileView: View {
     }
     .onDisappear {
       // TODO: Save changes if any
+    }
+    .onReceive(presenter.$createUserState) { state in
+      if case .success = state {
+        Notifications.dismissSelectRole.post()
+      }
     }
 
   }

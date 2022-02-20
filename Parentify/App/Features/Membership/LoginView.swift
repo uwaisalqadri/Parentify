@@ -15,97 +15,118 @@ struct LoginView: View {
   @State var email: String = ""
   @State var password: String = ""
   @State var isSelectRole: Bool = false
+  @State private var loginError: Error?
+  @State private var isShowAlert: Bool = false
 
   let router: MembershipRouter
 
+  private let dismissSelectRole = NotificationCenter.default.publisher(for: Notifications.dismissSelectRole)
+
   var body: some View {
-    ScrollView {
-      VStack(alignment: .leading) {
+    NavigationView {
+      ScrollView {
+        VStack(alignment: .leading) {
 
-        ImageCard(profileImage: UIImage(named: "AppIcon")!)
-          .frame(width: 66, height: 66)
-          .padding(.bottom, 55)
-          .padding(.top, 30)
+          ImageCard(profileImage: UIImage(named: "AppIcon")!)
+            .frame(width: 66, height: 66)
+            .padding(.bottom, 55)
+            .padding(.top, 30)
 
-        Text("Login")
-          .font(.system(size: 35, weight: .bold))
-          .padding(.bottom, 43)
+          Text("Login")
+            .font(.system(size: 35, weight: .bold))
+            .padding(.bottom, 43)
 
-        CommonTextField(
-          placeholder: "Email",
-          text: $email,
-          image: UIImage(systemName: "envelope.fill")
-        )
-        .padding(.bottom, 17)
+          CommonTextField(
+            placeholder: "Email",
+            text: $email,
+            image: UIImage(systemName: "envelope.fill")
+          )
+            .padding(.bottom, 17)
 
-        CommonTextField(
-          placeholder: "Password",
-          text: $password,
-          image: UIImage(systemName: "lock.fill")
-        )
+          CommonTextField(
+            placeholder: "Password",
+            text: $password,
+            image: UIImage(systemName: "lock.fill")
+          )
 
-        Button(action: {
-          if isNewUser {
-            isSelectRole.toggle()
-            presenter.registerUser(email: email, password: password)
-            isNewUser = false
-          } else {
-            presenter.loginUser(email: email, password: password)
+          Button(action: {
+            if isNewUser {
+              isSelectRole.toggle()
+              presenter.registerUser(email: email, password: password)
+              isNewUser = false
+            } else {
+              presenter.loginUser(email: email, password: password)
+            }
+          }) {
+            HStack {
+              Spacer()
+
+              Text("Login")
+                .foregroundColor(.white)
+                .font(.system(size: 18, weight: .bold))
+
+              Spacer()
+            }
           }
-        }) {
-          HStack {
-            Spacer()
+          .padding(15)
+          .cardShadow(backgroundColor: .purpleColor, cornerRadius: 15)
+          .padding(.top, 67)
 
-            Text("Login")
-              .foregroundColor(.white)
-              .font(.system(size: 18, weight: .bold))
+          Button(action: {
+            // TODO: Login via Google
+            print("Login via Google")
+          }) {
+            HStack {
+              Spacer()
 
-            Spacer()
+              Text("Google")
+                .foregroundColor(.white)
+                .font(.system(size: 18, weight: .bold))
+
+              Spacer()
+            }
+          }
+          .padding(15)
+          .cardShadow(backgroundColor: .redColor, cornerRadius: 15)
+          .padding(.top, 17)
+
+          Spacer()
+
+        }
+        .padding(.horizontal, 25)
+        .showSheet(isPresented: $isSelectRole) {
+          router.routeSelectRole(email: email, password: password) { role in
+            print("JEJEJE", role)
           }
         }
-        .padding(15)
-        .cardShadow(backgroundColor: .purpleColor, cornerRadius: 15)
-        .padding(.top, 67)
-
-        Button(action: {
-          // TODO: Login via Google
-          print("Login via Google")
-        }) {
-          HStack {
-            Spacer()
-
-            Text("Google")
-              .foregroundColor(.white)
-              .font(.system(size: 18, weight: .bold))
-
-            Spacer()
+        .alert(isPresented: $isShowAlert) {
+          Alert(
+            title: Text("Gagal"),
+            message: Text("\(loginError?.localizedDescription ?? "")"),
+            dismissButton: .default(Text("Oke Sip!"))
+          )
+        }
+        .onReceive(presenter.$loginState) { state in
+          if case .error(let error) = state {
+            loginError = error
+            isShowAlert.toggle()
           }
         }
-        .padding(15)
-        .cardShadow(backgroundColor: .redColor, cornerRadius: 15)
-        .padding(.top, 17)
-
-        Spacer()
+        .fullScreenCover(isPresented: $presenter.loginState.value ?? false) {
+          router.routeHome()
+        }
 
       }
-      .padding(.horizontal, 25)
-      .showSheet(isPresented: $isSelectRole) {
-        router.routeSelectRole(email: email, password: password) { role in
-          print("JEJEJE", role)
-        }
-      }
-      .background(
-        NavigationLink(destination: router.routeHome(), isActive: $presenter.isSuccessLogin) {
-          EmptyView()
-        }
-      )
-
     }
     .onTapGesture {
       hideKeyboard()
     }
     .onAppear {
       //isSelectRole = presenter.isSuccessRegister
+    }
+    .onReceive(dismissSelectRole) { _ in
+      isSelectRole = false
+      presenter.loginState.value = true
     }
   }
 }

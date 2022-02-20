@@ -24,54 +24,56 @@ struct HomeView: View {
   }
 
   var body: some View {
-    GeometryReader { geometry in
-      ScrollView(.vertical, showsIndicators: false) {
-        VStack(alignment: .leading) {
-          HStack {
-            VStack(alignment: .leading) {
-              Text("Welcome")
-                .foregroundColor(.gray)
-                .font(.system(size: 17, weight: .regular))
+    NavigationView {
+      GeometryReader { geometry in
+        ScrollView(.vertical, showsIndicators: false) {
+          VStack(alignment: .leading) {
+            HStack {
+              VStack(alignment: .leading) {
+                Text("Welcome")
+                  .foregroundColor(.gray)
+                  .font(.system(size: 17, weight: .regular))
 
-              Text(presenter.userState.value?.name ?? "")
-                .foregroundColor(.black)
-                .font(.system(size: 18, weight: .bold))
-            }
+                Text(presenter.userState.value?.name ?? "")
+                  .foregroundColor(.black)
+                  .font(.system(size: 18, weight: .bold))
+              }
 
-            Spacer()
+              Spacer()
 
-            NavigationLink(destination: router.routeProfile()) {
-              ImageCard(profileImage: presenter.userState.value?.profilePict ?? UIImage())
-                .frame(width: 50, height: 50, alignment: .center)
-            }
+              NavigationLink(destination: router.routeProfile()) {
+                ImageCard(profileImage: presenter.userState.value?.profilePict ?? UIImage())
+                  .frame(width: 50, height: 50, alignment: .center)
+              }
 
-          }.padding([.horizontal, .top], 32)
+            }.padding([.horizontal, .top], 32)
 
-          MessagesCard(messagesView: router.routeMessages())
-            .frame(height: 243)
-            .padding(.top, 20)
-            .padding(.horizontal, 25)
-
-          NavigationLink(destination: router.routeChat()) {
-            OpenChatCard()
-              .padding(.top, 28)
+            MessagesCard(messagesView: router.routeMessages())
+              .frame(height: 243)
+              .padding(.top, 20)
               .padding(.horizontal, 25)
-          }
 
-          ForEach(Array(getAssignmentGroups().enumerated()), id: \.offset) { index, item in
-            AssignmentGroupItemView(
-              isShowDetail: $isShowDetail,
-              assignmentGroup: item,
-              router: assignmentRouter,
-              onDelete: { index in
-                print("delete", index)
-              })
-          }
+            NavigationLink(destination: router.routeChat()) {
+              OpenChatCard()
+                .padding(.top, 28)
+                .padding(.horizontal, 25)
+            }
 
+            ForEach(Array(getAssignmentGroups().enumerated()), id: \.offset) { index, item in
+              AssignmentGroupItemView(
+                isShowDetail: $isShowDetail,
+                assignmentGroup: item,
+                router: assignmentRouter,
+                onDelete: { index in
+                  print("delete", index)
+                })
+            }
+
+          }
         }
+        .navigationBarHidden(true)
+        .progressHUD(isShowing: $presenter.userState.isLoading)
       }
-      .navigationBarHidden(true)
-      .progressHUD(isShowing: $presenter.isLoading)
     }
   }
 }
