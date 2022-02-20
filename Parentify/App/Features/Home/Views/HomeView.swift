@@ -16,13 +16,6 @@ struct HomeView: View {
   let router: HomeRouter
   let assignmentRouter: AssignmentRouter
 
-  init(presenter: MembershipPresenter, router: HomeRouter, assignmentRouter: AssignmentRouter) {
-    self.presenter = presenter
-    self.router = router
-    self.assignmentRouter = assignmentRouter
-    self.presenter.getUser()
-  }
-
   var body: some View {
     NavigationView {
       GeometryReader { geometry in
@@ -73,6 +66,9 @@ struct HomeView: View {
         }
         .navigationBarHidden(true)
         .progressHUD(isShowing: $presenter.userState.isLoading)
+        .onAppear {
+          presenter.getUser()
+        }
       }
     }
   }

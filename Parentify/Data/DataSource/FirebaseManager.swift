@@ -21,9 +21,10 @@ enum FirebaseError: Error {
 
 protocol FirebaseManager {
   func registerUser(email: String, password: String, completion: @escaping CompletionResult<Bool>)
-  func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func loginUser(email: String, password: String, completion: @escaping CompletionResult<Bool>)
   func logoutUser(completion: @escaping CompletionResult<Bool>)
+  func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
+  func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func getUser(completion: @escaping CompletionResult<UserEntity>)
 }
 
@@ -40,20 +41,6 @@ class DefaultFirebaseManager: FirebaseManager {
         completion(.success(true))
       }
     }
-  }
-
-  func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>) {
-    guard let email = user.email else { return }
-    firestoreDatabase
-      .collection(Constant.membership)
-      .document(email)
-      .setData(user.asFormDictionary()) { error in
-        if let error = error {
-          return completion(.failure(.invalidRequest(error: error)))
-        } else {
-          return completion(.success(true))
-        }
-      }
   }
 
   func loginUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {
@@ -73,6 +60,34 @@ class DefaultFirebaseManager: FirebaseManager {
     } catch {
       completion(.success(false))
     }
+  }
+
+  func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>) {
+    guard let email = user.email else { return }
+    firestoreDatabase
+      .collection(Constant.membership)
+      .document(email)
+      .setData(user.asFormDictionary()) { error in
+        if let error = error {
+          return completion(.failure(.invalidRequest(error: error)))
+        } else {
+          return completion(.success(true))
+        }
+      }
+  }
+
+  func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>) {
+    guard let email = user.email else { return }
+    firestoreDatabase
+      .collection(Constant.membership)
+      .document(email)
+      .updateData(user.asFormDictionary()) { error in
+        if let error = error {
+          return completion(.failure(.invalidRequest(error: error)))
+        } else {
+          return completion(.success(true))
+        }
+      }
   }
 
   func getUser(completion: @escaping CompletionResult<UserEntity>) {

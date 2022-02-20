@@ -49,6 +49,20 @@ class MembershipPresenter: ObservableObject {
     }
   }
 
+  func updateUser(user: User) {
+    createUserState = .loading
+    firebaseManager.updateUser(user: user.map()) { result in
+      switch result {
+      case .success(let isSuccess):
+        self.createUserState = .success(data: isSuccess)
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.createUserState = .error(error: error)
+        }
+      }
+    }
+  }
+
   func registerUser(email: String, password: String) {
     registerState = .loading
     firebaseManager.registerUser(email: email, password: password) { result in

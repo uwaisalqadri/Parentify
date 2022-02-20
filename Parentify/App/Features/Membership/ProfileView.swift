@@ -80,7 +80,9 @@ struct ProfileView: View {
             Button(action: {
               if let user = Auth.auth().currentUser, isNewUser {
                 presenter.createUser(user: .init(userId: user.uid, role: profile.role, name: profile.name, email: profile.email, password: profile.password, isParent: profile.role != .children ? true : false, profilePict: profileImage))
-              } else {
+              } else if let user = Auth.auth().currentUser {
+                presenter.updateUser(user: .init(userId: user.uid, role: profile.role, name: profile.name, email: profile.email, password: profile.password, isParent: profile.role != .children ? true : false, profilePict: profileImage))
+                presenter.getUser()
                 isShowEditProfile.toggle()
               }
             }) {
