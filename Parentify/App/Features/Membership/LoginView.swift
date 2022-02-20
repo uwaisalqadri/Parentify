@@ -109,7 +109,9 @@ struct LoginView: View {
         .onReceive(presenter.$loginState) { state in
           if case .error(let error) = state {
             loginError = error
-            isShowAlert.toggle()
+            isShowAlert = true
+          } else {
+            isShowAlert = false
           }
         }
         .fullScreenCover(isPresented: $presenter.loginState.value ?? false) {
@@ -118,11 +120,9 @@ struct LoginView: View {
 
       }
     }
+    .progressHUD(isShowing: $presenter.loginState.isLoading)
     .onTapGesture {
       hideKeyboard()
-    }
-    .onAppear {
-      //isSelectRole = presenter.isSuccessRegister
     }
     .onReceive(dismissSelectRole) { _ in
       isSelectRole = false

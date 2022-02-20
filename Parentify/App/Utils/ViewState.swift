@@ -44,10 +44,16 @@ enum ViewState<T> {
   }
 
   var error: FirebaseError {
-    if case .error(let error) = self {
-      return .invalidRequest(error: error)
+    get {
+      if case .error(let error) = self {
+        return .invalidRequest(error: error)
+      }
+      return .unknownError
     }
-    return .unknownError
+
+    set {
+      self = .error(error: newValue)
+    }
   }
 }
 

@@ -27,8 +27,10 @@ class MembershipPresenter: ObservableObject {
       switch result {
       case .success(let data):
         self.userState = .success(data: data.map())
-      case .failure(let error):
-        self.userState = .error(error: error)
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.userState = .error(error: error)
+        }
       }
     }
   }
@@ -39,8 +41,10 @@ class MembershipPresenter: ObservableObject {
       switch result {
       case .success(let isSuccess):
         self.createUserState = .success(data: isSuccess)
-      case .failure(let error):
-        self.createUserState = .error(error: error)
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.createUserState = .error(error: error)
+        }
       }
     }
   }
@@ -51,8 +55,10 @@ class MembershipPresenter: ObservableObject {
       switch result {
       case .success(let isSuccess):
         self.registerState = .success(data: isSuccess)
-      case .failure(let error):
-        self.registerState = .error(error: error)
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.registerState = .error(error: error)
+        }
       }
     }
   }
@@ -63,8 +69,10 @@ class MembershipPresenter: ObservableObject {
       switch result {
       case .success(let isSuccess):
         self.loginState = .success(data: isSuccess)
-      case .failure(let error):
-        self.loginState = .error(error: error)
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.loginState = .error(error: error)
+        }
       }
     }
   }
