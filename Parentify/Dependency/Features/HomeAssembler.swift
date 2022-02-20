@@ -19,6 +19,6 @@ extension HomeAssembler where Self: Assembler {
   }
 
   func resolve() -> HomePresenter {
-    return HomePresenter()
+    return HomePresenter(firebaseManager: resolve())
   }
 }

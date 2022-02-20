@@ -9,26 +9,28 @@ import SwiftUI
 
 struct MessagesText: View {
 
-  @State var sender: String = ""
-  @State var message: String = ""
+  @State var message: Message = .initialize
 
   var body: some View {
-    Text("\(sender): ")
+    Text("\(String(message.role.rawValue)): ")
       .font(.system(size: 13, weight: .semibold))
       .foregroundColor(.purpleColor)
     +
-    Text(message)
+    Text(message.message)
       .font(.system(size: 13, weight: .regular))
   }
 }
 
 struct MessagesCard: View {
 
+  @State var messages: [Message] = []
+  @State var isParent = false
   @State var isShowAll = false
-  let messagesView: MessagesView
+
+  let router: HomeRouter
 
   var body: some View {
-    NavigationLink(destination: messagesView) {
+    NavigationLink(destination: router.routeMessages()) {
       VStack(alignment: .leading) {
         HStack(alignment: .center) {
           Text("Pesan Penting")
@@ -39,21 +41,38 @@ struct MessagesCard: View {
           Dropdown(isExpand: $isShowAll) {
             print("oke")
           }
-        }.padding(.top, 19)
-          .padding(.horizontal, 23)
+        }
+        .padding(.top, 19)
+        .padding(.horizontal, 23)
+        .padding(.bottom, 20)
 
-        ForEach(0..<3) { _ in
+        ForEach(messages, id: \.id) { message in
           HStack {
-            MessagesText(
-              sender: "Mamak",
-              message: "Jangan lupa ngerjain PR ya bil, udah ditagih sama bu guru Fatimah"
-            )
-
-          }.padding(.top, 10)
-
-        }.padding(.horizontal, 23)
+            MessagesText(message: message)
+          }
+        }
+        .padding(.horizontal, 23)
+        .padding(.bottom, isParent ? 0 : 12)
 
         Spacer()
+
+        if isParent {
+          Button(action: {
+          }) {
+            HStack {
+              Spacer()
+
+              Text("Tambahkan Pesan Penting")
+                .foregroundColor(.white)
+                .font(.system(size: 11, weight: .bold))
+
+              Spacer()
+            }
+          }
+          .padding(15)
+          .cardShadow(backgroundColor: .pinkColor, cornerRadius: 15)
+          .padding(20)
+        }
       }
     }.buttonStyle(FlatLinkStyle())
     .cardShadow(cornerRadius: 23)
@@ -98,8 +117,7 @@ struct OpenChatCard: View {
 struct DashboardCard_Previews: PreviewProvider {
 
   static var previews: some View {
-    let router = MembershipRouter(assembler: AppAssembler.shared)
-    MessagesCard(messagesView: router.routeMessages())
+    MessagesCard(router: AppAssembler.shared.resolve())
       .previewLayout(.fixed(width: 300, height: 253))
     //DetailCard().previewLayout(.sizeThatFits)
   }

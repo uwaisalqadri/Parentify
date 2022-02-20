@@ -10,6 +10,9 @@
 		9104EFC127C1C1260099A294 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC027C1C1260099A294 /* Notifications.swift */; };
 		9104EFC327C1EFE50099A294 /* Error+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC227C1EFE50099A294 /* Error+Ext.swift */; };
 		9104EFC527C1F9BD0099A294 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC427C1F9BD0099A294 /* UIImage+Ext.swift */; };
+		9104EFC727C20BD20099A294 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC627C20BD10099A294 /* Message.swift */; };
+		9104EFC927C21AFC0099A294 /* MessageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC827C21AFC0099A294 /* MessageEntity.swift */; };
+		9104EFCB27C21D340099A294 /* MessageMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFCA27C21D340099A294 /* MessageMapper.swift */; };
 		91413FC127BA95AA00799155 /* ParentifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FB127BA95A700799155 /* ParentifyApp.swift */; };
 		91413FC527BA95AA00799155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91413FB327BA95AA00799155 /* Assets.xcassets */; };
 		91413FD227BA997300799155 /* AppAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FD127BA997300799155 /* AppAssembler.swift */; };
@@ -87,6 +90,9 @@
 		9104EFC027C1C1260099A294 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		9104EFC227C1EFE50099A294 /* Error+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Ext.swift"; sourceTree = "<group>"; };
 		9104EFC427C1F9BD0099A294 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
+		9104EFC627C20BD10099A294 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		9104EFC827C21AFC0099A294 /* MessageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageEntity.swift; sourceTree = "<group>"; };
+		9104EFCA27C21D340099A294 /* MessageMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMapper.swift; sourceTree = "<group>"; };
 		91413FB127BA95A700799155 /* ParentifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentifyApp.swift; sourceTree = "<group>"; };
 		91413FB327BA95AA00799155 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91413FB827BA95AA00799155 /* Parentify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parentify.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -288,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				91FF767527BE0223001B9CED /* UserMapper.swift */,
+				9104EFCA27C21D340099A294 /* MessageMapper.swift */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -298,6 +305,7 @@
 				91B3295F27BCDA3300FBFA00 /* User.swift */,
 				91B3298127BCE37100FBFA00 /* Assignment.swift */,
 				91B3298327BCE61B00FBFA00 /* Chat.swift */,
+				9104EFC627C20BD10099A294 /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -315,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				91FF766E27BDF443001B9CED /* UserEntity.swift */,
+				9104EFC827C21AFC0099A294 /* MessageEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -622,6 +631,7 @@
 				9104EFC127C1C1260099A294 /* Notifications.swift in Sources */,
 				91B3296A27BCDE4800FBFA00 /* AssignmentGroupView.swift in Sources */,
 				91FF766F27BDF443001B9CED /* UserEntity.swift in Sources */,
+				9104EFCB27C21D340099A294 /* MessageMapper.swift in Sources */,
 				9170623327BF7274005C2983 /* ContentView.swift in Sources */,
 				91B3294427BCD34800FBFA00 /* RoundedCornersModifier.swift in Sources */,
 				91B3297027BCDF4100FBFA00 /* AssignmentPresenter.swift in Sources */,
@@ -650,6 +660,7 @@
 				91B3295C27BCD86000FBFA00 /* ImageCard.swift in Sources */,
 				91B3297C27BCE02C00FBFA00 /* MembershipAssembler.swift in Sources */,
 				91B3297427BCDF8200FBFA00 /* MembershipPresenter.swift in Sources */,
+				9104EFC727C20BD20099A294 /* Message.swift in Sources */,
 				91FF768127BE4EE6001B9CED /* SelectRoleView.swift in Sources */,
 				91413FF027BAA08C00799155 /* Date+Ext.swift in Sources */,
 				91413FF327BAA0AB00799155 /* String+Ext.swift in Sources */,
@@ -666,6 +677,7 @@
 				91B3298A27BD29D900FBFA00 /* ChatInputField.swift in Sources */,
 				91FF766D27BDF37B001B9CED /* FirebaseManager.swift in Sources */,
 				91B3298C27BD309B00FBFA00 /* MessagesView.swift in Sources */,
+				9104EFC927C21AFC0099A294 /* MessageEntity.swift in Sources */,
 				91B3298227BCE37100FBFA00 /* Assignment.swift in Sources */,
 				91B3294227BCD31400FBFA00 /* MemojiTextView.swift in Sources */,
 				91B3296C27BCDED100FBFA00 /* AssignmentRouter.swift in Sources */,

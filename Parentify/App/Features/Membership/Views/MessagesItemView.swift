@@ -10,11 +10,11 @@ import SwiftUI
 struct MessagesItemView: View {
   var body: some View {
     HStack {
-      MessagesText(
-        sender: "Mamak",
-        message: "Jangan lupa ngerjain PR ya bil, udah ditagih sama bu guru Fatimah"
-      )
-      .padding(25)
+//      MessagesText(
+//        sender: "Mamak",
+//        message: "Jangan lupa ngerjain PR ya bil, udah ditagih sama bu guru Fatimah"
+//      )
+//      .padding(25)
     }
     .cardShadow(cornerRadius: 26)
     .padding(.horizontal, 18)

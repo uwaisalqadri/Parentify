@@ -20,12 +20,18 @@ enum FirebaseError: Error {
 }
 
 protocol FirebaseManager {
+
+  // MARK: Membership
   func registerUser(email: String, password: String, completion: @escaping CompletionResult<Bool>)
   func loginUser(email: String, password: String, completion: @escaping CompletionResult<Bool>)
   func logoutUser(completion: @escaping CompletionResult<Bool>)
   func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func getUser(completion: @escaping CompletionResult<UserEntity>)
+
+  // MARK: Messages
+  func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>)
+  func getMessages(completion: @escaping CompletionResult<[MessageEntity]>)
 }
 
 class DefaultFirebaseManager: FirebaseManager {
@@ -111,4 +117,40 @@ class DefaultFirebaseManager: FirebaseManager {
         }
       }
   }
+
+
+  func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>) {
+    firestoreDatabase
+      .collection(Constant.messages)
+      .document(Constant.messages)
+      .setData(message.asFormDictionary()) { error in
+        if let error = error {
+          return completion(.failure(.invalidRequest(error: error)))
+        } else {
+          return completion(.success(true))
+        }
+      }
+  }
+
+  func getMessages(completion: @escaping CompletionResult<[MessageEntity]>) {
+    firestoreDatabase
+      .collection(Constant.messages)
+      .document(Constant.messages)
+      .getDocument { snapshot, error in
+        if let error = error {
+          completion(.failure(.invalidRequest(error: error)))
+        } else {
+          let result = Result { try snapshot?.data(as: [MessageEntity].self) }
+          switch result {
+          case .success(let data):
+            if let data = data {
+              completion(.success(data))
+            }
+          case .failure:
+            completion(.failure(.unknownError))
+          }
+        }
+      }
+  }
+
 }

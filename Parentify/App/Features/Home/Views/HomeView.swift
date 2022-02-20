@@ -9,7 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
 
-  @ObservedObject var presenter: MembershipPresenter
+  @ObservedObject var membershipPresenter: MembershipPresenter
+  @ObservedObject var presenter: HomePresenter
   @State var isShowDetail = false
   @State var isShowProgress = false
 
@@ -27,7 +28,7 @@ struct HomeView: View {
                   .foregroundColor(.gray)
                   .font(.system(size: 17, weight: .regular))
 
-                Text(presenter.userState.value?.name ?? "")
+                Text(membershipPresenter.userState.value?.name ?? "")
                   .foregroundColor(.black)
                   .font(.system(size: 18, weight: .bold))
               }
@@ -35,16 +36,20 @@ struct HomeView: View {
               Spacer()
 
               NavigationLink(destination: router.routeProfile()) {
-                ImageCard(profileImage: presenter.userState.value?.profilePict ?? UIImage())
+                ImageCard(profileImage: membershipPresenter.userState.value?.profilePict ?? UIImage())
                   .frame(width: 50, height: 50, alignment: .center)
               }
 
             }.padding([.horizontal, .top], 32)
 
-            MessagesCard(messagesView: router.routeMessages())
-              .frame(height: 243)
-              .padding(.top, 20)
-              .padding(.horizontal, 25)
+            MessagesCard(
+              messages: presenter.messagesState.value ?? [],
+              isParent: membershipPresenter.userState.value?.isParent ?? false,
+              router: router
+            )
+            .frame(height: 243)
+            .padding(.top, 20)
+            .padding(.horizontal, 25)
 
             NavigationLink(destination: router.routeChat()) {
               OpenChatCard()
@@ -65,9 +70,10 @@ struct HomeView: View {
           }
         }
         .navigationBarHidden(true)
-        .progressHUD(isShowing: $presenter.userState.isLoading)
+        .progressHUD(isShowing: $membershipPresenter.userState.isLoading)
         .onAppear {
-          presenter.getUser()
+          membershipPresenter.getUser()
+          presenter.getMessages()
         }
       }
     }
@@ -76,6 +82,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
   static var previews: some View {
-    HomeView(presenter: AppAssembler.shared.resolve(), router: AppAssembler.shared.resolve(), assignmentRouter: AppAssembler.shared.resolve())
+    HomeView(membershipPresenter: AppAssembler.shared.resolve(), presenter: AppAssembler.shared.resolve(), router: AppAssembler.shared.resolve(), assignmentRouter: AppAssembler.shared.resolve())
   }
 }

@@ -5,7 +5,7 @@
 //  Created by Uwais Alqadri on 2/17/22.
 //
 
-import SwiftUI
+import Foundation
 
 enum UserRoleEntity: String, Codable {
   case father = "father"
