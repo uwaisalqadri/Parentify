@@ -42,6 +42,13 @@ extension String {
     return date
   }
 
+  func toImage() -> UIImage? {
+    if let data = Data(base64Encoded: self, options: .ignoreUnknownCharacters){
+      return UIImage(data: data)
+    }
+    return nil
+  }
+
   func isNumeric() -> Bool {
     guard self.count > 0 else { return false }
     let nums: Set<Character> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]

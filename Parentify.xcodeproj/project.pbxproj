@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9104EFC127C1C1260099A294 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC027C1C1260099A294 /* Notifications.swift */; };
 		9104EFC327C1EFE50099A294 /* Error+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC227C1EFE50099A294 /* Error+Ext.swift */; };
+		9104EFC527C1F9BD0099A294 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC427C1F9BD0099A294 /* UIImage+Ext.swift */; };
 		91413FC127BA95AA00799155 /* ParentifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FB127BA95A700799155 /* ParentifyApp.swift */; };
 		91413FC527BA95AA00799155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91413FB327BA95AA00799155 /* Assets.xcassets */; };
 		91413FD227BA997300799155 /* AppAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FD127BA997300799155 /* AppAssembler.swift */; };
@@ -85,6 +86,7 @@
 /* Begin PBXFileReference section */
 		9104EFC027C1C1260099A294 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		9104EFC227C1EFE50099A294 /* Error+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Ext.swift"; sourceTree = "<group>"; };
+		9104EFC427C1F9BD0099A294 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
 		91413FB127BA95A700799155 /* ParentifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentifyApp.swift; sourceTree = "<group>"; };
 		91413FB327BA95AA00799155 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91413FB827BA95AA00799155 /* Parentify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parentify.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -338,6 +340,7 @@
 				91413FF227BAA0AB00799155 /* String+Ext.swift */,
 				91413FF527BAA0C500799155 /* View+Ext.swift */,
 				9104EFC227C1EFE50099A294 /* Error+Ext.swift */,
+				9104EFC427C1F9BD0099A294 /* UIImage+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -627,6 +630,7 @@
 				91B3297227BCDF6F00FBFA00 /* ChatPresenter.swift in Sources */,
 				91B3298427BCE61B00FBFA00 /* Chat.swift in Sources */,
 				91413FC127BA95AA00799155 /* ParentifyApp.swift in Sources */,
+				9104EFC527C1F9BD0099A294 /* UIImage+Ext.swift in Sources */,
 				91413FF627BAA0C500799155 /* View+Ext.swift in Sources */,
 				91B3296227BCDD8B00FBFA00 /* MembershipRouter.swift in Sources */,
 				9104EFC327C1EFE50099A294 /* Error+Ext.swift in Sources */,
