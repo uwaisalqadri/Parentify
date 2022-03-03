@@ -11,8 +11,11 @@ struct HomeView: View {
 
   @ObservedObject var membershipPresenter: MembershipPresenter
   @ObservedObject var presenter: HomePresenter
+
   @State var isShowDetail = false
   @State var isShowProgress = false
+  @State var isShowDialog = false
+  @State var isParent = false
 
   let router: HomeRouter
   let assignmentRouter: AssignmentRouter
@@ -42,14 +45,19 @@ struct HomeView: View {
 
             }.padding([.horizontal, .top], 32)
 
-            MessagesCard(
-              messages: presenter.messagesState.value ?? [],
-              isParent: membershipPresenter.userState.value?.isParent ?? false,
-              router: router
-            )
-            .frame(height: 243)
-            .padding(.top, 20)
-            .padding(.horizontal, 25)
+            if case .success(let messages) = presenter.messagesState {
+              MessagesCard(
+                messages: messages,
+                isParent: isParent,
+                router: router,
+                onAddMessage: {
+                  isShowDialog.toggle()
+                }
+              )
+              .frame(height: 243)
+              .padding(.top, 20)
+              .padding(.horizontal, 25)
+            }
 
             NavigationLink(destination: router.routeChat()) {
               OpenChatCard()
@@ -75,8 +83,63 @@ struct HomeView: View {
           membershipPresenter.getUser()
           presenter.getMessages()
         }
+        .onReceive(presenter.$addMessageState) { state in
+          if case .success = state {
+            isShowDialog.toggle()
+            presenter.getMessages()
+          }
+        }
+        .onReceive(membershipPresenter.$userState) { state in
+          if case .success(let profile) = state {
+            isParent = profile.isParent
+          }
+        }
+        .customDialog(isShowing: $isShowDialog) {
+          AddMessageDialog(onAddMessage: { textMessage in
+            let role = membershipPresenter.userState.value?.role ?? .children
+            presenter.addMessage(message: .init(message: textMessage, role: role, datetime: Date()))
+          })
+        }
+
       }
     }
+  }
+}
+
+struct AddMessageDialog: View {
+
+  @State var textMessage: String = ""
+  var onAddMessage: (String) -> Void
+
+  var body: some View {
+    VStack(alignment: .leading) {
+      Text("Pesan Penting")
+        .font(.system(size: 16, weight: .bold))
+
+      TextEditor(text: $textMessage)
+        .font(.system(size: 14, weight: .regular))
+        .frame(height: 200)
+        .autocapitalization(.none)
+        .disableAutocorrection(true)
+
+      Button(action: {
+        onAddMessage(textMessage)
+      }) {
+        HStack {
+          Spacer()
+
+          Text("Tambahkan Pesan Penting")
+            .foregroundColor(.white)
+            .font(.system(size: 13, weight: .bold))
+
+          Spacer()
+        }
+      }
+      .padding(15)
+      .cardShadow(backgroundColor: .pinkColor, cornerRadius: 15)
+
+    }.padding(20)
+    .cardShadow(cornerRadius: 24)
   }
 }
 

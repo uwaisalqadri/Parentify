@@ -24,10 +24,12 @@ struct MessagesText: View {
 struct MessagesCard: View {
 
   @State var messages: [Message] = []
-  @State var isParent = false
+  @State var isParent = true
   @State var isShowAll = false
 
   let router: HomeRouter
+
+  var onAddMessage: () -> Void
 
   var body: some View {
     NavigationLink(destination: router.routeMessages()) {
@@ -58,13 +60,14 @@ struct MessagesCard: View {
 
         if isParent {
           Button(action: {
+            onAddMessage()
           }) {
             HStack {
               Spacer()
 
               Text("Tambahkan Pesan Penting")
                 .foregroundColor(.white)
-                .font(.system(size: 11, weight: .bold))
+                .font(.system(size: 13, weight: .bold))
 
               Spacer()
             }
@@ -73,6 +76,7 @@ struct MessagesCard: View {
           .cardShadow(backgroundColor: .pinkColor, cornerRadius: 15)
           .padding(20)
         }
+
       }
     }.buttonStyle(FlatLinkStyle())
     .cardShadow(cornerRadius: 23)
@@ -113,13 +117,3 @@ struct OpenChatCard: View {
     .cardShadow(cornerRadius: 23)
   }
 }
-
-struct DashboardCard_Previews: PreviewProvider {
-
-  static var previews: some View {
-    MessagesCard(router: AppAssembler.shared.resolve())
-      .previewLayout(.fixed(width: 300, height: 253))
-    //DetailCard().previewLayout(.sizeThatFits)
-  }
-}
-

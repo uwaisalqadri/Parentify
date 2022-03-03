@@ -120,9 +120,10 @@ class DefaultFirebaseManager: FirebaseManager {
 
 
   func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>) {
+    guard let messageId = message.id else { return }
     firestoreDatabase
       .collection(Constant.messages)
-      .document(Constant.messages)
+      .document(messageId)
       .setData(message.asFormDictionary()) { error in
         if let error = error {
           return completion(.failure(.invalidRequest(error: error)))
@@ -135,22 +136,40 @@ class DefaultFirebaseManager: FirebaseManager {
   func getMessages(completion: @escaping CompletionResult<[MessageEntity]>) {
     firestoreDatabase
       .collection(Constant.messages)
-      .document(Constant.messages)
-      .getDocument { snapshot, error in
+      .getDocuments { querySnapshot, error in
         if let error = error {
           completion(.failure(.invalidRequest(error: error)))
-        } else {
-          let result = Result { try snapshot?.data(as: [MessageEntity].self) }
-          switch result {
-          case .success(let data):
-            if let data = data {
-              completion(.success(data))
+        } else if let querySnapshot = querySnapshot {
+          var messages = [MessageEntity]()
+          for document in querySnapshot.documents {
+            do {
+              if let message = try document.data(as: MessageEntity.self) {
+                messages.append(message)
+              }
+              completion(.success(messages))
+            } catch {
+              completion(.failure(.unknownError))
             }
-          case .failure:
-            completion(.failure(.unknownError))
           }
         }
       }
   }
 
 }
+
+
+//  .getDocument { snapshot, error in
+//    if let error = error {
+//      completion(.failure(.invalidRequest(error: error)))
+//    } else {
+//      let result = Result { try snapshot?.data(as: [MessageEntity].self) }
+//      switch result {
+//      case .success(let data):
+//        if let data = data {
+//          completion(.success(data))
+//        }
+//      case .failure:
+//        completion(.failure(.unknownError))
+//      }
+//    }
+//  }

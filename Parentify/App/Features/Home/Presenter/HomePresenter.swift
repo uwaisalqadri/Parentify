@@ -38,6 +38,7 @@ class HomePresenter: ObservableObject {
       switch result {
       case .success(let data):
         self.messagesState = .success(data: data.map { $0.map() })
+        print("HALLO", data)
       case .failure(let firebaseError):
         if case .invalidRequest(let error) = firebaseError {
           self.messagesState = .error(error: error)
