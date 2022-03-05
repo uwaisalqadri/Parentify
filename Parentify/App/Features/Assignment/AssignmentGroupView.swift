@@ -14,29 +14,50 @@ enum SortOrder: String, CaseIterable {
 
 struct AssignmentGroupView: View {
 
-  @State var isShowDetail: Bool = false
+  @Binding var isParent: Bool
   @State private var sortOrder: SortOrder = .defaultOrder
+
+  @State var isShowDetail: Bool = false
+  @State var isAddAssignment: Bool = false
 
   var assignmentGroup: AssignmentGroup
   let router: AssignmentRouter
 
   var body: some View {
-    ScrollView(.vertical, showsIndicators: false) {
-      VStack(alignment: .leading) {
+    VStack(alignment: .trailing) {
+      ScrollView(.vertical, showsIndicators: false) {
+        VStack(alignment: .leading) {
 
-        ForEach(Array(assignmentGroup.assignments.enumerated()), id: \.offset) { index, item in
-          NavigationLink(destination: router.routeAssignmentDetail(), isActive: $isShowDetail) {
-            AssignmentItemView(
-              assignment: item,
-              onShowDetail: {
-                isShowDetail.toggle()
-              }).padding(.top, 12)
+          ForEach(Array(assignmentGroup.assignments.enumerated()), id: \.offset) { index, item in
+            NavigationLink(destination: router.routeAssignmentDetail(), isActive: $isShowDetail) {
+              AssignmentItemView(
+                assignment: item,
+                onShowDetail: {
+                  isShowDetail.toggle()
+                }).padding(.top, 12)
 
-          }.buttonStyle(FlatLinkStyle())
-        }.padding(.horizontal, 22)
+            }.buttonStyle(FlatLinkStyle())
+          }.padding(.horizontal, 22)
+        }
       }
 
-    }.navigationTitle(assignmentGroup.title)
+      if isParent {
+        Button(action: {
+          isAddAssignment.toggle()
+        }) {
+          VStack {
+            Image(systemName: "plus")
+              .resizable()
+              .frame(width: 20, height: 20)
+              .foregroundColor(.white)
+              .padding()
+          }
+          .cardShadow(backgroundColor: .purpleColor, cornerRadius: 30)
+          .padding(20)
+        }
+      }
+    }
+    .navigationTitle(assignmentGroup.title)
     .navigationBarTitleDisplayMode(.inline)
     .toolbar {
       ToolbarItem(placement: .primaryAction) {

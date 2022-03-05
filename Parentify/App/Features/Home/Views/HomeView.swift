@@ -48,7 +48,7 @@ struct HomeView: View {
             if case .success(let messages) = presenter.messagesState {
               MessagesCard(
                 messages: messages,
-                isParent: isParent,
+                isParent: $isParent,
                 router: router,
                 onAddMessage: {
                   isShowDialog.toggle()
@@ -68,6 +68,7 @@ struct HomeView: View {
             ForEach(Array(getAssignmentGroups().enumerated()), id: \.offset) { index, item in
               AssignmentGroupItemView(
                 isShowDetail: $isShowDetail,
+                isParent: $isParent,
                 assignmentGroup: item,
                 router: assignmentRouter,
                 onDelete: { index in

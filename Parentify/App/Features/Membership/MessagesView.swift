@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct MessagesView: View {
+
+  @ObservedObject var homePresenter: HomePresenter
+
   var body: some View {
     ScrollView {
-      ForEach(0..<10) { _ in
-        MessagesItemView()
+      ForEach(homePresenter.messagesState.value ?? [], id: \.id) { message in
+        MessagesItemView(message: message)
       }
     }
     .navigationBarTitle("Pesan Penting")
-  }
-}
-
-struct MessagesView_Previews: PreviewProvider {
-  static var previews: some View {
-    MessagesView()
+    .onAppear {
+      homePresenter.getMessages()
+    }
   }
 }

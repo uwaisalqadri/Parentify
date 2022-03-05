@@ -11,8 +11,19 @@ struct MessagesText: View {
 
   @State var message: Message = .initialize
 
+  var roleName: String {
+    switch message.role {
+    case .father:
+      return "Ayah"
+    case .mother:
+      return "Ibu"
+    case .children:
+      return ""
+    }
+  }
+
   var body: some View {
-    Text("\(String(message.role.rawValue)): ")
+    Text("\(roleName): ")
       .font(.system(size: 13, weight: .semibold))
       .foregroundColor(.purpleColor)
     +
@@ -24,61 +35,59 @@ struct MessagesText: View {
 struct MessagesCard: View {
 
   @State var messages: [Message] = []
-  @State var isParent = true
-  @State var isShowAll = false
+  @Binding var isParent: Bool
 
   let router: HomeRouter
 
   var onAddMessage: () -> Void
 
   var body: some View {
-    NavigationLink(destination: router.routeMessages()) {
-      VStack(alignment: .leading) {
-        HStack(alignment: .center) {
-          Text("Pesan Penting")
-            .font(.system(size: 15, weight: .bold))
-
-          Spacer()
-
-          Dropdown(isExpand: $isShowAll) {
-            print("oke")
-          }
-        }
-        .padding(.top, 19)
-        .padding(.horizontal, 23)
-        .padding(.bottom, 20)
-
-        ForEach(messages, id: \.id) { message in
-          HStack {
-            MessagesText(message: message)
-          }
-        }
-        .padding(.horizontal, 23)
-        .padding(.bottom, isParent ? 0 : 12)
+    VStack {
+      HStack(alignment: .center) {
+        Text("Pesan Penting")
+          .font(.system(size: 15, weight: .bold))
 
         Spacer()
+      }
+      .padding(.top, 19)
+      .padding(.bottom, 10)
+      .padding(.horizontal, 23)
 
-        if isParent {
-          Button(action: {
-            onAddMessage()
-          }) {
+      NavigationLink(destination: router.routeMessages()) {
+        VStack(alignment: .leading) {
+          ForEach(Array(messages.prefix(5)), id: \.id) { message in
             HStack {
-              Spacer()
-
-              Text("Tambahkan Pesan Penting")
-                .foregroundColor(.white)
-                .font(.system(size: 13, weight: .bold))
-
-              Spacer()
+              MessagesText(message: message)
             }
           }
-          .padding(15)
-          .cardShadow(backgroundColor: .pinkColor, cornerRadius: 15)
-          .padding(20)
+          .padding(.horizontal, 23)
+          .padding(.bottom, 3)
         }
-
       }
-    }.buttonStyle(FlatLinkStyle())
+      .buttonStyle(FlatLinkStyle())
+
+      Spacer()
+
+      if isParent {
+        Button(action: {
+          onAddMessage()
+        }) {
+          HStack {
+            Spacer()
+
+            Text("Tambahkan Pesan Penting")
+              .foregroundColor(.white)
+              .font(.system(size: 13, weight: .bold))
+
+            Spacer()
+          }
+        }
+        .padding(15)
+        .cardShadow(backgroundColor: .pinkColor, cornerRadius: 15)
+        .padding(20)
+      }
+
+    }
     .cardShadow(cornerRadius: 23)
   }
 }

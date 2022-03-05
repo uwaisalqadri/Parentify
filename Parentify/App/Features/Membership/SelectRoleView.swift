@@ -62,19 +62,25 @@ struct RoleOption: View {
       onSelectRole?()
     }) {
       VStack {
-        ImageCard()
-          .frame(width: 93, height: 93)
-
         switch role {
         case .father:
+          ImageCard(profileImage: UIImage(imageLiteralResourceName: "ImgFather"))
+            .frame(width: 93, height: 93)
+
           Text("Ayah")
             .foregroundColor(.black)
             .font(.system(size: 17, weight: .bold))
         case .mother:
+          ImageCard(profileImage: UIImage(imageLiteralResourceName: "ImgMother"))
+            .frame(width: 93, height: 93)
+
           Text("Ibu")
             .foregroundColor(.black)
             .font(.system(size: 17, weight: .bold))
         case .children:
+          ImageCard(profileImage: UIImage(imageLiteralResourceName: "ImgChildren"))
+            .frame(width: 93, height: 93)
+
           Text("Anak")
             .foregroundColor(.black)
             .font(.system(size: 17, weight: .bold))

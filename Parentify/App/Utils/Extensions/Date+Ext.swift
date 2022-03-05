@@ -14,7 +14,7 @@ extension Date {
     set { self = newValue.toDate() }
   }
 
-  func toString(format: String = "d MMM YYYY") -> String {
+  func toString(format: String = "yyyy-MM-dd'T'HH:mm:ss'Z'") -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = format
     dateFormatter.locale = Locale.init(identifier: "id")

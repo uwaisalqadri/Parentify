@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "Person=Mattew, Skin Tone=White, Posture=1 Happy.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Person=Mattew, Skin Tone=White, Posture=1 Happy-1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Person=Mattew, Skin Tone=White, Posture=1 Happy-2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

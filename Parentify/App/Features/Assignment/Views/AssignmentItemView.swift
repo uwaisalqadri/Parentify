@@ -16,6 +16,7 @@ enum Action {
 struct AssignmentGroupItemView: View {
 
   @Binding var isShowDetail: Bool
+  @Binding var isParent: Bool
 
   var assignmentGroup: AssignmentGroup
   var router: AssignmentRouter
@@ -30,7 +31,7 @@ struct AssignmentGroupItemView: View {
 
       Spacer()
 
-      NavigationLink(destination: router.routeAssignmentGroup(assignmentGroup: assignmentGroup)) {
+      NavigationLink(destination: router.routeAssignmentGroup(isParent: $isParent, assignmentGroup: assignmentGroup)) {
         Text(actionTitle)
           .foregroundColor(.purpleColor)
           .font(.system(size: 13, weight: .medium))

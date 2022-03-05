@@ -19,7 +19,7 @@ struct MembershipRouter {
   }
 
   func routeMessages() -> MessagesView {
-    return MessagesView()
+    return MessagesView(homePresenter: assembler.resolve())
   }
 
   func routeLogin() -> LoginView {
