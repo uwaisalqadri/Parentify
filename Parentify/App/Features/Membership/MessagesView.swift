@@ -13,8 +13,13 @@ struct MessagesView: View {
 
   var body: some View {
     ScrollView {
-      ForEach(homePresenter.messagesState.value ?? [], id: \.id) { message in
-        MessagesItemView(message: message)
+      if case .success(let messages) = homePresenter.messagesState {
+        ForEach(messages, id: \.id) { message in
+          MessagesItemView(message: message)
+        }
+      } else if case .loading = homePresenter.messagesState {
+        ActivityIndicator(isAnimating: .constant(true), style: .large)
+          .padding(.top, 40)
       }
     }
     .navigationBarTitle("Pesan Penting")

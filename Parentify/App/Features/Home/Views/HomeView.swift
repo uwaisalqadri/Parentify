@@ -96,10 +96,12 @@ struct HomeView: View {
           }
         }
         .customDialog(isShowing: $isShowDialog) {
-          AddMessageDialog(onAddMessage: { textMessage in
+          AddMessageDialog { textMessage in
             let role = membershipPresenter.userState.value?.role ?? .children
             presenter.addMessage(message: .init(message: textMessage, role: role, datetime: Date()))
-          })
+          } onDismiss: {
+            isShowDialog.toggle()
+          }
         }
 
       }
@@ -111,11 +113,25 @@ struct AddMessageDialog: View {
 
   @State var textMessage: String = ""
   var onAddMessage: (String) -> Void
+  var onDismiss: () -> Void
 
   var body: some View {
     VStack(alignment: .leading) {
-      Text("Pesan Penting")
-        .font(.system(size: 16, weight: .bold))
+      HStack {
+        Text("Pesan Penting")
+          .font(.system(size: 16, weight: .bold))
+
+        Spacer()
+
+        Button(action: {
+          onDismiss()
+        }) {
+          Image(systemName: "xmark")
+            .resizable()
+            .foregroundColor(.black)
+            .frame(width: 13, height: 13, alignment: .center)
+        }
+      }
 
       TextEditor(text: $textMessage)
         .font(.system(size: 14, weight: .regular))

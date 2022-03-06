@@ -19,11 +19,5 @@ extension BodyCodable where Self: Codable {
           }
     return dict
   }
-
-  func asNonNilDictionary() -> [String: Any] {
-    let dict = asFormDictionary()
-    let excludeNil = dict.filter { element in element.value != nil }
-    return excludeNil as [String: Any]
-  }
 }
 

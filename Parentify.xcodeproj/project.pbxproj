@@ -27,6 +27,8 @@
 		9170623727BF85E8005C2983 /* ProgressHUDModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170623627BF85E8005C2983 /* ProgressHUDModifier.swift */; };
 		918EE07727D43DFF00D38EA1 /* GoogleAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918EE07627D43DFF00D38EA1 /* GoogleAuthManager.swift */; };
 		918EE07A27D43E9400D38EA1 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 918EE07927D43E9400D38EA1 /* GoogleSignIn */; };
+		918EE07E27D57A6B00D38EA1 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918EE07D27D57A6B00D38EA1 /* ImagePicker.swift */; };
+		918EE08027D57AEE00D38EA1 /* AssignmentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918EE07F27D57AEE00D38EA1 /* AssignmentEntity.swift */; };
 		91A5C0A327C117CD00D861DA /* MemojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A5C0A227C117CD00D861DA /* MemojiView.swift */; };
 		91B3293E27BCD31300FBFA00 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3293927BCD31300FBFA00 /* ButtonStyles.swift */; };
 		91B3293F27BCD31400FBFA00 /* DateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3293A27BCD31300FBFA00 /* DateTextField.swift */; };
@@ -110,6 +112,8 @@
 		9170623427BF79D9005C2983 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		9170623627BF85E8005C2983 /* ProgressHUDModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUDModifier.swift; sourceTree = "<group>"; };
 		918EE07627D43DFF00D38EA1 /* GoogleAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthManager.swift; sourceTree = "<group>"; };
+		918EE07D27D57A6B00D38EA1 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		918EE07F27D57AEE00D38EA1 /* AssignmentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentEntity.swift; sourceTree = "<group>"; };
 		91A5C0A227C117CD00D861DA /* MemojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemojiView.swift; sourceTree = "<group>"; };
 		91B3293927BCD31300FBFA00 /* ButtonStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		91B3293A27BCD31300FBFA00 /* DateTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTextField.swift; sourceTree = "<group>"; };
@@ -331,6 +335,7 @@
 			children = (
 				91FF766E27BDF443001B9CED /* UserEntity.swift */,
 				9104EFC827C21AFC0099A294 /* MessageEntity.swift */,
+				918EE07F27D57AEE00D38EA1 /* AssignmentEntity.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -344,6 +349,7 @@
 				91B3293B27BCD31300FBFA00 /* CommonTextField.swift */,
 				91B3293A27BCD31300FBFA00 /* DateTextField.swift */,
 				91B3293D27BCD31300FBFA00 /* MemojiTextView.swift */,
+				918EE07D27D57A6B00D38EA1 /* ImagePicker.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -656,6 +662,7 @@
 				91B3296227BCDD8B00FBFA00 /* MembershipRouter.swift in Sources */,
 				9104EFC327C1EFE50099A294 /* Error+Ext.swift in Sources */,
 				91B3298027BCE2AE00FBFA00 /* AssignmentItemView.swift in Sources */,
+				918EE08027D57AEE00D38EA1 /* AssignmentEntity.swift in Sources */,
 				91B3298E27BD30CB00FBFA00 /* MessagesItemView.swift in Sources */,
 				91B3296427BCDDE800FBFA00 /* ChatRouter.swift in Sources */,
 				91B3295827BCD7C500FBFA00 /* ProfileView.swift in Sources */,
@@ -675,6 +682,7 @@
 				91FF768127BE4EE6001B9CED /* SelectRoleView.swift in Sources */,
 				91413FF027BAA08C00799155 /* Date+Ext.swift in Sources */,
 				91413FF327BAA0AB00799155 /* String+Ext.swift in Sources */,
+				918EE07E27D57A6B00D38EA1 /* ImagePicker.swift in Sources */,
 				91B3296827BCDE3400FBFA00 /* AssignmentDetailView.swift in Sources */,
 				91FF767F27BE3E43001B9CED /* BottomSheetModifier.swift in Sources */,
 				918EE07727D43DFF00D38EA1 /* GoogleAuthManager.swift in Sources */,

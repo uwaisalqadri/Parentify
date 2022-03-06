@@ -29,6 +29,9 @@ protocol FirebaseManager {
   func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func getUser(completion: @escaping CompletionResult<UserEntity>)
 
+  // MARK: Assignment
+//  func getAssignment()
+
   // MARK: Messages
   func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>)
   func getMessages(completion: @escaping CompletionResult<[MessageEntity]>)

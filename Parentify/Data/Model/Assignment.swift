@@ -22,6 +22,7 @@ struct Assignment {
   var iconName: String = ""
   var title: String = ""
   var description: String = ""
+  var type: String = ""
   var dateCreated: Date = Date()
   var attachments: [String] = []
   var assignedTo: [User] = []

@@ -29,21 +29,18 @@ struct AssignmentGroupView: View {
         VStack(alignment: .leading) {
 
           ForEach(Array(assignmentGroup.assignments.enumerated()), id: \.offset) { index, item in
-            NavigationLink(destination: router.routeAssignmentDetail(), isActive: $isShowDetail) {
-              AssignmentItemView(
-                assignment: item,
-                onShowDetail: {
-                  isShowDetail.toggle()
-                }).padding(.top, 12)
-
-            }.buttonStyle(FlatLinkStyle())
+            AssignmentItemView(
+              assignment: item,
+              onShowDetail: {
+                isShowDetail.toggle()
+              }).padding(.top, 12)
           }.padding(.horizontal, 22)
         }
       }
 
       if isParent {
         Button(action: {
-          isAddAssignment.toggle()
+          isShowDetail.toggle()
         }) {
           VStack {
             Image(systemName: "plus")
@@ -56,6 +53,9 @@ struct AssignmentGroupView: View {
           .padding(20)
         }
       }
+    }
+    .showSheet(isPresented: $isShowDetail) {
+      router.routeAssignmentDetail()
     }
     .navigationTitle(assignmentGroup.title)
     .navigationBarTitleDisplayMode(.inline)

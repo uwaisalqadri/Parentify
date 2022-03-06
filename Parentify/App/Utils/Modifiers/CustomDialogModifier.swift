@@ -19,7 +19,7 @@ struct CustomDialogView<DialogContent: View>: ViewModifier {
   func body(content: Content) -> some View {
     ZStack {
       content
-        .blur(radius: isShowing ? 1 : 0)
+        .blur(radius: isShowing ? 1.5 : 0)
         .onTapGesture {
           isShowing.toggle()
         }
