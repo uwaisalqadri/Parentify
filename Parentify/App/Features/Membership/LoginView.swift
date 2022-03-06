@@ -19,6 +19,7 @@ struct LoginView: View {
   @State var isSelectRole: Bool = false
   @State private var loginError: Error?
   @State private var isShowAlert: Bool = false
+  @State private var isLoggedIn: Bool = false
 
   let router: MembershipRouter
 
@@ -109,17 +110,21 @@ struct LoginView: View {
           if case .error(let error) = state {
             loginError = error
             isShowAlert = true
+          } else if case .success(let isSuccess) = state {
+            isLoggedIn = isSuccess
+            isShowAlert = false
           } else {
             isShowAlert = false
           }
         }
         .onReceive(googleAuthManager.$state) { state in
           if case .signedIn = state {
-            let user = GIDSignIn.sharedInstance.currentUser
-            signInUser(email: user?.profile?.email ?? "", password: "")
+            guard let user = GIDSignIn.sharedInstance.currentUser else { return }
+            email = user.profile?.email ?? ""
+            isLoggedIn = true
           }
         }
-        .fullScreenCover(isPresented: $presenter.loginState.value ?? false) {
+        .fullScreenCover(isPresented: $isLoggedIn) {
           router.routeHome()
         }
 

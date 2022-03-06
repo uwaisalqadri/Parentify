@@ -29,8 +29,6 @@ class GoogleAuthManager: ObservableObject {
 
       let configuration = GIDConfiguration(clientID: clientID)
 
-      print("CLIENT_ID", clientID, "CONFIGS", configuration)
-
       GIDSignIn.sharedInstance.signIn(with: configuration, presenting: presentingViewController) { [weak self] user, error in
         self?.authenticateUser(for: user, with: error)
       }

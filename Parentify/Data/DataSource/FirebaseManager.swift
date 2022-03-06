@@ -156,20 +156,3 @@ class DefaultFirebaseManager: FirebaseManager {
   }
 
 }
-
-
-//  .getDocument { snapshot, error in
-//    if let error = error {
-//      completion(.failure(.invalidRequest(error: error)))
-//    } else {
-//      let result = Result { try snapshot?.data(as: [MessageEntity].self) }
-//      switch result {
-//      case .success(let data):
-//        if let data = data {
-//          completion(.success(data))
-//        }
-//      case .failure:
-//        completion(.failure(.unknownError))
-//      }
-//    }
-//  }
