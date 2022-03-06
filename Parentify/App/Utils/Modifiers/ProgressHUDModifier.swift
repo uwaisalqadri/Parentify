@@ -18,7 +18,6 @@ struct ProgressHUDModifier<Presenting>: View where Presenting: View {
 
   @Binding var isShowing: Bool
   let type: ProgressHUDType
-  let text: Text?
   let isBlurBackground: Bool
   let presenting: () -> Presenting
 
@@ -34,8 +33,10 @@ struct ProgressHUDModifier<Presenting>: View where Presenting: View {
           case .default:
             if #available(iOS 14.0, *) {
               ProgressView()
+                .frame(width: 40, height: 40, alignment: .center)
             } else {
               ActivityIndicator(isAnimating: .constant(true), style: .large)
+                .frame(width: 50, height: 50, alignment: .center)
             }
 
           case .success:
@@ -55,11 +56,6 @@ struct ProgressHUDModifier<Presenting>: View where Presenting: View {
               .resizable()
               .frame(width: 30, height: 30)
           }
-
-          if text != nil {
-            text
-              .padding(.top, 20)
-          }
         }
         .padding()
         .background(BlurView(style: .systemThickMaterialLight))
@@ -76,13 +72,11 @@ extension View {
   func progressHUD(
     isShowing: Binding<Bool>,
     type: ProgressHUDType = .default,
-    text: Text = Text("Loading.."),
     isBlurBackground: Bool = true
   ) -> some View {
     ProgressHUDModifier(
       isShowing: isShowing,
       type: type,
-      text: text,
       isBlurBackground: isBlurBackground,
       presenting: { self }
     )

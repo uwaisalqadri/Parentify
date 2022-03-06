@@ -11,6 +11,8 @@ import Firebase
 @main
 struct ParentifyApp: App {
 
+  @StateObject var authManager: GoogleAuthManager = GoogleAuthManager()
+
   private let assembler = AppAssembler()
   private var isLoggedIn = false
 
@@ -23,6 +25,7 @@ struct ParentifyApp: App {
     WindowGroup {
       ContentView(assembler: assembler, isLoggedIn: isLoggedIn)
         .environment(\.colorScheme, .light)
+        .environmentObject(authManager)
     }
   }
 }

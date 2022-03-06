@@ -8,9 +8,11 @@
 import SwiftUI
 import Combine
 import Firebase
+import GoogleSignIn
 
 struct ProfileView: View {
 
+  @EnvironmentObject var googleAuthManager: GoogleAuthManager
   @ObservedObject var presenter: MembershipPresenter
 
   @State var isNewUser: Bool
@@ -78,13 +80,7 @@ struct ProfileView: View {
               .padding(.top, 12)
 
             Button(action: {
-              if let user = Auth.auth().currentUser, isNewUser {
-                presenter.createUser(user: .init(userId: user.uid, role: profile.role, name: profile.name, email: profile.email, password: profile.password, isParent: profile.role != .children ? true : false, profilePict: profileImage))
-              } else if let user = Auth.auth().currentUser {
-                presenter.updateUser(user: .init(userId: user.uid, role: profile.role, name: profile.name, email: profile.email, password: profile.password, isParent: profile.role != .children ? true : false, profilePict: profileImage))
-                presenter.getUser()
-                isShowEditProfile.toggle()
-              }
+              signInUser()
             }) {
               HStack {
                 Spacer()
@@ -116,9 +112,10 @@ struct ProfileView: View {
         if !isNewUser {
           Button(action: {
             presenter.logoutUser()
+            googleAuthManager.signOut()
           }) {
             HStack {
-              Text("Logout")
+              Text("Sign Out")
                 .foregroundColor(.white)
                 .font(.system(size: 17, weight: .bold))
 
@@ -171,6 +168,37 @@ struct ProfileView: View {
         Notifications.dismissSelectRole.post()
       }
     }
+  }
 
+  private func signInUser() {
+    let googleUser = GIDSignIn.sharedInstance.currentUser
+    if let user = Auth.auth().currentUser, isNewUser {
+      let profile: User = .init(
+        userId: user.uid,
+        role: profile.role,
+        name: googleUser?.profile?.name ?? profile.name,
+        email: googleUser?.profile?.email ?? profile.email,
+        password: profile.password,
+        isParent: profile.role != .children ? true : false,
+        profilePict: profileImage
+      )
+
+      presenter.createUser(user: profile)
+
+    } else if let user = Auth.auth().currentUser {
+      let profile: User = .init(
+        userId: user.uid,
+        role: profile.role,
+        name: googleUser?.profile?.name ?? profile.name,
+        email: googleUser?.profile?.email ?? profile.email,
+        password: profile.password,
+        isParent: profile.role != .children ? true : false,
+        profilePict: profileImage
+      )
+
+      presenter.updateUser(user: profile)
+      presenter.getUser()
+      isShowEditProfile.toggle()
+    }
   }
 }

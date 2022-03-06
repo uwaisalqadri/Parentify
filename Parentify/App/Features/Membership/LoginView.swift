@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import GoogleSignIn
 
 struct LoginView: View {
 
   @ObservedObject var presenter: MembershipPresenter
+  @EnvironmentObject var googleAuthManager: GoogleAuthManager
   @AppStorage(Constant.isNewUser) private var isNewUser: Bool = true
 
   @State var email: String = ""
@@ -32,7 +34,7 @@ struct LoginView: View {
             .padding(.bottom, 55)
             .padding(.top, 30)
 
-          Text("Login")
+          Text("Masuk")
             .font(.system(size: 35, weight: .bold))
             .padding(.bottom, 43)
 
@@ -50,18 +52,16 @@ struct LoginView: View {
           )
 
           Button(action: {
-            if isNewUser {
-              isSelectRole.toggle()
-              presenter.registerUser(email: email, password: password)
-              isNewUser = false
+            if !email.isEmpty || !password.isEmpty {
+              signInUser(email: email, password: password)
             } else {
-              presenter.loginUser(email: email, password: password)
+              isShowAlert.toggle()
             }
           }) {
             HStack {
               Spacer()
 
-              Text("Login")
+              Text("Masuk")
                 .foregroundColor(.white)
                 .font(.system(size: 18, weight: .bold))
 
@@ -73,13 +73,12 @@ struct LoginView: View {
           .padding(.top, 67)
 
           Button(action: {
-            // TODO: Login via Google
-            print("Login via Google")
+            googleAuthManager.signIn()
           }) {
             HStack {
               Spacer()
 
-              Text("Google")
+              Text("Masuk Dengan Google")
                 .foregroundColor(.white)
                 .font(.system(size: 18, weight: .bold))
 
@@ -102,7 +101,7 @@ struct LoginView: View {
         .alert(isPresented: $isShowAlert) {
           Alert(
             title: Text("Gagal"),
-            message: Text("\(loginError?.localizedDescription ?? "")"),
+            message: Text("\(loginError?.localizedDescription ?? "Field tidak boleh kosong")"),
             dismissButton: .default(Text("Oke Sip!"))
           )
         }
@@ -112,6 +111,12 @@ struct LoginView: View {
             isShowAlert = true
           } else {
             isShowAlert = false
+          }
+        }
+        .onReceive(googleAuthManager.$state) { state in
+          if case .signedIn = state {
+            let user = GIDSignIn.sharedInstance.currentUser
+            signInUser(email: user?.profile?.email ?? "", password: "")
           }
         }
         .fullScreenCover(isPresented: $presenter.loginState.value ?? false) {
@@ -129,6 +134,17 @@ struct LoginView: View {
       presenter.loginState.value = true
     }
   }
+
+  private func signInUser(email: String, password: String) {
+    if isNewUser {
+      isSelectRole.toggle()
+      presenter.registerUser(email: email, password: password)
+      isNewUser = false
+    } else {
+      presenter.loginUser(email: email, password: password)
+    }
+  }
+
 }
 
 struct LoginView_Previews: PreviewProvider {
