@@ -7,10 +7,15 @@
 
 import SwiftUI
 
+enum AssigmnentType: String {
+  case needToDone = "need_to_done"
+  case additional = "additional"
+}
+
 struct AssignmentGroup {
   static let initialize: Assignment = Assignment()
 
-  var id: String = ""
+  var id: UUID = UUID()
   var title: String = ""
   var assignments: [Assignment] = []
 }
@@ -18,11 +23,11 @@ struct AssignmentGroup {
 struct Assignment {
   static let initialize: Assignment = Assignment()
 
-  var id: String = ""
+  var id: UUID = UUID()
   var iconName: String = ""
   var title: String = ""
   var description: String = ""
-  var type: String = ""
+  var type: AssigmnentType = .additional
   var dateCreated: Date = Date()
   var attachments: [String] = []
   var assignedTo: [User] = []

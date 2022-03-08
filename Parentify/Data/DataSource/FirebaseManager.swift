@@ -30,7 +30,7 @@ protocol FirebaseManager {
   func getUser(completion: @escaping CompletionResult<UserEntity>)
 
   // MARK: Assignment
-//  func getAssignment()
+  func addAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
 
   // MARK: Messages
   func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>)
@@ -41,6 +41,8 @@ class DefaultFirebaseManager: FirebaseManager {
 
   private let firebaseAuth = Auth.auth()
   private let firestoreDatabase = Firestore.firestore()
+
+  // MARK: Membership
 
   func registerUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {
     firebaseAuth.createUser(withEmail: email, password: password) { result, error in
@@ -121,6 +123,23 @@ class DefaultFirebaseManager: FirebaseManager {
       }
   }
 
+  // MARK: Assigment
+
+  func addAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>) {
+    guard let assignmentId = assignment.id else { return }
+    firestoreDatabase
+      .collection(Constant.assignment)
+      .document(assignmentId)
+      .setData(assignment.asFormDictionary()) { error in
+        if let error = error {
+          return completion(.failure(.invalidRequest(error: error)))
+        } else {
+          return completion(.success(true))
+        }
+      }
+  }
+
+  // MARK: Messages
 
   func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>) {
     guard let messageId = message.id else { return }
@@ -139,6 +158,7 @@ class DefaultFirebaseManager: FirebaseManager {
   func getMessages(completion: @escaping CompletionResult<[MessageEntity]>) {
     firestoreDatabase
       .collection(Constant.messages)
+      .order(by: "datetime", descending: true)
       .getDocuments { querySnapshot, error in
         if let error = error {
           completion(.failure(.invalidRequest(error: error)))

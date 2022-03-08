@@ -19,6 +19,6 @@ extension AssignmentAssembler where Self: Assembler {
   }
 
   func resolve() -> AssignmentPresenter {
-    return AssignmentPresenter()
+    return AssignmentPresenter(firebaseManager: resolve())
   }
 }

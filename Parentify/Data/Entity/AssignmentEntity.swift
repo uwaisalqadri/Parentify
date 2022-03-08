@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+enum AssigmnentTypeEntity: String, Codable {
+  case needToDone = "need_to_done"
+  case additional = "additional"
+}
+
 struct AssignmentEntity: BodyCodable, Codable {
 
   enum CodingKeys: String, CodingKey {
@@ -24,12 +29,12 @@ struct AssignmentEntity: BodyCodable, Codable {
   var iconName: String?
   var title: String?
   var description: String?
-  var type: String?
+  var type: AssigmnentTypeEntity?
   var dateCreated: String?
   var attachments: [String]?
   var assignedTo: [UserEntity]?
 
-  init(id: String?, iconName: String?, title: String?, description: String?, type: String?, dateCreated: String?, attachments: [String]?, assignedTo: [UserEntity]?) {
+  init(id: String?, iconName: String?, title: String?, description: String?, type: AssigmnentTypeEntity?, dateCreated: String?, attachments: [String]?, assignedTo: [UserEntity]?) {
     self.id = id
     self.iconName = iconName
     self.title = title

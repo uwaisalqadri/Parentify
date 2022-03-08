@@ -54,9 +54,6 @@ struct AssignmentGroupView: View {
         }
       }
     }
-    .showSheet(isPresented: $isShowDetail) {
-      router.routeAssignmentDetail()
-    }
     .navigationTitle(assignmentGroup.title)
     .navigationBarTitleDisplayMode(.inline)
     .toolbar {
@@ -72,6 +69,11 @@ struct AssignmentGroupView: View {
         }
       }
     }
+    .background(
+      NavigationLink(destination: router.routeAssignmentDetail(), isActive: $isShowDetail) {
+        EmptyView()
+      }.buttonStyle(FlatLinkStyle())
+    )
   }
 
 }

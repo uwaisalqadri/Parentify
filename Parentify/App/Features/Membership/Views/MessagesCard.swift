@@ -53,11 +53,13 @@ struct MessagesCard: View {
       .padding(.bottom, 10)
       .padding(.horizontal, 23)
 
-      NavigationLink(destination: router.routeMessages()) {
+      NavigationLink(destination: router.routeMessages(isParent: $isParent)) {
         VStack(alignment: .leading) {
           ForEach(Array(messages.prefix(5)), id: \.id) { message in
             HStack {
               MessagesText(message: message)
+
+              Spacer()
             }
           }
           .padding(.horizontal, 23)

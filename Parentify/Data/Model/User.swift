@@ -10,7 +10,7 @@ import SwiftUI
 enum UserRole: String {
   case father = "father"
   case mother = "mother"
-  case children = "kids"
+  case children = "children"
 }
 
 struct User {

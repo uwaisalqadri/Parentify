@@ -13,6 +13,7 @@
 		9104EFC727C20BD20099A294 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC627C20BD10099A294 /* Message.swift */; };
 		9104EFC927C21AFC0099A294 /* MessageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC827C21AFC0099A294 /* MessageEntity.swift */; };
 		9104EFCB27C21D340099A294 /* MessageMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFCA27C21D340099A294 /* MessageMapper.swift */; };
+		912C5CDE27D6CA5500A5E882 /* AssignmentMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912C5CDD27D6CA5500A5E882 /* AssignmentMapper.swift */; };
 		91413FC127BA95AA00799155 /* ParentifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FB127BA95A700799155 /* ParentifyApp.swift */; };
 		91413FC527BA95AA00799155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91413FB327BA95AA00799155 /* Assets.xcassets */; };
 		91413FD227BA997300799155 /* AppAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FD127BA997300799155 /* AppAssembler.swift */; };
@@ -98,6 +99,7 @@
 		9104EFC627C20BD10099A294 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		9104EFC827C21AFC0099A294 /* MessageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageEntity.swift; sourceTree = "<group>"; };
 		9104EFCA27C21D340099A294 /* MessageMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMapper.swift; sourceTree = "<group>"; };
+		912C5CDD27D6CA5500A5E882 /* AssignmentMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentMapper.swift; sourceTree = "<group>"; };
 		91413FB127BA95A700799155 /* ParentifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentifyApp.swift; sourceTree = "<group>"; };
 		91413FB327BA95AA00799155 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91413FB827BA95AA00799155 /* Parentify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parentify.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -305,6 +307,7 @@
 			children = (
 				91FF767527BE0223001B9CED /* UserMapper.swift */,
 				9104EFCA27C21D340099A294 /* MessageMapper.swift */,
+				912C5CDD27D6CA5500A5E882 /* AssignmentMapper.swift */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -681,6 +684,7 @@
 				9104EFC727C20BD20099A294 /* Message.swift in Sources */,
 				91FF768127BE4EE6001B9CED /* SelectRoleView.swift in Sources */,
 				91413FF027BAA08C00799155 /* Date+Ext.swift in Sources */,
+				912C5CDE27D6CA5500A5E882 /* AssignmentMapper.swift in Sources */,
 				91413FF327BAA0AB00799155 /* String+Ext.swift in Sources */,
 				918EE07E27D57A6B00D38EA1 /* ImagePicker.swift in Sources */,
 				91B3296827BCDE3400FBFA00 /* AssignmentDetailView.swift in Sources */,

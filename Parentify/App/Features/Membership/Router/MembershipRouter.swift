@@ -18,8 +18,8 @@ struct MembershipRouter {
     return ProfileView(presenter: assembler.resolve(), isNewUser: isNewUser, profile: user, router: self)
   }
 
-  func routeMessages() -> MessagesView {
-    return MessagesView(homePresenter: assembler.resolve())
+  func routeMessages(isParent: Binding<Bool>) -> MessagesView {
+    return MessagesView(homePresenter: assembler.resolve(), membershipPresenter: assembler.resolve(), isParent: isParent)
   }
 
   func routeLogin() -> LoginView {

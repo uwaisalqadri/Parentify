@@ -19,7 +19,7 @@ struct AssignmentRouter {
   }
 
   func routeAssignmentDetail() -> AssignmentDetailView {
-    return AssignmentDetailView()
+    return AssignmentDetailView(presenter: assembler.resolve())
   }
 
 }

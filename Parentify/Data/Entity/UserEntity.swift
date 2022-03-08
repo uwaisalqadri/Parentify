@@ -10,7 +10,7 @@ import Foundation
 enum UserRoleEntity: String, Codable {
   case father = "father"
   case mother = "mother"
-  case children = "kids"
+  case children = "children"
 }
 
 class UserEntity: Codable, BodyCodable {

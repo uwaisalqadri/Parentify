@@ -9,17 +9,27 @@ import SwiftUI
 
 struct AssignmentDetailView: View {
 
+  @ObservedObject var presenter: AssignmentPresenter
+
   @State var title: String = "Judul"
   @State var description: String = "Deskripsi"
+  @State var assignment: Assignment = .initialize
+
+  @State var selectedImage: UIImage = UIImage()
+  @State var isShowPicker: Bool = false
 
   var body: some View {
     ScrollView(.vertical, showsIndicators: false) {
       VStack {
-        Image("ImgAttachFile")
+        Image(uiImage: selectedImage.size.width != 0 ? selectedImage : UIImage(named: "ImgAttachFile")!)
           .resizable()
           .frame(height: 200)
           .padding(.top, 30)
           .padding(.horizontal, 10)
+          .cornerRadius(12)
+          .onTapGesture {
+            isShowPicker.toggle()
+          }
 
         TextEditor(text: $title)
           .font(.system(size: 23, weight: .bold))
@@ -40,7 +50,8 @@ struct AssignmentDetailView: View {
         Spacer()
 
         Button(action: {
-          print("Simpan")
+          assignment = .init(iconName: "", title: "", description: "", type: .additional, dateCreated: Date(), attachments: [], assignedTo: [])
+          presenter.addAssignment(assignment: assignment)
         }) {
           HStack {
             Spacer()
@@ -80,21 +91,17 @@ struct AssignmentDetailView: View {
     .padding(.horizontal, 20)
     .navigationTitle("Mengerjakan PR")
     .navigationBarTitleDisplayMode(.inline)
+    .sheet(isPresented: $isShowPicker) {
+      ImagePicker(selectedImage: $selectedImage, sourceType: .photoLibrary)
+    }
   }
 }
 
 struct AssignmentDetailView_Previews: PreviewProvider {
 
-  @State static var isShow: Bool = false
+  static var assembler: Assembler = AppAssembler()
 
   static var previews: some View {
-    Button(action: {
-      isShow.toggle()
-    }) {
-      Text("Oke")
-    }
-    .showSheet(isPresented: .constant(true)) {
-      AssignmentDetailView()
-    }
+    AssignmentDetailView(presenter: assembler.resolve())
   }
 }

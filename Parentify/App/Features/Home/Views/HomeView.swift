@@ -14,7 +14,7 @@ struct HomeView: View {
 
   @State var isShowDetail = false
   @State var isShowProgress = false
-  @State var isShowDialog = false
+  @State var isAddMessage = false
   @State var isParent = false
 
   let router: HomeRouter
@@ -51,7 +51,7 @@ struct HomeView: View {
                 isParent: $isParent,
                 router: router,
                 onAddMessage: {
-                  isShowDialog.toggle()
+                  isAddMessage.toggle()
                 }
               )
               .frame(height: 243)
@@ -65,7 +65,10 @@ struct HomeView: View {
                 .padding(.horizontal, 25)
             }
 
-            ForEach(Array(getAssignmentGroups().enumerated()), id: \.offset) { index, item in
+            ForEach(
+              Array(getAssignmentGroups(assignments: []).enumerated()),
+              id: \.offset
+            ) { index, item in
               AssignmentGroupItemView(
                 isShowDetail: $isShowDetail,
                 isParent: $isParent,
@@ -86,7 +89,7 @@ struct HomeView: View {
         }
         .onReceive(presenter.$addMessageState) { state in
           if case .success = state {
-            isShowDialog.toggle()
+            isAddMessage.toggle()
             presenter.getMessages()
           }
         }
@@ -95,12 +98,12 @@ struct HomeView: View {
             isParent = profile.isParent
           }
         }
-        .customDialog(isShowing: $isShowDialog) {
+        .customDialog(isShowing: $isAddMessage) {
           AddMessageDialog { textMessage in
             let role = membershipPresenter.userState.value?.role ?? .children
             presenter.addMessage(message: .init(message: textMessage, role: role, datetime: Date()))
           } onDismiss: {
-            isShowDialog.toggle()
+            isAddMessage.toggle()
           }
         }
 
