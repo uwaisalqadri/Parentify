@@ -39,18 +39,22 @@ struct AssignmentGroupView: View {
       }
 
       if isParent {
-        Button(action: {
-          isShowDetail.toggle()
-        }) {
-          VStack {
-            Image(systemName: "plus")
-              .resizable()
-              .frame(width: 20, height: 20)
-              .foregroundColor(.white)
-              .padding()
+        HStack {
+          Spacer()
+
+          Button(action: {
+            isShowDetail.toggle()
+          }) {
+            VStack {
+              Image(systemName: "plus")
+                .resizable()
+                .frame(width: 20, height: 20)
+                .foregroundColor(.white)
+                .padding()
+            }
+            .cardShadow(backgroundColor: .purpleColor, cornerRadius: 30)
+            .padding(20)
           }
-          .cardShadow(backgroundColor: .purpleColor, cornerRadius: 30)
-          .padding(20)
         }
       }
     }

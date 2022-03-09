@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AssignmentDetailView: View {
 
+  @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: AssignmentPresenter
 
   @State var title: String = "Judul"
@@ -23,10 +24,11 @@ struct AssignmentDetailView: View {
       VStack {
         Image(uiImage: selectedImage.size.width != 0 ? selectedImage : UIImage(named: "ImgAttachFile")!)
           .resizable()
+          .scaledToFit()
+          .cornerRadius(12)
           .frame(height: 200)
           .padding(.top, 30)
           .padding(.horizontal, 10)
-          .cornerRadius(12)
           .onTapGesture {
             isShowPicker.toggle()
           }
@@ -50,7 +52,16 @@ struct AssignmentDetailView: View {
         Spacer()
 
         Button(action: {
-          assignment = .init(iconName: "", title: "", description: "", type: .additional, dateCreated: Date(), attachments: [], assignedTo: [])
+          assignment = .init(
+            iconName: "",
+            title: title,
+            description: description,
+            type: .additional,
+            dateCreated: Date(),
+            attachments: [selectedImage.toPngString() ?? ""],
+            assignedTo: []
+          )
+
           presenter.addAssignment(assignment: assignment)
         }) {
           HStack {
@@ -88,12 +99,22 @@ struct AssignmentDetailView: View {
 
       }
     }
+    .progressHUD(isShowing: $presenter.addAssignmentState.isLoading)
     .padding(.horizontal, 20)
-    .navigationTitle("Mengerjakan PR")
+    .navigationTitle(assignment.title)
     .navigationBarTitleDisplayMode(.inline)
     .sheet(isPresented: $isShowPicker) {
       ImagePicker(selectedImage: $selectedImage, sourceType: .photoLibrary)
     }
+    .onReceive(presenter.$addAssignmentState) { state in
+      if case .success = state {
+        presentationMode.wrappedValue.dismiss()
+      }
+    }
+    .onTapGesture {
+      hideKeyboard()
+    }
+
   }
 }
 
