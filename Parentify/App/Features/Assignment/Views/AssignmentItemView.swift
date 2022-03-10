@@ -64,11 +64,32 @@ struct AssignmentGroupItemView: View {
           selectedAssignment = assignment
           isShowDetail.toggle()
         }
-
       }.buttonStyle(FlatLinkStyle())
 
-    }.padding(.horizontal, 25)
+    }
+    .padding(.horizontal, 25)
     .padding(.top, 12)
+
+    if assignmentGroup.assignments.isEmpty {
+      HStack(alignment: .center) {
+        Spacer()
+
+        VStack(alignment: .center) {
+          Image(systemName: "highlighter")
+            .resizable()
+            .foregroundColor(.purpleColor)
+            .frame(width: 40, height: 40)
+
+          Text("Add Assignment")
+            .font(.system(size: 10, weight: .semibold))
+            .foregroundColor(.purpleColor)
+        }
+
+        Spacer()
+      }
+      .padding(.vertical, 40)
+    }
+
   }
 }
 
