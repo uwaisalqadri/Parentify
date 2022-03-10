@@ -32,7 +32,7 @@ struct AssignmentGroupView: View {
         VStack(alignment: .leading) {
           ForEach(Array(assignmentGroup.assignments.enumerated()), id: \.offset) { index, item in
             NavigationLink(
-              destination: router.routeAssignmentDetail(assignmentId: selectedAssignment.id.uuidString, assignmentType: selectedAssignment.type ),
+              destination: router.routeAssignmentDetail(assignmentId: selectedAssignment.id.uuidString, assignmentType: selectedAssignment.type),
               isActive: $isShowDetail
             ) {
               AssignmentItemView(
@@ -44,6 +44,27 @@ struct AssignmentGroupView: View {
             }.buttonStyle(FlatLinkStyle())
 
           }.padding(.horizontal, 22)
+
+          if assignmentGroup.assignments.isEmpty {
+            HStack(alignment: .center) {
+              Spacer()
+
+              VStack(alignment: .center) {
+                Image(systemName: "highlighter")
+                  .resizable()
+                  .foregroundColor(.purpleColor)
+                  .frame(width: 60, height: 60)
+
+                Text("Add Assignment")
+                  .font(.system(size: 20, weight: .semibold))
+                  .foregroundColor(.purpleColor)
+              }
+
+              Spacer()
+            }
+            .padding(.vertical, 60)
+          }
+
         }
       }
 
