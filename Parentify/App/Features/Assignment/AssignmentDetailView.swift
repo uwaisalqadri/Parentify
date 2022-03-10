@@ -11,13 +11,15 @@ struct AssignmentDetailView: View {
 
   @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: AssignmentPresenter
+  @State var assignmentId: String = ""
 
+  @State var assignment: Assignment = .initialize
   @State var title: String = "Judul"
   @State var description: String = "Deskripsi"
-  @State var assignment: Assignment = .initialize
-
   @State var selectedImage: UIImage = UIImage()
   @State var isShowPicker: Bool = false
+
+  var onUploaded: (() -> Void)?
 
   var body: some View {
     ScrollView(.vertical, showsIndicators: false) {
@@ -58,7 +60,7 @@ struct AssignmentDetailView: View {
             description: description,
             type: .additional,
             dateCreated: Date(),
-            attachments: [selectedImage.toPngString() ?? ""],
+            attachments: [selectedImage.toJpegString(compressionQuality: 0.5) ?? ""],
             assignedTo: []
           )
 
@@ -99,6 +101,7 @@ struct AssignmentDetailView: View {
 
       }
     }
+    .progressHUD(isShowing: $presenter.assignmentDetailState.isLoading)
     .progressHUD(isShowing: $presenter.addAssignmentState.isLoading)
     .padding(.horizontal, 20)
     .navigationTitle(assignment.title)
@@ -109,20 +112,27 @@ struct AssignmentDetailView: View {
     .onReceive(presenter.$addAssignmentState) { state in
       if case .success = state {
         presentationMode.wrappedValue.dismiss()
+        onUploaded?()
+      }
+    }
+    .onReceive(presenter.$assignmentDetailState) { state in
+      if case .success(let data) = state {
+        assignment = data
+        title = assignment.title
+        description = assignment.description
+        assignment.attachments.forEach { attachment in
+          selectedImage = attachment.toImage() ?? UIImage()
+        }
       }
     }
     .onTapGesture {
       hideKeyboard()
     }
+    .onAppear {
+      if !assignmentId.isEmpty {
+        presenter.getDetailAssignment(assignmentId: assignmentId)
+      }
+    }
 
-  }
-}
-
-struct AssignmentDetailView_Previews: PreviewProvider {
-
-  static var assembler: Assembler = AppAssembler()
-
-  static var previews: some View {
-    AssignmentDetailView(presenter: assembler.resolve())
   }
 }

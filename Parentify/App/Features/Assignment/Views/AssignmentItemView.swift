@@ -22,6 +22,7 @@ struct AssignmentGroupItemView: View {
   var router: AssignmentRouter
   var actionTitle: String = "Lihat Semuanya"
   var onDelete: ((Int) -> Void)?
+  var onUploaded: (() -> Void)?
 
   var body: some View {
     HStack {
@@ -31,7 +32,11 @@ struct AssignmentGroupItemView: View {
 
       Spacer()
 
-      NavigationLink(destination: router.routeAssignmentGroup(isParent: $isParent, assignmentGroup: assignmentGroup)) {
+      NavigationLink(
+        destination: router.routeAssignmentGroup(isParent: $isParent, assignmentGroup: assignmentGroup) {
+          onUploaded?()
+        }
+      ) {
         Text(actionTitle)
           .foregroundColor(.purpleColor)
           .font(.system(size: 13, weight: .medium))
@@ -42,7 +47,10 @@ struct AssignmentGroupItemView: View {
     .padding(.horizontal, 32)
 
     ForEach(Array(assignmentGroup.assignments.prefix(3).enumerated()), id: \.offset) { index, item in
-      NavigationLink(destination: router.routeAssignmentDetail(), isActive: $isShowDetail) {
+      NavigationLink(
+        destination: router.routeAssignmentDetail(assignmentId: item.id.uuidString),
+        isActive: $isShowDetail
+      ) {
         AssignmentItemView(assignment: item) { action in
           print("action", action)
         } onDelete: {
@@ -50,6 +58,7 @@ struct AssignmentGroupItemView: View {
         } onShowDetail: {
           isShowDetail.toggle()
         }
+
       }.buttonStyle(FlatLinkStyle())
 
     }.padding(.horizontal, 25)

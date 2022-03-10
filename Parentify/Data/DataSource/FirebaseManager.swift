@@ -31,6 +31,8 @@ protocol FirebaseManager {
 
   // MARK: Assignment
   func addAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
+  func getAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>)
+  func getDetailAssignment(assignmentId: String, completion: @escaping CompletionResult<AssignmentEntity>)
 
   // MARK: Messages
   func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>)
@@ -124,6 +126,49 @@ class DefaultFirebaseManager: FirebaseManager {
   }
 
   // MARK: Assigment
+
+  func getAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>) {
+    firestoreDatabase
+      .collection(Constant.assignment)
+      .getDocuments { querySnapshot, error in
+        if let error = error {
+          completion(.failure(.invalidRequest(error: error)))
+        } else if let querySnapshot = querySnapshot {
+          var assignments = [AssignmentEntity]()
+          for document in querySnapshot.documents {
+            do {
+              if let assignment = try document.data(as: AssignmentEntity.self) {
+                assignments.append(assignment)
+              }
+              completion(.success(assignments))
+            } catch {
+              completion(.failure(.unknownError))
+            }
+          }
+        }
+      }
+  }
+
+  func getDetailAssignment(assignmentId: String, completion: @escaping CompletionResult<AssignmentEntity>) {
+    firestoreDatabase
+      .collection(Constant.assignment)
+      .document(assignmentId)
+      .getDocument { snapshot, error in
+        if let error = error {
+          completion(.failure(.invalidRequest(error: error)))
+        } else {
+          let result = Result { try snapshot?.data(as: AssignmentEntity.self) }
+          switch result {
+          case .success(let data):
+            if let data = data {
+              completion(.success(data))
+            }
+          case .failure:
+            completion(.failure(.unknownError))
+          }
+        }
+      }
+  }
 
   func addAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>) {
     guard let assignmentId = assignment.id else { return }

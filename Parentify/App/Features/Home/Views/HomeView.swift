@@ -10,8 +10,11 @@ import SwiftUI
 struct HomeView: View {
 
   @ObservedObject var membershipPresenter: MembershipPresenter
+  @ObservedObject var assignmentPresenter: AssignmentPresenter
   @ObservedObject var presenter: HomePresenter
 
+  @State var assignmentGroups = [AssignmentGroup]()
+  @State var assignments = [Assignment]()
   @State var isShowDetail = false
   @State var isShowProgress = false
   @State var isAddMessage = false
@@ -54,9 +57,9 @@ struct HomeView: View {
                   isAddMessage.toggle()
                 }
               )
-              .frame(height: 243)
-              .padding(.top, 20)
-              .padding(.horizontal, 25)
+                .frame(height: 243)
+                .padding(.top, 20)
+                .padding(.horizontal, 25)
             }
 
             NavigationLink(destination: router.routeChat()) {
@@ -66,7 +69,7 @@ struct HomeView: View {
             }
 
             ForEach(
-              Array(getAssignmentGroups(assignments: []).enumerated()),
+              Array(assignmentGroups.enumerated()),
               id: \.offset
             ) { index, item in
               AssignmentGroupItemView(
@@ -76,17 +79,17 @@ struct HomeView: View {
                 router: assignmentRouter,
                 onDelete: { index in
                   print("delete", index)
-                })
+                },
+                onUploaded: {
+                  assignmentPresenter.getAssignments()
+                }
+              )
             }
 
           }
         }
         .navigationBarHidden(true)
         .progressHUD(isShowing: $membershipPresenter.userState.isLoading)
-        .onAppear {
-          membershipPresenter.getUser()
-          presenter.getMessages()
-        }
         .onReceive(presenter.$addMessageState) { state in
           if case .success = state {
             isAddMessage.toggle()
@@ -96,6 +99,11 @@ struct HomeView: View {
         .onReceive(membershipPresenter.$userState) { state in
           if case .success(let profile) = state {
             isParent = profile.isParent
+          }
+        }
+        .onReceive(assignmentPresenter.$assignmentsState) { state in
+          if case .success(let data) = state {
+            assignmentGroups = getAssignmentGroups(assignments: data)
           }
         }
         .customDialog(isShowing: $isAddMessage) {
@@ -108,6 +116,11 @@ struct HomeView: View {
         }
 
       }
+    }
+    .onAppear {
+      membershipPresenter.getUser()
+      assignmentPresenter.getAssignments()
+      presenter.getMessages()
     }
   }
 }
@@ -164,7 +177,9 @@ struct AddMessageDialog: View {
 }
 
 struct HomeView_Previews: PreviewProvider {
+  static var assembler: Assembler = AppAssembler()
+
   static var previews: some View {
-    HomeView(membershipPresenter: AppAssembler.shared.resolve(), presenter: AppAssembler.shared.resolve(), router: AppAssembler.shared.resolve(), assignmentRouter: AppAssembler.shared.resolve())
+    HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
   }
 }

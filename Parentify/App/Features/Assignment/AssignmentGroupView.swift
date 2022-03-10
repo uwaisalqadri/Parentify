@@ -20,20 +20,24 @@ struct AssignmentGroupView: View {
   @State var isShowDetail: Bool = false
   @State var isAddAssignment: Bool = false
 
-  var assignmentGroup: AssignmentGroup
+  @State var assignmentGroup: AssignmentGroup = .initialize
   let router: AssignmentRouter
+
+  var onUploaded: (() -> Void)?
 
   var body: some View {
     VStack(alignment: .trailing) {
       ScrollView(.vertical, showsIndicators: false) {
         VStack(alignment: .leading) {
-
           ForEach(Array(assignmentGroup.assignments.enumerated()), id: \.offset) { index, item in
-            AssignmentItemView(
-              assignment: item,
-              onShowDetail: {
-                isShowDetail.toggle()
-              }).padding(.top, 12)
+            NavigationLink(destination: router.routeAssignmentDetail(assignmentId: item.id.uuidString), isActive: $isShowDetail) {
+              AssignmentItemView(
+                assignment: item,
+                onShowDetail: {
+                  isShowDetail.toggle()
+                }).padding(.top, 12)
+            }.buttonStyle(FlatLinkStyle())
+
           }.padding(.horizontal, 22)
         }
       }
@@ -43,7 +47,7 @@ struct AssignmentGroupView: View {
           Spacer()
 
           Button(action: {
-            isShowDetail.toggle()
+            isAddAssignment.toggle()
           }) {
             VStack {
               Image(systemName: "plus")
@@ -74,7 +78,11 @@ struct AssignmentGroupView: View {
       }
     }
     .background(
-      NavigationLink(destination: router.routeAssignmentDetail(), isActive: $isShowDetail) {
+      NavigationLink(
+        destination: router.routeAssignmentDetail() {
+          onUploaded?()
+        }, isActive: $isAddAssignment
+      ) {
         EmptyView()
       }.buttonStyle(FlatLinkStyle())
     )

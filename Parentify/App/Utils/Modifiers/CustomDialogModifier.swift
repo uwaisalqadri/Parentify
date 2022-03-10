@@ -21,7 +21,7 @@ struct CustomDialogView<DialogContent: View>: ViewModifier {
       content
         .blur(radius: isShowing ? 1.5 : 0)
         .onTapGesture {
-          isShowing.toggle()
+          isShowing = false
         }
 
       if isShowing {

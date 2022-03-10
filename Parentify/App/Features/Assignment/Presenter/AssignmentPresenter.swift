@@ -11,6 +11,8 @@ import Foundation
 class AssignmentPresenter: ObservableObject {
 
   @Published var addAssignmentState: ViewState<Bool> = .initiate
+  @Published var assignmentsState: ViewState<[Assignment]> = .initiate
+  @Published var assignmentDetailState: ViewState<Assignment> = .initiate
 
   private let firebaseManager: FirebaseManager
 
@@ -31,5 +33,34 @@ class AssignmentPresenter: ObservableObject {
       }
     }
   }
+
+  func getAssignments() {
+    assignmentsState = .loading
+    firebaseManager.getAssignments { result in
+      switch result {
+      case .success(let data):
+        self.assignmentsState = .success(data: data.map { $0.map() })
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.assignmentsState = .error(error: error)
+        }
+      }
+    }
+  }
+
+  func getDetailAssignment(assignmentId: String) {
+    assignmentDetailState = .loading
+    firebaseManager.getDetailAssignment(assignmentId: assignmentId) { result in
+      switch result {
+      case .success(let data):
+        self.assignmentDetailState = .success(data: data.map())
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.assignmentDetailState = .error(error: error)
+        }
+      }
+    }
+  }
+
 
 }

@@ -13,7 +13,7 @@ enum AssigmnentType: String {
 }
 
 struct AssignmentGroup {
-  static let initialize: Assignment = Assignment()
+  static let initialize: AssignmentGroup = AssignmentGroup()
 
   var id: UUID = UUID()
   var title: String = ""
