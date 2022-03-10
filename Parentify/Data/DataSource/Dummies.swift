@@ -27,7 +27,7 @@ func getChats() -> [Chat] {
 
 func getAssignmentGroups(assignments: [Assignment]) -> [AssignmentGroup] {
   return [
-    .init(title: "Perlu Dikerjakan", assignments: assignments),
-    .init(title: "Tambahan", assignments: assignments)
+    .init(title: "Perlu Dikerjakan", type: .needToDone, assignments: assignments.filter { $0.type == .needToDone }),
+    .init(title: "Tambahan", type: .additional, assignments: assignments.filter { $0.type == .additional })
   ]
 }

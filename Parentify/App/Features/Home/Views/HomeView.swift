@@ -15,6 +15,7 @@ struct HomeView: View {
 
   @State var assignmentGroups = [AssignmentGroup]()
   @State var assignments = [Assignment]()
+
   @State var isShowDetail = false
   @State var isShowProgress = false
   @State var isAddMessage = false
@@ -119,8 +120,8 @@ struct HomeView: View {
     }
     .onAppear {
       membershipPresenter.getUser()
-      assignmentPresenter.getAssignments()
       presenter.getMessages()
+      assignmentPresenter.getAssignments()
     }
   }
 }

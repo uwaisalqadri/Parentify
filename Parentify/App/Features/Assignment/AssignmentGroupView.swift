@@ -21,6 +21,7 @@ struct AssignmentGroupView: View {
   @State var isAddAssignment: Bool = false
 
   @State var assignmentGroup: AssignmentGroup = .initialize
+  @State var selectedAssignment: Assignment = .initialize
   let router: AssignmentRouter
 
   var onUploaded: (() -> Void)?
@@ -30,10 +31,14 @@ struct AssignmentGroupView: View {
       ScrollView(.vertical, showsIndicators: false) {
         VStack(alignment: .leading) {
           ForEach(Array(assignmentGroup.assignments.enumerated()), id: \.offset) { index, item in
-            NavigationLink(destination: router.routeAssignmentDetail(assignmentId: item.id.uuidString), isActive: $isShowDetail) {
+            NavigationLink(
+              destination: router.routeAssignmentDetail(assignmentId: selectedAssignment.id.uuidString, assignmentType: selectedAssignment.type ),
+              isActive: $isShowDetail
+            ) {
               AssignmentItemView(
                 assignment: item,
-                onShowDetail: {
+                onShowDetail: { assignment in
+                  selectedAssignment = assignment
                   isShowDetail.toggle()
                 }).padding(.top, 12)
             }.buttonStyle(FlatLinkStyle())
@@ -81,7 +86,8 @@ struct AssignmentGroupView: View {
       NavigationLink(
         destination: router.routeAssignmentDetail() {
           onUploaded?()
-        }, isActive: $isAddAssignment
+        },
+        isActive: $isAddAssignment
       ) {
         EmptyView()
       }.buttonStyle(FlatLinkStyle())

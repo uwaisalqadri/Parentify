@@ -12,6 +12,8 @@ struct AssignmentDetailView: View {
   @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: AssignmentPresenter
   @State var assignmentId: String = ""
+  @State var assignmentType: AssigmnentType? = nil
+  @State private var sortOrder: SortOrder = .defaultOrder
 
   @State var assignment: Assignment = .initialize
   @State var title: String = "Judul"
@@ -58,7 +60,7 @@ struct AssignmentDetailView: View {
             iconName: "",
             title: title,
             description: description,
-            type: .additional,
+            type: assignmentType!,
             dateCreated: Date(),
             attachments: [selectedImage.toJpegString(compressionQuality: 0.5) ?? ""],
             assignedTo: []
@@ -108,6 +110,19 @@ struct AssignmentDetailView: View {
     .navigationBarTitleDisplayMode(.inline)
     .sheet(isPresented: $isShowPicker) {
       ImagePicker(selectedImage: $selectedImage, sourceType: .photoLibrary)
+    }
+    .toolbar {
+      ToolbarItem(placement: .primaryAction) {
+        Menu {
+          Picker(selection: $sortOrder, label: Text("Sort")) {
+            ForEach(SortOrder.allCases, id: \.self) { order in
+              Text(order.rawValue).tag(order)
+            }
+          }
+        } label: {
+          Image(systemName: "ellipsis.circle.fill")
+        }
+      }
     }
     .onReceive(presenter.$addAssignmentState) { state in
       if case .success = state {

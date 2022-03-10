@@ -17,6 +17,7 @@ struct AssignmentGroup {
 
   var id: UUID = UUID()
   var title: String = ""
+  var type: AssigmnentType = .additional
   var assignments: [Assignment] = []
 }
 

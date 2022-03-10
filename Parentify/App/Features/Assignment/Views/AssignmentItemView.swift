@@ -24,6 +24,8 @@ struct AssignmentGroupItemView: View {
   var onDelete: ((Int) -> Void)?
   var onUploaded: (() -> Void)?
 
+  @State var selectedAssignment: Assignment = .initialize
+
   var body: some View {
     HStack {
       Text(assignmentGroup.title)
@@ -33,7 +35,10 @@ struct AssignmentGroupItemView: View {
       Spacer()
 
       NavigationLink(
-        destination: router.routeAssignmentGroup(isParent: $isParent, assignmentGroup: assignmentGroup) {
+        destination: router.routeAssignmentGroup(
+          isParent: $isParent,
+          assignmentGroup: assignmentGroup
+        ) {
           onUploaded?()
         }
       ) {
@@ -48,14 +53,15 @@ struct AssignmentGroupItemView: View {
 
     ForEach(Array(assignmentGroup.assignments.prefix(3).enumerated()), id: \.offset) { index, item in
       NavigationLink(
-        destination: router.routeAssignmentDetail(assignmentId: item.id.uuidString),
+        destination: router.routeAssignmentDetail(assignmentId: selectedAssignment.id.uuidString),
         isActive: $isShowDetail
       ) {
         AssignmentItemView(assignment: item) { action in
           print("action", action)
         } onDelete: {
           onDelete?(index)
-        } onShowDetail: {
+        } onShowDetail: { assignment in
+          selectedAssignment = assignment
           isShowDetail.toggle()
         }
 
@@ -71,7 +77,7 @@ struct AssignmentItemView: View {
   var assignment: Assignment
   var onSwipe: ((Action) -> Void)? = nil
   var onDelete: (() -> Void)? = nil
-  var onShowDetail: (() -> Void)? = nil
+  var onShowDetail: ((Assignment) -> Void)? = nil
 
   var body: some View {
     ZStack(alignment: .topTrailing) {
@@ -96,7 +102,7 @@ struct AssignmentCard: View {
   private var assignment: Assignment
   private var onSwipe: ((Action) -> Void)?
   private var onDelete: (() -> Void)?
-  private var onShowDetail: (() -> Void)?
+  private var onShowDetail: ((Assignment) -> Void)?
 
   private func getGesturePercentage(_ geometry: GeometryProxy, from gesture: DragGesture.Value) -> CGFloat {
     gesture.translation.width / geometry.size.width
@@ -106,7 +112,7 @@ struct AssignmentCard: View {
     assignment: Assignment,
     onSwipe: ((Action) -> Void)? = nil,
     onDelete: (() -> Void)? = nil,
-    onShowDetail: (() -> Void)? = nil
+    onShowDetail: ((Assignment) -> Void)? = nil
   ) {
     self.assignment = assignment
     self.onSwipe = onSwipe
@@ -125,6 +131,7 @@ struct AssignmentCard: View {
               .frame(width: 45, height: 45, alignment: .center)
               .cornerRadius(15)
           )
+          .padding(.leading, 10)
 
         VStack(alignment: .leading) {
           Text(assignment.title)
@@ -172,7 +179,7 @@ struct AssignmentCard: View {
         }
         .contextMenu {
           Button(action: {
-            onShowDetail?()
+            onShowDetail?(assignment)
           }) {
             Label("Detail", systemImage: "info.circle.fill")
           }

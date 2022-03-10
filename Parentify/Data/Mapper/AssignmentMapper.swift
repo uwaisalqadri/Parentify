@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+extension AssigmnentType {
+  func map() -> AssigmnentTypeEntity {
+    return AssigmnentTypeEntity(rawValue: self.rawValue)!
+  }
+}
+
 extension AssignmentEntity {
   func map() -> Assignment {
     return Assignment(
