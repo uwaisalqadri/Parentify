@@ -7,12 +7,9 @@
 
 import SwiftUI
 
-enum SortOrder: String, CaseIterable {
-  case defaultOrder = "Sorted by Default"
-  case name = "Sorted by Name"
-}
-
 struct AssignmentGroupView: View {
+
+  @Environment(\.presentationMode) var presentationMode
 
   @Binding var isParent: Bool
   @State private var sortOrder: SortOrder = .defaultOrder
@@ -107,6 +104,7 @@ struct AssignmentGroupView: View {
       NavigationLink(
         destination: router.routeAssignmentDetail() {
           onUploaded?()
+          presentationMode.wrappedValue.dismiss()
         },
         isActive: $isAddAssignment
       ) {

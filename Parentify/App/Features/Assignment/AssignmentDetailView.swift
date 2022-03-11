@@ -12,14 +12,17 @@ struct AssignmentDetailView: View {
   @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: AssignmentPresenter
   @State var assignmentId: String = ""
-  @State var assignmentType: AssigmnentType? = nil
+  @State var assignmentType: AssigmnentType = .additional
   @State private var sortOrder: SortOrder = .defaultOrder
 
   @State var assignment: Assignment = .initialize
   @State var title: String = "Judul"
   @State var description: String = "Deskripsi"
+  @State var imageSystemName: String = "plus"
   @State var selectedImage: UIImage = UIImage()
+
   @State var isShowPicker: Bool = false
+  @State var isSelectIcon: Bool = false
 
   var onUploaded: (() -> Void)?
 
@@ -57,10 +60,10 @@ struct AssignmentDetailView: View {
 
         Button(action: {
           assignment = .init(
-            iconName: "",
+            iconName: imageSystemName,
             title: title,
             description: description,
-            type: assignmentType!,
+            type: assignmentType,
             dateCreated: Date(),
             attachments: [selectedImage.toJpegString(compressionQuality: 0.5) ?? ""],
             assignedTo: []
@@ -108,15 +111,19 @@ struct AssignmentDetailView: View {
     .padding(.horizontal, 20)
     .navigationTitle(assignment.title)
     .navigationBarTitleDisplayMode(.inline)
-    .sheet(isPresented: $isShowPicker) {
-      ImagePicker(selectedImage: $selectedImage, sourceType: .photoLibrary)
-    }
     .toolbar {
-      ToolbarItem(placement: .primaryAction) {
+      ToolbarItemGroup(placement: .navigationBarTrailing) {
+        Button(action: {
+          isSelectIcon.toggle()
+        }) {
+          Image(systemName: imageSystemName)
+            .foregroundColor(.purpleColor)
+        }
+
         Menu {
-          Picker(selection: $sortOrder, label: Text("Sort")) {
-            ForEach(SortOrder.allCases, id: \.self) { order in
-              Text(order.rawValue).tag(order)
+          Picker(selection: $assignmentType, label: Text("Sort")) {
+            ForEach(AssigmnentType.allCases, id: \.self) { type in
+              Text(type.rawValue == "need_to_done" ? "Harus Dikerjakan" : "Tambahan").tag(type)
             }
           }
         } label: {
@@ -146,6 +153,15 @@ struct AssignmentDetailView: View {
     .onAppear {
       if !assignmentId.isEmpty {
         presenter.getDetailAssignment(assignmentId: assignmentId)
+      }
+    }
+    .sheet(isPresented: $isShowPicker) {
+      ImagePicker(selectedImage: $selectedImage, sourceType: .photoLibrary)
+    }
+    .showSheet(isPresented: $isSelectIcon) {
+      SelectIconView(sfSymbols: AppAssembler.shared.resolve()) { symbol in
+        imageSystemName = symbol.name
+        isSelectIcon.toggle()
       }
     }
 

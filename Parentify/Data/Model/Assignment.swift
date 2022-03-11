@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum AssigmnentType: String {
+enum AssigmnentType: String, CaseIterable {
   case needToDone = "need_to_done"
   case additional = "additional"
 }

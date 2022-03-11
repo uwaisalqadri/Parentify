@@ -13,6 +13,12 @@
 		9104EFC727C20BD20099A294 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC627C20BD10099A294 /* Message.swift */; };
 		9104EFC927C21AFC0099A294 /* MessageEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFC827C21AFC0099A294 /* MessageEntity.swift */; };
 		9104EFCB27C21D340099A294 /* MessageMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104EFCA27C21D340099A294 /* MessageMapper.swift */; };
+		9128775B27DAC0600065A7B0 /* SFSymbolSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9128775A27DAC0600065A7B0 /* SFSymbolSource.swift */; };
+		9128775D27DAC09E0065A7B0 /* SelectIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9128775C27DAC09E0065A7B0 /* SelectIconView.swift */; };
+		9128775F27DAC1050065A7B0 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9128775E27DAC1050065A7B0 /* SFSymbol.swift */; };
+		9128776227DAC1570065A7B0 /* SymbolsSortedByDefault.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9128776027DAC1570065A7B0 /* SymbolsSortedByDefault.txt */; };
+		9128776327DAC1570065A7B0 /* SymbolsSortedByName.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9128776127DAC1570065A7B0 /* SymbolsSortedByName.txt */; };
+		9128776527DAC18A0065A7B0 /* IconItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9128776427DAC18A0065A7B0 /* IconItemView.swift */; };
 		912C5CDE27D6CA5500A5E882 /* AssignmentMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912C5CDD27D6CA5500A5E882 /* AssignmentMapper.swift */; };
 		91413FC127BA95AA00799155 /* ParentifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FB127BA95A700799155 /* ParentifyApp.swift */; };
 		91413FC527BA95AA00799155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91413FB327BA95AA00799155 /* Assets.xcassets */; };
@@ -99,6 +105,12 @@
 		9104EFC627C20BD10099A294 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		9104EFC827C21AFC0099A294 /* MessageEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageEntity.swift; sourceTree = "<group>"; };
 		9104EFCA27C21D340099A294 /* MessageMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMapper.swift; sourceTree = "<group>"; };
+		9128775A27DAC0600065A7B0 /* SFSymbolSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbolSource.swift; sourceTree = "<group>"; };
+		9128775C27DAC09E0065A7B0 /* SelectIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconView.swift; sourceTree = "<group>"; };
+		9128775E27DAC1050065A7B0 /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
+		9128776027DAC1570065A7B0 /* SymbolsSortedByDefault.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SymbolsSortedByDefault.txt; sourceTree = "<group>"; };
+		9128776127DAC1570065A7B0 /* SymbolsSortedByName.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SymbolsSortedByName.txt; sourceTree = "<group>"; };
+		9128776427DAC18A0065A7B0 /* IconItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconItemView.swift; sourceTree = "<group>"; };
 		912C5CDD27D6CA5500A5E882 /* AssignmentMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentMapper.swift; sourceTree = "<group>"; };
 		91413FB127BA95A700799155 /* ParentifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentifyApp.swift; sourceTree = "<group>"; };
 		91413FB327BA95AA00799155 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -269,6 +281,7 @@
 				91B3294727BCD4F700FBFA00 /* Chat */,
 				91B3294627BCD4D700FBFA00 /* Membership */,
 				91B3294527BCD4C800FBFA00 /* Home */,
+				9128775C27DAC09E0065A7B0 /* SelectIconView.swift */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -319,6 +332,7 @@
 				91B3298127BCE37100FBFA00 /* Assignment.swift */,
 				91B3298327BCE61B00FBFA00 /* Chat.swift */,
 				9104EFC627C20BD10099A294 /* Message.swift */,
+				9128775E27DAC1050065A7B0 /* SFSymbol.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -329,6 +343,7 @@
 				91B3298527BCEC4A00FBFA00 /* Dummies.swift */,
 				91FF766C27BDF37B001B9CED /* FirebaseManager.swift */,
 				918EE07627D43DFF00D38EA1 /* GoogleAuthManager.swift */,
+				9128775A27DAC0600065A7B0 /* SFSymbolSource.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -336,6 +351,8 @@
 		91413FDC27BA9A1800799155 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				9128776027DAC1570065A7B0 /* SymbolsSortedByDefault.txt */,
+				9128776127DAC1570065A7B0 /* SymbolsSortedByName.txt */,
 				91FF766E27BDF443001B9CED /* UserEntity.swift */,
 				9104EFC827C21AFC0099A294 /* MessageEntity.swift */,
 				918EE07F27D57AEE00D38EA1 /* AssignmentEntity.swift */,
@@ -475,6 +492,7 @@
 			isa = PBXGroup;
 			children = (
 				91B3297F27BCE2AE00FBFA00 /* AssignmentItemView.swift */,
+				9128776427DAC18A0065A7B0 /* IconItemView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -628,7 +646,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				91413FC527BA95AA00799155 /* Assets.xcassets in Resources */,
+				9128776227DAC1570065A7B0 /* SymbolsSortedByDefault.txt in Resources */,
 				91F7EEEB27BB340E0008DDD6 /* GoogleService-Info.plist in Resources */,
+				9128776327DAC1570065A7B0 /* SymbolsSortedByName.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,6 +662,7 @@
 				91B3295E27BCD8AC00FBFA00 /* MessagesCard.swift in Sources */,
 				91B3294027BCD31400FBFA00 /* CommonTextField.swift in Sources */,
 				91FF767427BDFA0A001B9CED /* BodyCodable.swift in Sources */,
+				9128775D27DAC09E0065A7B0 /* SelectIconView.swift in Sources */,
 				91FF767227BDF791001B9CED /* Constant.swift in Sources */,
 				91B3294127BCD31400FBFA00 /* BlurView.swift in Sources */,
 				91B3293E27BCD31300FBFA00 /* ButtonStyles.swift in Sources */,
@@ -654,16 +675,19 @@
 				9104EFCB27C21D340099A294 /* MessageMapper.swift in Sources */,
 				9170623327BF7274005C2983 /* ContentView.swift in Sources */,
 				91B3294427BCD34800FBFA00 /* RoundedCornersModifier.swift in Sources */,
+				9128775B27DAC0600065A7B0 /* SFSymbolSource.swift in Sources */,
 				91B3297027BCDF4100FBFA00 /* AssignmentPresenter.swift in Sources */,
 				91B3293F27BCD31400FBFA00 /* DateTextField.swift in Sources */,
 				91B3295627BCD7A200FBFA00 /* HomeView.swift in Sources */,
 				91B3297227BCDF6F00FBFA00 /* ChatPresenter.swift in Sources */,
 				91B3298427BCE61B00FBFA00 /* Chat.swift in Sources */,
 				91413FC127BA95AA00799155 /* ParentifyApp.swift in Sources */,
+				9128775F27DAC1050065A7B0 /* SFSymbol.swift in Sources */,
 				9104EFC527C1F9BD0099A294 /* UIImage+Ext.swift in Sources */,
 				91413FF627BAA0C500799155 /* View+Ext.swift in Sources */,
 				91B3296227BCDD8B00FBFA00 /* MembershipRouter.swift in Sources */,
 				9104EFC327C1EFE50099A294 /* Error+Ext.swift in Sources */,
+				9128776527DAC18A0065A7B0 /* IconItemView.swift in Sources */,
 				91B3298027BCE2AE00FBFA00 /* AssignmentItemView.swift in Sources */,
 				918EE08027D57AEE00D38EA1 /* AssignmentEntity.swift in Sources */,
 				91B3298E27BD30CB00FBFA00 /* MessagesItemView.swift in Sources */,

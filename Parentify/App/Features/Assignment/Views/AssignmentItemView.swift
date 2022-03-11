@@ -159,7 +159,7 @@ struct AssignmentCard: View {
             .foregroundColor(.black)
             .font(.system(size: 14, weight: .semibold))
 
-          Text(assignment.dateCreated.toString())
+          Text(assignment.dateCreated.toString(format: "MMMM d, yyyy"))
             .foregroundColor(.gray)
             .font(.system(size: 14, weight: .medium))
         }.padding(.leading, 20)

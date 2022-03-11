@@ -16,7 +16,7 @@ struct MessagesView: View {
   @State var isAddMessage: Bool = false
 
   var body: some View {
-    VStack(alignment: .trailing) {
+    VStack(alignment: .center) {
       ScrollView {
         if case .success(let messages) = homePresenter.messagesState {
           ForEach(messages, id: \.id) { message in
