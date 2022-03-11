@@ -87,19 +87,6 @@ struct AssignmentGroupView: View {
     }
     .navigationTitle(assignmentGroup.title)
     .navigationBarTitleDisplayMode(.inline)
-    .toolbar {
-      ToolbarItem(placement: .primaryAction) {
-        Menu {
-          Picker(selection: $sortOrder, label: Text("Sort")) {
-            ForEach(SortOrder.allCases, id: \.self) { order in
-              Text(order.rawValue).tag(order)
-            }
-          }
-        } label: {
-          Image(systemName: "ellipsis.circle.fill")
-        }
-      }
-    }
     .background(
       NavigationLink(
         destination: router.routeAssignmentDetail() {

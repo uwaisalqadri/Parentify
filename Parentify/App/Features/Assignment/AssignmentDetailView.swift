@@ -26,6 +26,17 @@ struct AssignmentDetailView: View {
 
   var onUploaded: (() -> Void)?
 
+  init(presenter: AssignmentPresenter, assignmentId: String = "", assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
+    self.presenter = presenter
+    self.assignmentId = assignmentId
+    self.assignmentType = assignmentType
+    self.onUploaded = onUploaded
+
+    if !assignmentId.isEmpty {
+      presenter.getDetailAssignment(assignmentId: assignmentId)
+    }
+  }
+
   var body: some View {
     ScrollView(.vertical, showsIndicators: false) {
       VStack {
@@ -149,11 +160,6 @@ struct AssignmentDetailView: View {
     }
     .onTapGesture {
       hideKeyboard()
-    }
-    .onAppear {
-      if !assignmentId.isEmpty {
-        presenter.getDetailAssignment(assignmentId: assignmentId)
-      }
     }
     .sheet(isPresented: $isShowPicker) {
       ImagePicker(selectedImage: $selectedImage, sourceType: .photoLibrary)
