@@ -297,6 +297,8 @@
 		91413FD727BA99AE00799155 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9128776027DAC1570065A7B0 /* SymbolsSortedByDefault.txt */,
+				9128776127DAC1570065A7B0 /* SymbolsSortedByName.txt */,
 				91413FB327BA95AA00799155 /* Assets.xcassets */,
 				91F7EEEA27BB340E0008DDD6 /* GoogleService-Info.plist */,
 			);
@@ -351,8 +353,6 @@
 		91413FDC27BA9A1800799155 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				9128776027DAC1570065A7B0 /* SymbolsSortedByDefault.txt */,
-				9128776127DAC1570065A7B0 /* SymbolsSortedByName.txt */,
 				91FF766E27BDF443001B9CED /* UserEntity.swift */,
 				9104EFC827C21AFC0099A294 /* MessageEntity.swift */,
 				918EE07F27D57AEE00D38EA1 /* AssignmentEntity.swift */,

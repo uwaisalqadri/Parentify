@@ -31,6 +31,8 @@ protocol FirebaseManager {
 
   // MARK: Assignment
   func addAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
+  func updateAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
+  func deleteAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
   func getAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>)
   func getDetailAssignment(assignmentId: String, completion: @escaping CompletionResult<AssignmentEntity>)
 
@@ -180,6 +182,28 @@ class DefaultFirebaseManager: FirebaseManager {
           return completion(.success(true))
         }
       }
+  }
+
+  func updateAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>) {
+    guard let assignmentId = assignment.id else { return }
+    firestoreDatabase
+      .collection(Constant.assignment)
+      .document(assignmentId)
+      .updateData(assignment.asFormDictionary()) { error in
+        if let error = error {
+          return completion(.failure(.invalidRequest(error: error)))
+        } else {
+          return completion(.success(true))
+        }
+      }
+  }
+
+  func deleteAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>) {
+    guard let assignmentId = assignment.id else { return }
+    firestoreDatabase
+      .collection(Constant.assignment)
+      .document(assignmentId)
+      .delete()
   }
 
   // MARK: Messages

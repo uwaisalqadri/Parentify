@@ -27,27 +27,6 @@ struct MessagesView: View {
             .padding(.top, 40)
         }
       }
-
-      if isParent {
-        HStack {
-          Spacer()
-
-          Button(action: {
-            isAddMessage.toggle()
-          }) {
-            VStack {
-              Image(systemName: "plus")
-                .resizable()
-                .frame(width: 20, height: 20)
-                .foregroundColor(.white)
-                .padding()
-            }
-            .cardShadow(backgroundColor: .purpleColor, cornerRadius: 30)
-            .padding(20)
-          }
-        }
-      }
-
     }
     .navigationBarTitle("Pesan Penting")
     .onAppear {
@@ -57,6 +36,18 @@ struct MessagesView: View {
       if case .success = state {
         isAddMessage.toggle()
         homePresenter.getMessages()
+      }
+    }
+    .toolbar {
+      ToolbarItem {
+        if isParent {
+          Button(action: {
+            isAddMessage.toggle()
+          }) {
+            Image(systemName: "plus.bubble.fill")
+              .foregroundColor(.purpleColor)
+          }
+        }
       }
     }
     .customDialog(isShowing: $isAddMessage) {

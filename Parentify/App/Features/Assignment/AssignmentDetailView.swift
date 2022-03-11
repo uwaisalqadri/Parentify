@@ -80,7 +80,11 @@ struct AssignmentDetailView: View {
             assignedTo: []
           )
 
-          presenter.addAssignment(assignment: assignment)
+          if !assignmentId.isEmpty {
+            presenter.updateAssignment(assignment: assignment)
+          } else {
+            presenter.addAssignment(assignment: assignment)
+          }
         }) {
           HStack {
             Spacer()
@@ -168,6 +172,11 @@ struct AssignmentDetailView: View {
       SelectIconView(sfSymbols: AppAssembler.shared.resolve()) { symbol in
         imageSystemName = symbol.name
         isSelectIcon.toggle()
+      }
+    }
+    .onAppear {
+      if !assignmentId.isEmpty {
+        presenter.getDetailAssignment(assignmentId: assignmentId)
       }
     }
 

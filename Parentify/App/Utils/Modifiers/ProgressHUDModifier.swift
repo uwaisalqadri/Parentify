@@ -26,7 +26,8 @@ struct ProgressHUDModifier<Presenting>: View where Presenting: View {
       ZStack(alignment: .center) {
 
         presenting()
-          .blur(radius: (isShowing && isBlurBackground) ? 1 : 0)
+          .blur(radius: (isShowing && isBlurBackground) ? 1.7 : 0)
+          //.foregroundColor(.white.opacity((isShowing && isBlurBackground) ? 0.5 : 0))
 
         VStack {
           switch type {

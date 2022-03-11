@@ -21,7 +21,7 @@ struct AssignmentGroupItemView: View {
   var assignmentGroup: AssignmentGroup
   var router: AssignmentRouter
   var actionTitle: String = "Lihat Semuanya"
-  var onDelete: ((Int) -> Void)?
+  var onDelete: ((Assignment) -> Void)?
   var onUploaded: (() -> Void)?
 
   @State var selectedAssignment: Assignment = .initialize
@@ -37,7 +37,7 @@ struct AssignmentGroupItemView: View {
       NavigationLink(
         destination: router.routeAssignmentGroup(
           isParent: $isParent,
-          assignmentGroup: assignmentGroup
+          assignmentType: selectedAssignment.type
         ) {
           onUploaded?()
         }
@@ -58,8 +58,8 @@ struct AssignmentGroupItemView: View {
       ) {
         AssignmentItemView(assignment: item) { action in
           print("action", action)
-        } onDelete: {
-          onDelete?(index)
+        } onDelete: { assignment in
+          onDelete?(assignment)
         } onShowDetail: { assignment in
           selectedAssignment = assignment
           isShowDetail.toggle()
@@ -97,7 +97,7 @@ struct AssignmentItemView: View {
 
   var assignment: Assignment
   var onSwipe: ((Action) -> Void)? = nil
-  var onDelete: (() -> Void)? = nil
+  var onDelete: ((Assignment) -> Void)? = nil
   var onShowDetail: ((Assignment) -> Void)? = nil
 
   var body: some View {
@@ -122,7 +122,7 @@ struct AssignmentCard: View {
 
   private var assignment: Assignment
   private var onSwipe: ((Action) -> Void)?
-  private var onDelete: (() -> Void)?
+  private var onDelete: ((Assignment) -> Void)?
   private var onShowDetail: ((Assignment) -> Void)?
 
   private func getGesturePercentage(_ geometry: GeometryProxy, from gesture: DragGesture.Value) -> CGFloat {
@@ -132,7 +132,7 @@ struct AssignmentCard: View {
   init(
     assignment: Assignment,
     onSwipe: ((Action) -> Void)? = nil,
-    onDelete: (() -> Void)? = nil,
+    onDelete: ((Assignment) -> Void)? = nil,
     onShowDetail: ((Assignment) -> Void)? = nil
   ) {
     self.assignment = assignment
@@ -207,13 +207,13 @@ struct AssignmentCard: View {
 
           if #available(iOS 15.0, *) {
             Button(role: .destructive) {
-              onDelete?()
+              onDelete?(assignment)
             } label: {
               Label("Remove", systemImage: "trash.fill")
             }
           } else {
             Button(action: {
-              onDelete?()
+              onDelete?(assignment)
             }) {
               Label("Remove", systemImage: "trash.fill")
             }

@@ -78,8 +78,8 @@ struct HomeView: View {
                 isParent: $isParent,
                 assignmentGroup: item,
                 router: assignmentRouter,
-                onDelete: { index in
-                  print("delete", index)
+                onDelete: { assignment in
+                  assignmentPresenter.deleteAssignment(assignment: assignment)
                 },
                 onUploaded: {
                   assignmentPresenter.getAssignments()
@@ -91,6 +91,11 @@ struct HomeView: View {
         }
         .navigationBarHidden(true)
         .progressHUD(isShowing: $membershipPresenter.userState.isLoading)
+        .onAppear {
+          membershipPresenter.getUser()
+          presenter.getMessages()
+          assignmentPresenter.getAssignments()
+        }
         .onReceive(presenter.$addMessageState) { state in
           if case .success = state {
             isAddMessage.toggle()
@@ -117,11 +122,6 @@ struct HomeView: View {
         }
 
       }
-    }
-    .onAppear {
-      membershipPresenter.getUser()
-      presenter.getMessages()
-      assignmentPresenter.getAssignments()
     }
   }
 }

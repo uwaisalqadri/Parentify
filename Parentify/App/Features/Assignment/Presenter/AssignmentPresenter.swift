@@ -11,6 +11,8 @@ import Foundation
 class AssignmentPresenter: ObservableObject {
 
   @Published var addAssignmentState: ViewState<Bool> = .initiate
+  @Published var updateAssignmentState: ViewState<Bool> = .initiate
+  @Published var deleteAssignmentState: ViewState<Bool> = .initiate
   @Published var assignmentsState: ViewState<[Assignment]> = .initiate
   @Published var assignmentDetailState: ViewState<Assignment> = .initiate
 
@@ -29,6 +31,34 @@ class AssignmentPresenter: ObservableObject {
       case .failure(let firebaseError):
         if case .invalidRequest(let error) = firebaseError {
           self.addAssignmentState = .error(error: error)
+        }
+      }
+    }
+  }
+
+  func updateAssignment(assignment: Assignment) {
+    updateAssignmentState = .loading
+    firebaseManager.updateAssignment(assignment: assignment.map()) { result in
+      switch result {
+      case .success(let isSuccess):
+        self.updateAssignmentState = .success(data: isSuccess)
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.updateAssignmentState = .error(error: error)
+        }
+      }
+    }
+  }
+
+  func deleteAssignment(assignment: Assignment) {
+    deleteAssignmentState = .loading
+    firebaseManager.deleteAssignment(assignment: assignment.map()) { result in
+      switch result {
+      case .success(let isSuccess):
+        self.deleteAssignmentState = .success(data: isSuccess)
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.deleteAssignmentState = .error(error: error)
         }
       }
     }

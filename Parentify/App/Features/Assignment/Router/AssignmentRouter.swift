@@ -14,8 +14,8 @@ struct AssignmentRouter {
     self.assembler = assembler
   }
 
-  func routeAssignmentGroup(isParent: Binding<Bool>, assignmentGroup: AssignmentGroup, onUploaded: (() -> Void)? = nil) -> AssignmentGroupView {
-    return AssignmentGroupView(isParent: isParent, assignmentGroup: assignmentGroup, router: self, onUploaded: onUploaded)
+  func routeAssignmentGroup(isParent: Binding<Bool>, assignmentType: AssigmnentType, onUploaded: (() -> Void)? = nil) -> AssignmentGroupView {
+    return AssignmentGroupView(presenter: assembler.resolve(), isParent: isParent, assignmentType: assignmentType, router: self, onUploaded: onUploaded)
   }
 
   func routeAssignmentDetail(assignmentId: String = "", assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) -> AssignmentDetailView {

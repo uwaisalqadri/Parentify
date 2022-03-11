@@ -10,9 +10,10 @@ import SwiftUI
 struct AssignmentGroupView: View {
 
   @Environment(\.presentationMode) var presentationMode
+  @ObservedObject var presenter: AssignmentPresenter
 
   @Binding var isParent: Bool
-  @State private var sortOrder: SortOrder = .defaultOrder
+  @State var assignmentType: AssigmnentType = .needToDone
 
   @State var isShowDetail: Bool = false
   @State var isAddAssignment: Bool = false
@@ -34,6 +35,9 @@ struct AssignmentGroupView: View {
             ) {
               AssignmentItemView(
                 assignment: item,
+                onDelete: { assignment in
+                  presenter.deleteAssignment(assignment: assignment)
+                },
                 onShowDetail: { assignment in
                   selectedAssignment = assignment
                   isShowDetail.toggle()
@@ -87,10 +91,12 @@ struct AssignmentGroupView: View {
     }
     .navigationTitle(assignmentGroup.title)
     .navigationBarTitleDisplayMode(.inline)
+    .progressHUD(isShowing: $presenter.assignmentsState.isLoading)
     .background(
       NavigationLink(
         destination: router.routeAssignmentDetail() {
           onUploaded?()
+          presenter.getAssignments()
           presentationMode.wrappedValue.dismiss()
         },
         isActive: $isAddAssignment
@@ -98,6 +104,22 @@ struct AssignmentGroupView: View {
         EmptyView()
       }.buttonStyle(FlatLinkStyle())
     )
+    .onReceive(presenter.$assignmentsState) { state in
+      if case .success(let data) = state {
+        let needToDone = data.filter { $0.type == .needToDone }
+        let additional = data.filter { $0.type == .additional }
+
+        switch assignmentType {
+        case .needToDone:
+          assignmentGroup = getAssignmentGroups(assignments: needToDone)[0]
+        case .additional:
+          assignmentGroup = getAssignmentGroups(assignments: additional)[1]
+        }
+      }
+    }
+    .onAppear {
+      presenter.getAssignments()
+    }
   }
 
 }
