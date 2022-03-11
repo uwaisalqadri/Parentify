@@ -152,11 +152,18 @@ struct AssignmentDetailView: View {
         onUploaded?()
       }
     }
+    .onReceive(presenter.$updateAssignmentState) { state in
+      if case .success = state {
+        onUploaded?()
+      }
+    }
     .onReceive(presenter.$assignmentDetailState) { state in
       if case .success(let data) = state {
         assignment = data
         title = assignment.title
         description = assignment.description
+        imageSystemName = assignment.iconName
+        assignmentType = assignment.type
         assignment.attachments.forEach { attachment in
           selectedImage = attachment.toImage() ?? UIImage()
         }

@@ -112,6 +112,11 @@ struct HomeView: View {
             assignmentGroups = getAssignmentGroups(assignments: data)
           }
         }
+        .onReceive(assignmentPresenter.$deleteAssignmentState) { state in
+          if case .success = state {
+            assignmentPresenter.getAssignments()
+          }
+        }
         .customDialog(isShowing: $isAddMessage) {
           AddMessageDialog { textMessage in
             let role = membershipPresenter.userState.value?.role ?? .children

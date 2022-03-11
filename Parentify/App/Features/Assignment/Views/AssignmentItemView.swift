@@ -37,7 +37,7 @@ struct AssignmentGroupItemView: View {
       NavigationLink(
         destination: router.routeAssignmentGroup(
           isParent: $isParent,
-          assignmentType: selectedAssignment.type
+          assignmentType: assignmentGroup.type
         ) {
           onUploaded?()
         }

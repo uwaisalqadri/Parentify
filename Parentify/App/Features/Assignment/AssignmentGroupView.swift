@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AssignmentGroupView: View {
 
-  @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: AssignmentPresenter
 
   @Binding var isParent: Bool
@@ -95,15 +94,17 @@ struct AssignmentGroupView: View {
     .background(
       NavigationLink(
         destination: router.routeAssignmentDetail() {
-          onUploaded?()
           presenter.getAssignments()
-          presentationMode.wrappedValue.dismiss()
+          onUploaded?()
         },
         isActive: $isAddAssignment
       ) {
         EmptyView()
       }.buttonStyle(FlatLinkStyle())
     )
+    .onAppear {
+      presenter.getAssignments()
+    }
     .onReceive(presenter.$assignmentsState) { state in
       if case .success(let data) = state {
         let needToDone = data.filter { $0.type == .needToDone }
@@ -117,8 +118,10 @@ struct AssignmentGroupView: View {
         }
       }
     }
-    .onAppear {
-      presenter.getAssignments()
+    .onReceive(presenter.$deleteAssignmentState) { state in
+      if case .success = state {
+        presenter.getAssignments()
+      }
     }
   }
 

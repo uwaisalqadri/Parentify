@@ -203,7 +203,13 @@ class DefaultFirebaseManager: FirebaseManager {
     firestoreDatabase
       .collection(Constant.assignment)
       .document(assignmentId)
-      .delete()
+      .delete { error in
+        if let error = error {
+          return completion(.failure(.invalidRequest(error: error)))
+        } else {
+          return completion(.success(true))
+        }
+      }
   }
 
   // MARK: Messages
