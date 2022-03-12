@@ -77,9 +77,9 @@ class MembershipPresenter: ObservableObject {
     }
   }
 
-  func loginUser(email: String, password: String) {
+  func signInUser(email: String, password: String) {
     loginState = .loading
-    firebaseManager.loginUser(email: email, password: password) { result in
+    firebaseManager.signInUser(email: email, password: password) { result in
       switch result {
       case .success(let isSuccess):
         self.loginState = .success(data: isSuccess)
@@ -91,9 +91,9 @@ class MembershipPresenter: ObservableObject {
     }
   }
 
-  func logoutUser() {
+  func signOutUser() {
     logoutState = .loading
-    firebaseManager.logoutUser { result in
+    firebaseManager.signOutUser { result in
       switch result {
       case .success(let isSuccess):
         self.logoutState = .success(data: isSuccess)

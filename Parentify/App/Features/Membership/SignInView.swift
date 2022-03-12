@@ -17,13 +17,13 @@ struct SignInView: View {
   @State var email: String = ""
   @State var password: String = ""
   @State var isSelectRole: Bool = false
-  @State private var loginError: Error?
+  @State private var signInError: Error?
   @State private var isShowAlert: Bool = false
-  @State private var isLoggedIn: Bool = false
+  @State private var isSignedIn: Bool = false
 
   let router: MembershipRouter
 
-  private let dismissSelectRole = NotificationCenter.default.publisher(for: Notifications.dismissSelectRole)
+  private let dismissSelectRole = createPublisher(for: Notifications.dismissSelectRole)
 
   var body: some View {
     NavigationView {
@@ -102,16 +102,16 @@ struct SignInView: View {
         .alert(isPresented: $isShowAlert) {
           Alert(
             title: Text("Gagal"),
-            message: Text("\(loginError?.localizedDescription ?? "Field tidak boleh kosong")"),
+            message: Text("\(signInError?.localizedDescription ?? "Field tidak boleh kosong")"),
             dismissButton: .default(Text("Oke Sip!"))
           )
         }
         .onReceive(presenter.$loginState) { state in
           if case .error(let error) = state {
-            loginError = error
+            signInError = error
             isShowAlert = true
           } else if case .success(let isSuccess) = state {
-            isLoggedIn = isSuccess
+            isSignedIn = isSuccess
             isShowAlert = false
           } else {
             isShowAlert = false
@@ -121,10 +121,10 @@ struct SignInView: View {
           if case .signedIn = state {
             guard let user = GIDSignIn.sharedInstance.currentUser else { return }
             email = user.profile?.email ?? ""
-            isLoggedIn = true
+            isSignedIn = true
           }
         }
-        .fullScreenCover(isPresented: $isLoggedIn) {
+        .fullScreenCover(isPresented: $isSignedIn) {
           router.routeHome()
         }
 
@@ -141,18 +141,18 @@ struct SignInView: View {
   }
 
   private func signInUser(email: String, password: String) {
-    if isNewUser {
+    if isNewUser || signInError?.localizedDescription == "There is no user record corresponding to this identifier. The user may have been deleted." {
       isSelectRole.toggle()
       presenter.registerUser(email: email, password: password)
       isNewUser = false
     } else {
-      presenter.loginUser(email: email, password: password)
+      presenter.signInUser(email: email, password: password)
     }
   }
 
 }
 
-struct LoginView_Previews: PreviewProvider {
+struct SignInView_Previews: PreviewProvider {
   static var previews: some View {
     SignInView(presenter: AppAssembler.shared.resolve(), router: AppAssembler.shared.resolve())
   }

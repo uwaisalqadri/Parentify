@@ -23,8 +23,8 @@ protocol FirebaseManager {
 
   // MARK: Membership
   func registerUser(email: String, password: String, completion: @escaping CompletionResult<Bool>)
-  func loginUser(email: String, password: String, completion: @escaping CompletionResult<Bool>)
-  func logoutUser(completion: @escaping CompletionResult<Bool>)
+  func signInUser(email: String, password: String, completion: @escaping CompletionResult<Bool>)
+  func signOutUser(completion: @escaping CompletionResult<Bool>)
   func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func getUser(completion: @escaping CompletionResult<UserEntity>)
@@ -57,21 +57,23 @@ class DefaultFirebaseManager: FirebaseManager {
     }
   }
 
-  func loginUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {
+  func signInUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {
     firebaseAuth.signIn(withEmail: email, password: password) { result, error in
       if let error = error {
         completion(.failure(.invalidRequest(error: error)))
+        completion(.success(false))
       } else {
         completion(.success(true))
       }
     }
   }
 
-  func logoutUser(completion: @escaping CompletionResult<Bool>) {
+  func signOutUser(completion: @escaping CompletionResult<Bool>) {
     do {
       try firebaseAuth.signOut()
       completion(.success(true))
     } catch {
+      completion(.failure(.invalidRequest(error: error)))
       completion(.success(false))
     }
   }

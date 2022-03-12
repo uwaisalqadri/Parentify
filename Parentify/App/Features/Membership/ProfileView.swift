@@ -111,7 +111,7 @@ struct ProfileView: View {
 
         if !isNewUser {
           Button(action: {
-            presenter.logoutUser()
+            presenter.signOutUser()
             googleAuthManager.signOut()
           }) {
             HStack {
