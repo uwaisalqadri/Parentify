@@ -34,6 +34,7 @@ struct AssignmentGroupView: View {
             ) {
               AssignmentItemView(
                 assignment: item,
+                isParent: $isParent,
                 onDelete: { assignment in
                   presenter.deleteAssignment(assignment: assignment)
                 },

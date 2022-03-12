@@ -30,7 +30,7 @@ extension User {
       email: email,
       password: password,
       isParent: isParent,
-      profilePict: profilePict.toPngString()
+      profilePict: profilePict.toJpegString(compressionQuality: 0.5)
     )
   }
 }

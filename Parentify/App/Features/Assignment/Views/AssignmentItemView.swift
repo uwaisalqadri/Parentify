@@ -8,8 +8,7 @@
 import SwiftUI
 
 enum Action {
-  case remove
-  case unpaid
+  case finished
   case none
 }
 
@@ -20,10 +19,10 @@ struct AssignmentGroupItemView: View {
 
   var assignmentGroup: AssignmentGroup
   var router: AssignmentRouter
-  var actionTitle: String = "Lihat Semuanya"
   var onDelete: ((Assignment) -> Void)?
   var onUploaded: (() -> Void)?
 
+  @State var actionTitle: String = "Lihat Semuanya"
   @State var selectedAssignment: Assignment = .initialize
 
   var body: some View {
@@ -56,7 +55,7 @@ struct AssignmentGroupItemView: View {
         destination: router.routeAssignmentDetail(assignmentId: selectedAssignment.id.uuidString),
         isActive: $isShowDetail
       ) {
-        AssignmentItemView(assignment: item) { action in
+        AssignmentItemView(assignment: item, isParent: $isParent) { action in
           print("action", action)
         } onDelete: { assignment in
           onDelete?(assignment)
@@ -96,6 +95,8 @@ struct AssignmentGroupItemView: View {
 struct AssignmentItemView: View {
 
   var assignment: Assignment
+  @Binding var isParent: Bool
+
   var onSwipe: ((Action) -> Void)? = nil
   var onDelete: ((Assignment) -> Void)? = nil
   var onShowDetail: ((Assignment) -> Void)? = nil
@@ -103,12 +104,12 @@ struct AssignmentItemView: View {
   var body: some View {
     ZStack(alignment: .topTrailing) {
 
-      Text("Paid")
+      Text("Done")
         .foregroundColor(.green)
         .font(.system(size: 15, weight: .bold))
         .padding([.top, .trailing], 30)
 
-      AssignmentCard(assignment: assignment, onSwipe: onSwipe, onDelete: onDelete, onShowDetail: onShowDetail)
+      AssignmentCard(isParent: _isParent, assignment: assignment, onSwipe: onSwipe, onDelete: onDelete, onShowDetail: onShowDetail)
 
     }.padding(.bottom, 50)
   }
@@ -120,6 +121,7 @@ struct AssignmentCard: View {
   @State private var swipeAction: Action = .none
   private var thresholdPercentage: CGFloat = 0.5 //  draged 50% the width of the screen in either direction
 
+  @Binding private var isParent: Bool
   private var assignment: Assignment
   private var onSwipe: ((Action) -> Void)?
   private var onDelete: ((Assignment) -> Void)?
@@ -130,11 +132,13 @@ struct AssignmentCard: View {
   }
 
   init(
+    isParent: Binding<Bool>,
     assignment: Assignment,
     onSwipe: ((Action) -> Void)? = nil,
     onDelete: ((Assignment) -> Void)? = nil,
     onShowDetail: ((Assignment) -> Void)? = nil
   ) {
+    self._isParent = isParent
     self.assignment = assignment
     self.onSwipe = onSwipe
     self.onDelete = onDelete
@@ -166,24 +170,25 @@ struct AssignmentCard: View {
 
         Spacer()
       }
-        .padding(30)
-        .cardShadow(cornerRadius: 23)
-        .frame(height: 100, alignment: .leading)
-        .animation(.interactiveSpring())
-        .offset(x: translation.width, y: 0)
-        .gesture(
-          DragGesture()
-            .onChanged { value in
+      .padding(30)
+      .cardShadow(cornerRadius: 23)
+      .frame(height: 100, alignment: .leading)
+      .animation(.interactiveSpring())
+      .offset(x: translation.width, y: 0)
+      .gesture(
+        DragGesture()
+          .onChanged { value in
+            if !isParent {
               translation = value.translation
               if (getGesturePercentage(geometry, from: value)) >= thresholdPercentage {
-                swipeAction = .unpaid
-              } else if getGesturePercentage(geometry, from: value) <= -thresholdPercentage {
-                swipeAction = .remove
+                swipeAction = .finished
               } else {
                 swipeAction = .none
               }
+            }
 
-            }.onEnded { value in
+          }.onEnded { value in
+            if !isParent {
               if getGesturePercentage(geometry, from: value) > thresholdPercentage {
                 onSwipe?(swipeAction)
                 translation = .init(width: 700, height: 0)
@@ -194,17 +199,16 @@ struct AssignmentCard: View {
                 translation = .zero
               }
             }
-        )
-        .onTapGesture {
-          print("clicked")
-        }
-        .contextMenu {
-          Button(action: {
-            onShowDetail?(assignment)
-          }) {
-            Label("Detail", systemImage: "info.circle.fill")
           }
+      )
+      .contextMenu {
+        Button(action: {
+          onShowDetail?(assignment)
+        }) {
+          Label("Detail", systemImage: "info.circle.fill")
+        }
 
+        if isParent {
           if #available(iOS 15.0, *) {
             Button(role: .destructive) {
               onDelete?(assignment)
@@ -219,6 +223,8 @@ struct AssignmentCard: View {
             }
           }
         }
+
+      }
     }
   }
 }
