@@ -150,7 +150,7 @@ struct ProfileView: View {
       MemojiView(profileImage: $profileImage, isShowMemojiTextView: $isShowMemojiTextView)
     }
     .fullScreenCover(isPresented: $presenter.logoutState.value ?? false) {
-      router.routeLogin()
+      router.routeSignIn()
     }
     .onTapGesture {
       hideKeyboard()

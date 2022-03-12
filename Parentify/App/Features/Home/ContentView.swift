@@ -16,7 +16,7 @@ struct ContentView: View {
     if isLoggedIn {
       HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
     } else {
-      LoginView(presenter: assembler.resolve(), router: assembler.resolve())
+      SignInView(presenter: assembler.resolve(), router: assembler.resolve())
     }
   }
 }

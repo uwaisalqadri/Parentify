@@ -71,6 +71,7 @@ struct AssignmentDetailView: View {
 
         Button(action: {
           assignment = .init(
+            id: assignmentId.isEmpty ? UUID() : UUID(uuidString: assignmentId)!,
             iconName: imageSystemName,
             title: title,
             description: description,
@@ -154,12 +155,14 @@ struct AssignmentDetailView: View {
     }
     .onReceive(presenter.$updateAssignmentState) { state in
       if case .success = state {
+        presentationMode.wrappedValue.dismiss()
         onUploaded?()
       }
     }
     .onReceive(presenter.$assignmentDetailState) { state in
       if case .success(let data) = state {
         assignment = data
+        assignmentId = assignment.id.uuidString
         title = assignment.title
         description = assignment.description
         imageSystemName = assignment.iconName

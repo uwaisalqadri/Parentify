@@ -22,8 +22,8 @@ struct MembershipRouter {
     return MessagesView(homePresenter: assembler.resolve(), membershipPresenter: assembler.resolve(), isParent: isParent)
   }
 
-  func routeLogin() -> LoginView {
-    return LoginView(presenter: assembler.resolve(), router: self)
+  func routeSignIn() -> SignInView {
+    return SignInView(presenter: assembler.resolve(), router: self)
   }
 
   func routeHome() -> HomeView {

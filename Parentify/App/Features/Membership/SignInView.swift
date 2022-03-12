@@ -1,5 +1,5 @@
 //
-//  LoginView.swift
+//  SignInView.swift
 //  Parentify
 //
 //  Created by Uwais Alqadri on 2/16/22.
@@ -8,7 +8,7 @@
 import SwiftUI
 import GoogleSignIn
 
-struct LoginView: View {
+struct SignInView: View {
 
   @ObservedObject var presenter: MembershipPresenter
   @EnvironmentObject var googleAuthManager: GoogleAuthManager
@@ -154,6 +154,6 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
   static var previews: some View {
-    LoginView(presenter: AppAssembler.shared.resolve(), router: AppAssembler.shared.resolve())
+    SignInView(presenter: AppAssembler.shared.resolve(), router: AppAssembler.shared.resolve())
   }
 }
