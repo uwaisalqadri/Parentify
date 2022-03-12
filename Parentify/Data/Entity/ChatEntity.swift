@@ -21,13 +21,15 @@ struct ChatEntity: BodyCodable, Codable {
   var sender: UserEntity?
   var message: String?
   var sentDate: String?
+  var isRead: Bool?
   var seenBy: [UserEntity]?
 
-  init(id: String?, sender: UserEntity?, message: String?, sentDate: String?, seenBy: [UserEntity]?) {
+  init(id: String?, sender: UserEntity?, message: String?, sentDate: String?, isRead: Bool?, seenBy: [UserEntity]?) {
     self.id = id
     self.sender = sender
     self.message = message
     self.sentDate = sentDate
+    self.isRead = isRead
     self.seenBy = seenBy
   }
 }

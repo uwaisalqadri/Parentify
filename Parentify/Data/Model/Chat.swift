@@ -22,5 +22,6 @@ struct Chat {
   var sender: User = .initialize
   var message: String = ""
   var sentDate: Date = Date()
+  var isRead: Bool = false
   var seenBy: [User] = []
 }

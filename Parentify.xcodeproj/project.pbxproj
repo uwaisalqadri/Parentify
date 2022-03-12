@@ -77,6 +77,7 @@
 		91C4054627DC92EC007174A0 /* ChatChannelEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C4054527DC92EC007174A0 /* ChatChannelEntity.swift */; };
 		91C4054827DC9303007174A0 /* ChatEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C4054727DC9303007174A0 /* ChatEntity.swift */; };
 		91C4054A27DC94F5007174A0 /* ChatMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C4054927DC94F5007174A0 /* ChatMapper.swift */; };
+		91C4054D27DCB006007174A0 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 91C4054C27DCB006007174A0 /* Introspect */; };
 		91F7EEEB27BB340E0008DDD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91F7EEEA27BB340E0008DDD6 /* GoogleService-Info.plist */; };
 		91F7EEEF27BB36FC0008DDD6 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 91F7EEEE27BB36FC0008DDD6 /* FirebaseAppCheck */; };
 		91F7EEF127BB36FC0008DDD6 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 91F7EEF027BB36FC0008DDD6 /* FirebaseAppDistribution-Beta */; };
@@ -193,6 +194,7 @@
 				91F7EF0127BB36FC0008DDD6 /* FirebaseMessaging in Frameworks */,
 				91F7EEEF27BB36FC0008DDD6 /* FirebaseAppCheck in Frameworks */,
 				91F7EEF327BB36FC0008DDD6 /* FirebaseAuth in Frameworks */,
+				91C4054D27DCB006007174A0 /* Introspect in Frameworks */,
 				918EE07A27D43E9400D38EA1 /* GoogleSignIn in Frameworks */,
 				91F7EEF527BB36FC0008DDD6 /* FirebaseDatabase in Frameworks */,
 				91F7EEF127BB36FC0008DDD6 /* FirebaseAppDistribution-Beta in Frameworks */,
@@ -606,6 +608,7 @@
 				91F7EF0627BB36FC0008DDD6 /* FirebaseStorageSwift-Beta */,
 				91FF767C27BE3935001B9CED /* BottomSheet */,
 				918EE07927D43E9400D38EA1 /* GoogleSignIn */,
+				91C4054C27DCB006007174A0 /* Introspect */,
 			);
 			productName = "Parentify (iOS)";
 			productReference = 91413FB827BA95AA00799155 /* Parentify.app */;
@@ -639,6 +642,7 @@
 				91F7EEED27BB36FC0008DDD6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				91FF767B27BE3934001B9CED /* XCRemoteSwiftPackageReference "BottomSheet" */,
 				918EE07827D43E9400D38EA1 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				91C4054B27DCB006007174A0 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 91413FB927BA95AA00799155 /* Products */;
 			projectDirPath = "";
@@ -959,6 +963,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		91C4054B27DCB006007174A0 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		91F7EEED27BB36FC0008DDD6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -982,6 +994,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 918EE07827D43E9400D38EA1 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignIn;
+		};
+		91C4054C27DCB006007174A0 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91C4054B27DCB006007174A0 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
 		};
 		91F7EEEE27BB36FC0008DDD6 /* FirebaseAppCheck */ = {
 			isa = XCSwiftPackageProductDependency;

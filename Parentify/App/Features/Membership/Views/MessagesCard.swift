@@ -96,6 +96,8 @@ struct MessagesCard: View {
 
 struct OpenChatCard: View {
 
+  @Binding var unreadChats: Int
+
   var body: some View {
     HStack {
       Text("Chat")
@@ -112,7 +114,7 @@ struct OpenChatCard: View {
           .shadow(radius: 3)
           .padding(.trailing, 35)
 
-        Text("2")
+        Text("\(unreadChats)")
           .foregroundColor(.white)
           .font(.system(size: 12, weight: .bold))
           .padding(.horizontal, 5)

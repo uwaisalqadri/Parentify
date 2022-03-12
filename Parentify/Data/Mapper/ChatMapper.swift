@@ -14,6 +14,7 @@ extension ChatEntity {
       sender: sender?.map() ?? .initialize,
       message: message.orEmpty(),
       sentDate: sentDate?.date ?? Date(),
+      isRead: isRead ?? false,
       seenBy: seenBy?.map { $0.map() } ?? []
     )
   }
@@ -26,6 +27,7 @@ extension Chat {
       sender: sender.map(),
       message: message,
       sentDate: sentDate.string,
+      isRead: isRead,
       seenBy: seenBy.map { $0.map() }
     )
   }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Introspect
 
 struct ChatView: View {
 
@@ -15,49 +16,51 @@ struct ChatView: View {
   @State var sender: User = .initialize
 
   var body: some View {
-    ScrollViewReader { proxy in
-      ZStack(alignment: .bottom) {
-        VStack {
-          ScrollView {
-            ForEach(presenter.chatsState.value?.reversed() ?? [], id: \.id) { chat in
-              ChatItemView(chat: chat, isSender: chat.sender.userId == sender.userId)
-            }
-            .animation(.interactiveSpring(), value: presenter.chatsState)
-            .padding(.top, 25)
-          }
-
-          ChatInputField(text: $inputText) { text in
-            presenter.uploadChat(chat: .init(sender: sender, message: text, sentDate: Date(), seenBy: []))
-          }
+    VStack {
+      ScrollView {
+        ForEach(presenter.chatsState.value?.reversed() ?? [], id: \.id) { chat in
+          ChatItemView(chat: chat, isSender: chat.sender.userId == sender.userId)
         }
-      }
-      .navigationBarTitle("Chat")
-      .overlay(
-        ImageCard(profileImage: sender.profilePict)
-          .frame(width: 48, height: 48)
-          .padding(.trailing, 20)
-          .offset(x: 0, y: -80)
-        , alignment: .topTrailing
-      )
-      .onTapGesture {
-        hideKeyboard()
-      }
-      .onAppear {
-        presenter.getChats()
-      }
-      .onReceive(presenter.$uploadChatState) { state in
-        if case .success = state {
-          withAnimation(.linear) {
-            presenter.getChats()
-          }
-        }
-      }
-      .onReceive(presenter.$chatsState) { state in
-        if case .success(let chats) = state {
-          proxy.scrollTo(chats.count - 1, anchor: .bottom)
-        }
+        .animation(.interactiveSpring(), value: presenter.chatsState)
+        .padding(.top, 25)
+      }.introspectScrollView { scrollView in
+        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.height + scrollView.contentInset.bottom)
+        scrollView.setContentOffset(bottomOffset, animated: true)
       }
 
+      ChatInputField(text: $inputText) { text in
+        presenter.uploadChat(
+          chat: .init(
+            sender: sender,
+            message: text,
+            sentDate: Date(),
+            isRead: false,
+            seenBy: []
+          )
+        )
+
+      }
+    }
+    .navigationBarTitle("Chat")
+    .overlay(
+      ImageCard(profileImage: sender.profilePict)
+        .frame(width: 48, height: 48)
+        .padding(.trailing, 20)
+        .offset(x: 0, y: -80)
+      , alignment: .topTrailing
+    )
+    .onTapGesture {
+      hideKeyboard()
+    }
+    .onAppear {
+      presenter.getChats()
+    }
+    .onReceive(presenter.$uploadChatState) { state in
+      if case .success = state {
+        withAnimation(.linear) {
+          presenter.getChats()
+        }
+      }
     }
   }
 }

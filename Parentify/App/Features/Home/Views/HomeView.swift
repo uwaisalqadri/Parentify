@@ -11,11 +11,13 @@ struct HomeView: View {
 
   @ObservedObject var membershipPresenter: MembershipPresenter
   @ObservedObject var assignmentPresenter: AssignmentPresenter
+  @ObservedObject var chatPresenter: ChatPresenter
   @ObservedObject var presenter: HomePresenter
 
   @State var assignmentGroups = [AssignmentGroup]()
   @State var assignments = [Assignment]()
 
+  @State var unreadChats: Int = 0
   @State var isShowDetail = false
   @State var isShowProgress = false
   @State var isAddMessage = false
@@ -63,8 +65,10 @@ struct HomeView: View {
                 .padding(.horizontal, 25)
             }
 
-            NavigationLink(destination: router.routeChat(sender: membershipPresenter.userState.value ?? .initialize)) {
-              OpenChatCard()
+            NavigationLink(destination: router.routeChat(
+              sender: membershipPresenter.userState.value ?? .initialize)
+            ) {
+              OpenChatCard(unreadChats: $unreadChats)
                 .padding(.top, 28)
                 .padding(.horizontal, 25)
             }
@@ -95,6 +99,7 @@ struct HomeView: View {
           membershipPresenter.getUser()
           presenter.getMessages()
           assignmentPresenter.getAssignments()
+          chatPresenter.getUnreadChats()
         }
         .onReceive(presenter.$addMessageState) { state in
           if case .success = state {
@@ -115,6 +120,11 @@ struct HomeView: View {
         .onReceive(assignmentPresenter.$deleteAssignmentState) { state in
           if case .success = state {
             assignmentPresenter.getAssignments()
+          }
+        }
+        .onReceive(chatPresenter.$unreadChatsState) { state in
+          if case .success(let data) = state {
+            unreadChats = data
           }
         }
         .customDialog(isShowing: $isAddMessage) {
@@ -186,6 +196,6 @@ struct HomeView_Previews: PreviewProvider {
   static var assembler: Assembler = AppAssembler()
 
   static var previews: some View {
-    HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
+    HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
   }
 }

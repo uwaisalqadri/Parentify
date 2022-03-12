@@ -43,6 +43,7 @@ protocol FirebaseManager {
   // MARK: Chat
   func uploadChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>)
   func getChats(completion: @escaping CompletionResult<[ChatEntity]>)
+  func getUnreadChats(completion: @escaping CompletionResult<Int>)
 }
 
 class DefaultFirebaseManager: FirebaseManager {
@@ -284,6 +285,29 @@ class DefaultFirebaseManager: FirebaseManager {
                 chats.append(chat)
               }
               completion(.success(chats))
+            } catch {
+              completion(.failure(.unknownError))
+            }
+          }
+        }
+      }
+  }
+
+  func getUnreadChats(completion: @escaping CompletionResult<Int>) {
+    firestoreDatabase
+      .collection(Constant.chat)
+      .whereField("is_read", isEqualTo: false)
+      .getDocuments { querySnapshot, error in
+        if let error = error {
+          completion(.failure(.invalidRequest(error: error)))
+        } else if let querySnapshot = querySnapshot {
+          var chats = [ChatEntity]()
+          for document in querySnapshot.documents {
+            do {
+              if let chat = try document.data(as: ChatEntity.self) {
+                chats.append(chat)
+              }
+              completion(.success(chats.count))
             } catch {
               completion(.failure(.unknownError))
             }

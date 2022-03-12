@@ -14,7 +14,7 @@ struct ContentView: View {
 
   var body: some View {
     if isSignedIn {
-      HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
+      HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
     } else {
       SignInView(presenter: assembler.resolve(), router: assembler.resolve())
     }

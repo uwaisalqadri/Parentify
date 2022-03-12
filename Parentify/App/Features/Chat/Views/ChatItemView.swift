@@ -32,5 +32,28 @@ struct ChatItemView: View {
         Spacer()
       }
     }
+    .contextMenu {
+//      Button(action: {
+//      }) {
+//        Label("Detail", systemImage: "info.circle.fill")
+//      }
+
+      if #available(iOS 15.0, *) {
+        Button(role: .destructive) {
+
+        } label: {
+          Label("Remove", systemImage: "trash.fill")
+        }
+      } else {
+        Button(action: {
+
+        }) {
+          Label("Remove", systemImage: "trash.fill")
+        }
+      }
+
+    }
+
+
   }
 }
