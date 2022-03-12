@@ -63,7 +63,7 @@ struct HomeView: View {
                 .padding(.horizontal, 25)
             }
 
-            NavigationLink(destination: router.routeChat()) {
+            NavigationLink(destination: router.routeChat(sender: membershipPresenter.userState.value ?? .initialize)) {
               OpenChatCard()
                 .padding(.top, 28)
                 .padding(.horizontal, 25)

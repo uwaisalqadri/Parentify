@@ -39,6 +39,10 @@ protocol FirebaseManager {
   // MARK: Messages
   func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>)
   func getMessages(completion: @escaping CompletionResult<[MessageEntity]>)
+
+  // MARK: Chat
+  func uploadChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>)
+  func getChats(completion: @escaping CompletionResult<[ChatEntity]>)
 }
 
 class DefaultFirebaseManager: FirebaseManager {
@@ -244,6 +248,42 @@ class DefaultFirebaseManager: FirebaseManager {
                 messages.append(message)
               }
               completion(.success(messages))
+            } catch {
+              completion(.failure(.unknownError))
+            }
+          }
+        }
+      }
+  }
+
+  func uploadChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>) {
+    guard let chatId = chat.id else { return }
+    firestoreDatabase
+      .collection(Constant.chat)
+      .document(chatId)
+      .setData(chat.asFormDictionary()) { error in
+        if let error = error {
+          return completion(.failure(.invalidRequest(error: error)))
+        } else {
+          return completion(.success(true))
+        }
+      }
+  }
+
+  func getChats(completion: @escaping CompletionResult<[ChatEntity]>) {
+    firestoreDatabase
+      .collection(Constant.chat)
+      .getDocuments { querySnapshot, error in
+        if let error = error {
+          completion(.failure(.invalidRequest(error: error)))
+        } else if let querySnapshot = querySnapshot {
+          var chats = [ChatEntity]()
+          for document in querySnapshot.documents {
+            do {
+              if let chat = try document.data(as: ChatEntity.self) {
+                chats.append(chat)
+              }
+              completion(.success(chats))
             } catch {
               completion(.failure(.unknownError))
             }

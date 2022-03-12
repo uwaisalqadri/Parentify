@@ -28,6 +28,7 @@ struct ChatInputField: View {
 
       Button(action: {
         onSend(text)
+        text = ""
       }) {
         Image("ArrowUpIcon")
           .resizable()

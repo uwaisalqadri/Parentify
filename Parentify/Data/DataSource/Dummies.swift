@@ -16,12 +16,12 @@ func getMessages() -> [Message] {
 
 func getChats() -> [Chat] {
   return [
-    .init(id: "IJD292NE2K", sender: .initialize, message: "Udah dikerjain nak?", sentDate: Date(), seenBy: []),
-    .init(id: "OMEDD8W99W", sender: .initialize, message: "Nanti klo udah selesai di kumpulin ke guru ya", sentDate: Date(), seenBy: []),
-    .init(id: "903033MDDL", sender: .initialize, message: "Aman ma", sentDate: Date(), seenBy: []),
-    .init(id: "IJD292NE2K", sender: .initialize, message: "Udah dikerjain nak?", sentDate: Date(), seenBy: []),
-    .init(id: "OMEDD8W99W", sender: .initialize, message: "Nanti klo udah selesai di kumpulin ke guru ya", sentDate: Date(), seenBy: []),
-    .init(id: "903033MDDL", sender: .initialize, message: "Aman ma", sentDate: Date(), seenBy: [])
+    .init(sender: .initialize, message: "Udah dikerjain nak?", sentDate: Date(), seenBy: []),
+    .init(sender: .initialize, message: "Nanti klo udah selesai di kumpulin ke guru ya", sentDate: Date(), seenBy: []),
+    .init(sender: .initialize, message: "Aman ma", sentDate: Date(), seenBy: []),
+    .init(sender: .initialize, message: "Udah dikerjain nak?", sentDate: Date(), seenBy: []),
+    .init(sender: .initialize, message: "Nanti klo udah selesai di kumpulin ke guru ya", sentDate: Date(), seenBy: []),
+    .init(sender: .initialize, message: "Aman ma", sentDate: Date(), seenBy: [])
   ]
 }
 

@@ -19,6 +19,6 @@ extension ChatAssembler where Self: Assembler {
   }
 
   func resolve() -> ChatPresenter {
-    return ChatPresenter()
+    return ChatPresenter(firebaseManager: resolve())
   }
 }

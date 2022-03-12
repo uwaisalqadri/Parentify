@@ -11,14 +11,14 @@ struct ChatChannel {
   static let initialize: ChatChannel = ChatChannel()
 
   var chats: [Chat] = []
-  var isGroupChat: Bool = false
   var users: [User] = []
+  var isGroupChat: Bool = false
 }
 
 struct Chat {
   static let initialize: Chat = Chat()
 
-  var id: String = ""
+  var id: UUID = UUID()
   var sender: User = .initialize
   var message: String = ""
   var sentDate: Date = Date()
