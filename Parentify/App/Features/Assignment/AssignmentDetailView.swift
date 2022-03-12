@@ -21,13 +21,15 @@ struct AssignmentDetailView: View {
   @State var imageSystemName: String = "plus"
   @State var selectedImage: UIImage = UIImage()
 
+  @Binding var isParent: Bool
   @State var isShowPicker: Bool = false
   @State var isSelectIcon: Bool = false
 
   var onUploaded: (() -> Void)?
 
-  init(presenter: AssignmentPresenter, assignmentId: String = "", assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
+  init(presenter: AssignmentPresenter, isParent: Binding<Bool>, assignmentId: String = "", assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
     self.presenter = presenter
+    self._isParent = isParent
     self.assignmentId = assignmentId
     self.assignmentType = assignmentType
     self.onUploaded = onUploaded
@@ -47,6 +49,7 @@ struct AssignmentDetailView: View {
           .frame(height: 200)
           .padding(.top, 30)
           .padding(.horizontal, 10)
+          .allowsHitTesting(isParent)
           .onTapGesture {
             isShowPicker.toggle()
           }
@@ -57,6 +60,7 @@ struct AssignmentDetailView: View {
           .frame(height: 40)
           .autocapitalization(.none)
           .disableAutocorrection(true)
+          .disabled(!isParent)
           .padding(.horizontal, 5)
 
         TextEditor(text: $description)
@@ -65,42 +69,45 @@ struct AssignmentDetailView: View {
           .multilineTextAlignment(.leading)
           .autocapitalization(.none)
           .disableAutocorrection(true)
+          .disabled(!isParent)
           .padding(.horizontal, 5)
 
         Spacer()
 
-        Button(action: {
-          assignment = .init(
-            id: assignmentId.isEmpty ? UUID() : UUID(uuidString: assignmentId)!,
-            iconName: imageSystemName,
-            title: title,
-            description: description,
-            type: assignmentType,
-            dateCreated: Date(),
-            attachments: [selectedImage.toJpegString(compressionQuality: 0.5) ?? ""],
-            assignedTo: []
-          )
+        if isParent {
+          Button(action: {
+            assignment = .init(
+              id: assignmentId.isEmpty ? UUID() : UUID(uuidString: assignmentId)!,
+              iconName: imageSystemName,
+              title: title,
+              description: description,
+              type: assignmentType,
+              dateCreated: Date(),
+              attachments: [selectedImage.toJpegString(compressionQuality: 0.5) ?? ""],
+              assignedTo: []
+            )
 
-          if !assignmentId.isEmpty {
-            presenter.updateAssignment(assignment: assignment)
-          } else {
-            presenter.addAssignment(assignment: assignment)
+            if !assignmentId.isEmpty {
+              presenter.updateAssignment(assignment: assignment)
+            } else {
+              presenter.addAssignment(assignment: assignment)
+            }
+          }) {
+            HStack {
+              Spacer()
+
+              Text("Simpan")
+                .foregroundColor(.white)
+                .font(.system(size: 15, weight: .bold))
+
+              Spacer()
+            }
           }
-        }) {
-          HStack {
-            Spacer()
-
-            Text("Simpan")
-              .foregroundColor(.white)
-              .font(.system(size: 15, weight: .bold))
-
-            Spacer()
-          }
+          .padding(15)
+          .cardShadow(backgroundColor: .purpleColor, cornerRadius: 15)
+          .padding(.top, 17)
+          .padding(.horizontal, 20)
         }
-        .padding(15)
-        .cardShadow(backgroundColor: .purpleColor, cornerRadius: 15)
-        .padding(.top, 17)
-        .padding(.horizontal, 20)
 
         Button(action: {
           print("Chat")

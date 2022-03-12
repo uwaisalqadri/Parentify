@@ -52,7 +52,7 @@ struct AssignmentGroupItemView: View {
 
     ForEach(Array(assignmentGroup.assignments.prefix(3).enumerated()), id: \.offset) { index, item in
       NavigationLink(
-        destination: router.routeAssignmentDetail(assignmentId: selectedAssignment.id.uuidString),
+        destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: selectedAssignment.id.uuidString),
         isActive: $isShowDetail
       ) {
         AssignmentItemView(assignment: item, isParent: $isParent) { action in
