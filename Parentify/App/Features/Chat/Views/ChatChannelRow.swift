@@ -16,7 +16,7 @@ struct ChatChannelRow: View {
           .font(.system(size: 18, weight: .semibold))
 
         Text("Jangan Lupa Kunci Pintu Ya")
-          .foregroundColor(Color(.systemGray5))
+          .foregroundColor(Color(.systemGray3))
           .font(.system(size: 15, weight: .medium))
       }
 

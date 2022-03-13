@@ -463,8 +463,8 @@
 			isa = PBXGroup;
 			children = (
 				91B3298727BD11DB00FBFA00 /* ChatRow.swift */,
-				91B3298927BD29D900FBFA00 /* ChatInputField.swift */,
 				9132025027DD90DC009BE708 /* ChatChannelRow.swift */,
+				91B3298927BD29D900FBFA00 /* ChatInputField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

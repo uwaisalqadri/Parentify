@@ -24,7 +24,27 @@ struct ChatRow: View {
         .padding(.horizontal, 19)
         .padding(.vertical, 11)
         .cardShadow(backgroundColor: isSender ? Color.pinkColor : Color.purpleColor, cornerRadius: 22, opacity: 0, radius: 0)
-        //.frame(maxWidth: 200)
+        .contextMenu {
+//          Button(action: {
+//          }) {
+//            Label("Detail", systemImage: "info.circle.fill")
+//          }
+
+          if #available(iOS 15.0, *) {
+            Button(role: .destructive) {
+
+            } label: {
+              Label("Remove", systemImage: "trash.fill")
+            }
+          } else {
+            Button(action: {
+
+            }) {
+              Label("Remove", systemImage: "trash.fill")
+            }
+          }
+
+        }
         .padding(.horizontal, 19)
         .padding(.bottom, 15)
 
@@ -32,28 +52,6 @@ struct ChatRow: View {
         Spacer()
       }
     }
-    .contextMenu {
-//      Button(action: {
-//      }) {
-//        Label("Detail", systemImage: "info.circle.fill")
-//      }
-
-      if #available(iOS 15.0, *) {
-        Button(role: .destructive) {
-
-        } label: {
-          Label("Remove", systemImage: "trash.fill")
-        }
-      } else {
-        Button(action: {
-
-        }) {
-          Label("Remove", systemImage: "trash.fill")
-        }
-      }
-
-    }
-
 
   }
 }
