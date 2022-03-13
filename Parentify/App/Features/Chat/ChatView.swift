@@ -19,7 +19,7 @@ struct ChatView: View {
     VStack {
       ScrollView {
         ForEach(presenter.chatsState.value?.reversed() ?? [], id: \.id) { chat in
-          ChatItemView(chat: chat, isSender: chat.sender.userId == sender.userId)
+          ChatRow(chat: chat, isSender: chat.sender.userId == sender.userId)
         }
         .animation(.interactiveSpring(), value: presenter.chatsState)
         .padding(.top, 25)
@@ -62,6 +62,7 @@ struct ChatView: View {
         }
       }
     }
+
   }
 }
 

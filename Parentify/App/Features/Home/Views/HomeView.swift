@@ -65,9 +65,7 @@ struct HomeView: View {
                 .padding(.horizontal, 25)
             }
 
-            NavigationLink(destination: router.routeChat(
-              sender: membershipPresenter.userState.value ?? .initialize)
-            ) {
+            NavigationLink(destination: router.routeChatChannel()) {
               OpenChatCard(unreadChats: $unreadChats)
                 .padding(.top, 28)
                 .padding(.horizontal, 25)
@@ -77,7 +75,7 @@ struct HomeView: View {
               Array(assignmentGroups.enumerated()),
               id: \.offset
             ) { index, item in
-              AssignmentGroupItemView(
+              AssignmentGroupRow(
                 isShowDetail: $isShowDetail,
                 isParent: $isParent,
                 assignmentGroup: item,

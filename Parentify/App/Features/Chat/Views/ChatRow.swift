@@ -1,5 +1,5 @@
 //
-//  ChatItemViews.swift
+//  ChatRow.swift
 //  Parentify
 //
 //  Created by Uwais Alqadri on 2/16/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChatItemView: View {
+struct ChatRow: View {
 
   @State var chat: Chat = .initialize
   @State var isSender: Bool = false

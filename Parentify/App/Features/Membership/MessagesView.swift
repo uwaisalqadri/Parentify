@@ -20,7 +20,7 @@ struct MessagesView: View {
       ScrollView {
         if case .success(let messages) = homePresenter.messagesState {
           ForEach(messages, id: \.id) { message in
-            MessagesItemView(message: message)
+            MessagesRow(message: message)
           }
         } else if case .loading = homePresenter.messagesState {
           ActivityIndicator(isAnimating: .constant(true), style: .large)

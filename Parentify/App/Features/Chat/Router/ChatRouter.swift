@@ -18,6 +18,10 @@ struct ChatRouter {
     return ChatView(presenter: assembler.resolve(), sender: sender)
   }
 
+  func routeChatChannel() -> ChatChannelView {
+    return ChatChannelView(presenter: assembler.resolve())
+  }
+
   func routeProfile(user: User) -> ProfileView {
     let router: MembershipRouter = assembler.resolve()
     return router.routeProfile(user: user)

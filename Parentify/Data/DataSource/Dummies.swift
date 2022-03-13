@@ -14,6 +14,19 @@ func getMessages() -> [Message] {
   ]
 }
 
+func getChatChannel() -> [ChatChannel] {
+  return [
+    .init(chats: getChats(), users: [], isGroupChat: false),
+    .init(chats: getChats(), users: [], isGroupChat: false),
+    .init(chats: getChats(), users: [], isGroupChat: false),
+    .init(chats: getChats(), users: [], isGroupChat: false),
+    .init(chats: getChats(), users: [], isGroupChat: false),
+    .init(chats: getChats(), users: [], isGroupChat: false),
+    .init(chats: getChats(), users: [], isGroupChat: false),
+    .init(chats: getChats(), users: [], isGroupChat: false)
+  ]
+}
+
 func getChats() -> [Chat] {
   return [
     .init(sender: .initialize, message: "Udah dikerjain nak?", sentDate: Date(), seenBy: []),

@@ -1,5 +1,5 @@
 //
-//  MessagesItemView.swift
+//  MessagesRow.swift
 //  Parentify
 //
 //  Created by Uwais Alqadri on 2/16/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MessagesItemView: View {
+struct MessagesRow: View {
 
   @State var message: Message
 

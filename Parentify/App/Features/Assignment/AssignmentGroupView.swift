@@ -32,7 +32,7 @@ struct AssignmentGroupView: View {
               destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: selectedAssignment.id.uuidString, assignmentType: selectedAssignment.type),
               isActive: $isShowDetail
             ) {
-              AssignmentItemView(
+              AssignmentRow(
                 assignment: item,
                 isParent: $isParent,
                 onDelete: { assignment in

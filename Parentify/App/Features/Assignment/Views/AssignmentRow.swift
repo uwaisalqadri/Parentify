@@ -1,5 +1,5 @@
 //
-//  AsignmentItemView.swift
+//  AssignmentGroupRow.swift
 //  Parentify (iOS)
 //
 //  Created by Uwais Alqadri on 2/16/22.
@@ -12,7 +12,7 @@ enum Action {
   case none
 }
 
-struct AssignmentGroupItemView: View {
+struct AssignmentGroupRow: View {
 
   @Binding var isShowDetail: Bool
   @Binding var isParent: Bool
@@ -55,7 +55,7 @@ struct AssignmentGroupItemView: View {
         destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: selectedAssignment.id.uuidString),
         isActive: $isShowDetail
       ) {
-        AssignmentItemView(assignment: item, isParent: $isParent) { action in
+        AssignmentRow(assignment: item, isParent: $isParent) { action in
           print("action", action)
         } onDelete: { assignment in
           onDelete?(assignment)
@@ -92,7 +92,7 @@ struct AssignmentGroupItemView: View {
   }
 }
 
-struct AssignmentItemView: View {
+struct AssignmentRow: View {
 
   var assignment: Assignment
   @Binding var isParent: Bool

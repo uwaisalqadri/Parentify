@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ChatChannel {
+
   static let initialize: ChatChannel = ChatChannel()
 
+  var id: UUID = UUID()
   var chats: [Chat] = []
   var users: [User] = []
   var isGroupChat: Bool = false
