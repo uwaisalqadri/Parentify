@@ -95,12 +95,6 @@ struct HomeView: View {
         }
         .navigationBarHidden(true)
         .progressHUD(isShowing: $membershipPresenter.userState.isLoading)
-        .onAppear {
-          membershipPresenter.getUser()
-          presenter.getMessages()
-          assignmentPresenter.getAssignments()
-          chatPresenter.getUnreadChats()
-        }
         .onReceive(presenter.$addMessageState) { state in
           if case .success = state {
             isAddMessage.toggle()
@@ -137,6 +131,12 @@ struct HomeView: View {
         }
 
       }
+    }
+    .onAppear {
+      membershipPresenter.getUser()
+      presenter.getMessages()
+      assignmentPresenter.getAssignments()
+      chatPresenter.getUnreadChats()
     }
   }
 }
@@ -187,7 +187,8 @@ struct AddMessageDialog: View {
       .padding(15)
       .cardShadow(backgroundColor: .pinkColor, cornerRadius: 15)
 
-    }.padding(20)
+    }
+    .padding(20)
     .cardShadow(cornerRadius: 24)
   }
 }
