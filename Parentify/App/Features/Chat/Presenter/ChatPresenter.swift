@@ -10,6 +10,7 @@ import Foundation
 class ChatPresenter: ObservableObject {
 
   @Published var uploadChatState: ViewState<Bool> = .initiate
+  @Published var deleteChatState: ViewState<Bool> = .initiate
   @Published var chatsState: ViewState<[Chat]> = .initiate
   @Published var unreadChatsState: ViewState<Int> = .initiate
 
@@ -32,6 +33,21 @@ class ChatPresenter: ObservableObject {
       }
     }
   }
+
+  func deleteChat(chat: Chat) {
+    deleteChatState = .loading
+    firebaseManager.deleteChat(chat: chat.map()) { result in
+      switch result {
+      case .success(let isSuccess):
+        self.deleteChatState = .success(data: isSuccess)
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.deleteChatState = .error(error: error)
+        }
+      }
+    }
+  }
+
 
   func getChats() {
     chatsState = .loading

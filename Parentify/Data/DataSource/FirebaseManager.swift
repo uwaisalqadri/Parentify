@@ -42,6 +42,7 @@ protocol FirebaseManager {
 
   // MARK: Chat
   func uploadChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>)
+  func deleteChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>)
   func getChats(completion: @escaping CompletionResult<[ChatEntity]>)
   func getUnreadChats(completion: @escaping CompletionResult<Int>)
 }
@@ -263,6 +264,20 @@ class DefaultFirebaseManager: FirebaseManager {
       .collection(Constant.chat)
       .document(chatId)
       .setData(chat.asFormDictionary()) { error in
+        if let error = error {
+          return completion(.failure(.invalidRequest(error: error)))
+        } else {
+          return completion(.success(true))
+        }
+      }
+  }
+
+  func deleteChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>) {
+    guard let chatId = chat.id else { return }
+    firestoreDatabase
+      .collection(Constant.chat)
+      .document(chatId)
+      .delete { error in
         if let error = error {
           return completion(.failure(.invalidRequest(error: error)))
         } else {

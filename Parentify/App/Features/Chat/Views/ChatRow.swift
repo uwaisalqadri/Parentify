@@ -12,6 +12,8 @@ struct ChatRow: View {
   @State var chat: Chat = .initialize
   @State var isSender: Bool = false
 
+  var onDelete: ((Chat) -> Void)?
+
   var body: some View {
     HStack {
       if isSender {
@@ -30,17 +32,19 @@ struct ChatRow: View {
 //            Label("Detail", systemImage: "info.circle.fill")
 //          }
 
-          if #available(iOS 15.0, *) {
-            Button(role: .destructive) {
-
-            } label: {
-              Label("Remove", systemImage: "trash.fill")
-            }
-          } else {
-            Button(action: {
-
-            }) {
-              Label("Remove", systemImage: "trash.fill")
+          if isSender {
+            if #available(iOS 15.0, *) {
+              Button(role: .destructive) {
+                onDelete?(chat)
+              } label: {
+                Label("Remove", systemImage: "trash.fill")
+              }
+            } else {
+              Button(action: {
+                onDelete?(chat)
+              }) {
+                Label("Remove", systemImage: "trash.fill")
+              }
             }
           }
 

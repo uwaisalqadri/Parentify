@@ -18,8 +18,10 @@ struct ChatView: View {
   var body: some View {
     VStack {
       ScrollView {
-        ForEach(presenter.chatsState.value?.reversed() ?? [], id: \.id) { chat in
-          ChatRow(chat: chat, isSender: chat.sender.userId == sender.userId)
+        ForEach(presenter.chatsState.value?.reversed() ?? [], id: \.id) { data in
+          ChatRow(chat: data, isSender: data.sender.userId == sender.userId) { chat in
+            presenter.deleteChat(chat: chat)
+          }
         }
         .animation(.interactiveSpring(), value: presenter.chatsState)
         .padding(.top, 25)
@@ -56,6 +58,13 @@ struct ChatView: View {
       presenter.getChats()
     }
     .onReceive(presenter.$uploadChatState) { state in
+      if case .success = state {
+        withAnimation(.linear) {
+          presenter.getChats()
+        }
+      }
+    }
+    .onReceive(presenter.$deleteChatState) { state in
       if case .success = state {
         withAnimation(.linear) {
           presenter.getChats()
