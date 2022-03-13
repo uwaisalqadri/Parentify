@@ -14,7 +14,7 @@ enum UserRole: String {
 }
 
 struct User {
-  static let initialize: User = User()
+  static let empty: User = User()
 
   var userId: String = ""
   var role: UserRole = .children

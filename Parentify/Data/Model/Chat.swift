@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChatChannel {
 
-  static let initialize: ChatChannel = ChatChannel()
+  static let empty: ChatChannel = ChatChannel()
 
   var id: UUID = UUID()
   var chats: [Chat] = []
@@ -18,10 +18,10 @@ struct ChatChannel {
 }
 
 struct Chat {
-  static let initialize: Chat = Chat()
+  static let empty: Chat = Chat()
 
   var id: UUID = UUID()
-  var sender: User = .initialize
+  var sender: User = .empty
   var message: String = ""
   var sentDate: Date = Date()
   var isRead: Bool = false

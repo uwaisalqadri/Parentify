@@ -33,6 +33,7 @@ protocol FirebaseManager {
   func addAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
   func updateAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
   func deleteAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
+  func updateFinishedAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
   func getAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>)
   func getDetailAssignment(assignmentId: String, completion: @escaping CompletionResult<AssignmentEntity>)
 
@@ -193,6 +194,20 @@ class DefaultFirebaseManager: FirebaseManager {
   }
 
   func updateAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>) {
+    guard let assignmentId = assignment.id else { return }
+    firestoreDatabase
+      .collection(Constant.assignment)
+      .document(assignmentId)
+      .updateData(assignment.asFormDictionary()) { error in
+        if let error = error {
+          return completion(.failure(.invalidRequest(error: error)))
+        } else {
+          return completion(.success(true))
+        }
+      }
+  }
+
+  func updateFinishedAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>) {
     guard let assignmentId = assignment.id else { return }
     firestoreDatabase
       .collection(Constant.assignment)

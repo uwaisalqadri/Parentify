@@ -24,7 +24,6 @@ struct HomeView: View {
   @State var isParent = false
 
   let router: HomeRouter
-  let assignmentRouter: AssignmentRouter
 
   var body: some View {
     NavigationView {
@@ -66,7 +65,7 @@ struct HomeView: View {
             }
 
             NavigationLink(destination: router.routeChatChannel(
-              sender: membershipPresenter.userState.value ?? .initialize)
+              sender: membershipPresenter.userState.value ?? .empty)
             ) {
               OpenChatCard(unreadChats: $unreadChats)
                 .padding(.top, 28)
@@ -81,7 +80,6 @@ struct HomeView: View {
                 isShowDetail: $isShowDetail,
                 isParent: $isParent,
                 assignmentGroup: item,
-                router: assignmentRouter,
                 onDelete: { assignment in
                   assignmentPresenter.deleteAssignment(assignment: assignment)
                 },
@@ -197,6 +195,6 @@ struct HomeView_Previews: PreviewProvider {
   static var assembler: Assembler = AppAssembler()
 
   static var previews: some View {
-    HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
+    HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve())
   }
 }

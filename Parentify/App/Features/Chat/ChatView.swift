@@ -12,22 +12,21 @@ struct ChatView: View {
 
   @ObservedObject var presenter: ChatPresenter
   @State private var inputText: String = ""
+  @State private var chats: [Chat] = []
 
-  @State var sender: User = .initialize
+  @State var sender: User = .empty
 
   var body: some View {
     VStack {
-      ScrollView {
-        ForEach(presenter.chatsState.value?.reversed() ?? [], id: \.id) { data in
-          ChatRow(chat: data, isSender: data.sender.userId == sender.userId) { chat in
-            presenter.deleteChat(chat: chat)
+      ReverseScrollView {
+        VStack {
+          ForEach(chats, id: \.id) { data in
+            ChatRow(chat: data, isSender: data.sender.userId == sender.userId) { chat in
+              presenter.deleteChat(chat: chat)
+            }
           }
         }
-        .animation(.interactiveSpring(), value: presenter.chatsState)
         .padding(.top, 25)
-      }.introspectScrollView { scrollView in
-        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.height + scrollView.contentInset.bottom)
-        scrollView.setContentOffset(bottomOffset, animated: true)
       }
 
       ChatInputField(text: $inputText) { text in
@@ -43,12 +42,15 @@ struct ChatView: View {
       }
 
     }
-    .navigationBarTitle("Chat")
+    .navigationBarTitle(sender.name)
+    .navigationBarTitleDisplayMode(.inline)
     .overlay(
-      ImageCard(profileImage: sender.profilePict)
-        .frame(width: 48, height: 48)
-        .padding(.trailing, 20)
-        .offset(x: 0, y: -80)
+      VStack {
+        ImageCard(profileImage: sender.profilePict)
+          .frame(width: 48, height: 48)
+          .padding(.trailing, 20)
+          .padding(.top, 35)
+      }.offset(x: 0, y: -80)
       , alignment: .topTrailing
     )
     .onTapGesture {
@@ -57,18 +59,19 @@ struct ChatView: View {
     .onAppear {
       presenter.getChats()
     }
+    .onReceive(presenter.$chatsState) { state in
+      if case .success(let data) = state {
+        chats = data
+      }
+    }
     .onReceive(presenter.$uploadChatState) { state in
       if case .success = state {
-        withAnimation(.linear) {
-          presenter.getChats()
-        }
+        presenter.getChats()
       }
     }
     .onReceive(presenter.$deleteChatState) { state in
       if case .success = state {
-        withAnimation(.linear) {
-          presenter.getChats()
-        }
+        presenter.getChats()
       }
     }
 
@@ -81,38 +84,5 @@ struct ChatView_Previews: PreviewProvider {
 
   static var previews: some View {
     ChatView(presenter: assembler.resolve())
-  }
-}
-
-
-struct TestAnimationInStack: View {
-  @State var ContentArray = ["A","B","C", "D", "E", "F", "G", "I", "J"]
-  var body: some View {
-    ScrollView{
-      VStack{
-        ForEach(Array(ContentArray.enumerated()), id: \.element){ (i, item) in // << 1) !
-          ZStack{
-            // Object
-            Text(item)
-              .frame(width:100,height:100)
-              .background(Color.gray)
-              .cornerRadius(20)
-              .padding()
-            //Delete button
-            Button(action: {
-              withAnimation { () -> () in              // << 2) !!
-                self.ContentArray.remove(at: i)
-              }
-            }){
-              Text("✕")
-                .foregroundColor(.white)
-                .frame(width:40,height:40)
-                .background(Color.red)
-                .cornerRadius(100)
-            }.offset(x:40,y:-40)
-          }.transition(AnyTransition.scale)              // << 3) !!!
-        }
-      }
-    }
   }
 }

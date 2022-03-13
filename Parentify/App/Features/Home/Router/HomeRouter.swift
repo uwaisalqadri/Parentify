@@ -15,10 +15,10 @@ struct HomeRouter {
   }
 
   func routeHome() -> HomeView {
-    return HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: self, assignmentRouter: assembler.resolve())
+    return HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: self)
   }
 
-  func routeProfile(isNewUser: Bool = false, user: User = .initialize) -> ProfileView {
+  func routeProfile(isNewUser: Bool = false, user: User = .empty) -> ProfileView {
     let router: MembershipRouter = assembler.resolve()
     return router.routeProfile(isNewUser: isNewUser, user: user)
   }

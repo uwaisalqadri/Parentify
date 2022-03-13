@@ -29,12 +29,12 @@ func getChatChannel() -> [ChatChannel] {
 
 func getChats() -> [Chat] {
   return [
-    .init(sender: .initialize, message: "Udah dikerjain nak?", sentDate: Date(), seenBy: []),
-    .init(sender: .initialize, message: "Nanti klo udah selesai di kumpulin ke guru ya", sentDate: Date(), seenBy: []),
-    .init(sender: .initialize, message: "Aman ma", sentDate: Date(), seenBy: []),
-    .init(sender: .initialize, message: "Udah dikerjain nak?", sentDate: Date(), seenBy: []),
-    .init(sender: .initialize, message: "Nanti klo udah selesai di kumpulin ke guru ya", sentDate: Date(), seenBy: []),
-    .init(sender: .initialize, message: "Aman ma", sentDate: Date(), seenBy: [])
+    .init(sender: .empty, message: "Udah dikerjain nak?", sentDate: Date(), seenBy: []),
+    .init(sender: .empty, message: "Nanti klo udah selesai di kumpulin ke guru ya", sentDate: Date(), seenBy: []),
+    .init(sender: .empty, message: "Aman ma", sentDate: Date(), seenBy: []),
+    .init(sender: .empty, message: "Udah dikerjain nak?", sentDate: Date(), seenBy: []),
+    .init(sender: .empty, message: "Nanti klo udah selesai di kumpulin ke guru ya", sentDate: Date(), seenBy: []),
+    .init(sender: .empty, message: "Aman ma", sentDate: Date(), seenBy: [])
   ]
 }
 

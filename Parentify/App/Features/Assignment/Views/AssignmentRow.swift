@@ -18,12 +18,13 @@ struct AssignmentGroupRow: View {
   @Binding var isParent: Bool
 
   var assignmentGroup: AssignmentGroup
-  var router: AssignmentRouter
   var onDelete: ((Assignment) -> Void)?
   var onUploaded: (() -> Void)?
 
   @State var actionTitle: String = "Lihat Semuanya"
-  @State var selectedAssignment: Assignment = .initialize
+  @State var selectedAssignment: Assignment = .empty
+
+  var router: AssignmentRouter = AppAssembler.shared.resolve()
 
   var body: some View {
     HStack {
@@ -110,6 +111,9 @@ struct AssignmentRow: View {
         .padding([.top, .trailing], 30)
 
       AssignmentCard(isParent: _isParent, assignment: assignment, onSwipe: onSwipe, onDelete: onDelete, onShowDetail: onShowDetail)
+        .onTapGesture {
+          onShowDetail?(assignment)
+        }
 
     }.padding(.bottom, 50)
   }
@@ -223,8 +227,8 @@ struct AssignmentCard: View {
             }
           }
         }
-
       }
+
     }
   }
 }

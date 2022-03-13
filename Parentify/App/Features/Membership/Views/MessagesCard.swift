@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MessagesText: View {
 
-  @State var message: Message = .initialize
+  @State var message: Message = .empty
 
   var roleName: String {
     switch message.role {

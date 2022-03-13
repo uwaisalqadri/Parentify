@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Message {
-  static let initialize: Message = Message()
+  static let empty: Message = Message()
 
   var id = UUID()
   var message: String = ""

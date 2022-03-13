@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChatRow: View {
 
-  @State var chat: Chat = .initialize
+  @State var chat: Chat = .empty
   @State var isSender: Bool = false
 
   var onDelete: ((Chat) -> Void)?

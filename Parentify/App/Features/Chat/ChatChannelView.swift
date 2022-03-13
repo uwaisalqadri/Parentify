@@ -10,17 +10,17 @@ import SwiftUI
 struct ChatChannelView: View {
 
   @ObservedObject var presenter: ChatPresenter
-  @State var sender: User = .initialize
+  @State var sender: User = .empty
 
   let router: ChatRouter
 
   var body: some View {
     List(getChatChannel(), id: \.id) { chatChannel in
-      NavigationLink(destination: router.routeChat()) {
+      NavigationLink(destination: router.routeChat(sender: sender)) {
         ChatChannelRow()
       }.buttonStyle(PlainButtonStyle())
     }
-    .navigationTitle("Chat Channel")
+    .navigationTitle("Chats")
     .onAppear {
       // TODO: Get chat channel
     }

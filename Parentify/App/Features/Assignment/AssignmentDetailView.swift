@@ -15,7 +15,7 @@ struct AssignmentDetailView: View {
   @State var assignmentType: AssigmnentType = .additional
   @State private var sortOrder: SortOrder = .defaultOrder
 
-  @State var assignment: Assignment = .initialize
+  @State var assignment: Assignment = .empty
   @State var title: String = "Judul"
   @State var description: String = "Deskripsi"
   @State var imageSystemName: String = "plus"

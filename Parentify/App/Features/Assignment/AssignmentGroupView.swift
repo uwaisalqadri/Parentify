@@ -17,8 +17,8 @@ struct AssignmentGroupView: View {
   @State var isShowDetail: Bool = false
   @State var isAddAssignment: Bool = false
 
-  @State var assignmentGroup: AssignmentGroup = .initialize
-  @State var selectedAssignment: Assignment = .initialize
+  @State var assignmentGroup: AssignmentGroup = .empty
+  @State var selectedAssignment: Assignment = .empty
   let router: AssignmentRouter
 
   var onUploaded: (() -> Void)?

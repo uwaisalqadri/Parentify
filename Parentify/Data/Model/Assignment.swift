@@ -13,7 +13,7 @@ enum AssigmnentType: String, CaseIterable {
 }
 
 struct AssignmentGroup {
-  static let initialize: AssignmentGroup = AssignmentGroup()
+  static let empty: AssignmentGroup = AssignmentGroup()
 
   var id: UUID = UUID()
   var title: String = ""
@@ -22,7 +22,7 @@ struct AssignmentGroup {
 }
 
 struct Assignment {
-  static let initialize: Assignment = Assignment()
+  static let empty: Assignment = Assignment()
 
   var id: UUID = UUID()
   var iconName: String = ""

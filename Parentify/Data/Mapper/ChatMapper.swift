@@ -11,7 +11,7 @@ extension ChatEntity {
   func map() -> Chat {
     return Chat(
       id: UUID(uuidString: id.orEmpty()) ?? UUID(),
-      sender: sender?.map() ?? .initialize,
+      sender: sender?.map() ?? .empty,
       message: message.orEmpty(),
       sentDate: sentDate?.date ?? Date(),
       isRead: isRead ?? false,
