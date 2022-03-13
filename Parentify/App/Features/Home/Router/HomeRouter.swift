@@ -33,9 +33,9 @@ struct HomeRouter {
     return router.routeChat(sender: sender)
   }
 
-  func routeChatChannel() -> ChatChannelView {
+  func routeChatChannel(sender: User) -> ChatChannelView {
     let router: ChatRouter = assembler.resolve()
-    return router.routeChatChannel()
+    return router.routeChatChannel(sender: sender)
   }
 
 }

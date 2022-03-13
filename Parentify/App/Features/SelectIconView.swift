@@ -29,7 +29,7 @@ struct SelectIconView: View {
             GridItem(.adaptive(minimum: 40), spacing: 40, alignment: .center)
           ], alignment: .center, spacing: 25) {
             ForEach(sfSymbols.symbols(for: sortOrder), id: \.self) { symbol in
-              IconItemView(symbol: symbol, onSelectSymbol: onSelectSymbol)
+              IconRow(symbol: symbol, onSelectSymbol: onSelectSymbol)
             }
           }
         }.padding(20)

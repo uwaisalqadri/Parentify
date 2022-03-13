@@ -38,8 +38,8 @@ struct ChatView: View {
             seenBy: []
           )
         )
-
       }
+
     }
     .navigationBarTitle("Chat")
     .overlay(

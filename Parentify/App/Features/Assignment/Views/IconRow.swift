@@ -1,5 +1,5 @@
 //
-//  IconItemView.swift
+//  IconRow.swift
 //  Celengan
 //
 //  Created by Uwais Alqadri on 2/12/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct IconItemView: View {
+struct IconRow: View {
 
   let symbol: SFSymbol
   var onSelectSymbol: ((SFSymbol) -> Void)?
@@ -34,7 +34,7 @@ struct IconItemView: View {
 
 struct IconItemView_Previews: PreviewProvider {
   static var previews: some View {
-    IconItemView(symbol: SFSymbol(name: "leaf.fill"))
+    IconRow(symbol: SFSymbol(name: "leaf.fill"))
       .previewLayout(.sizeThatFits)
   }
 }
