@@ -18,7 +18,7 @@ struct MessagesText: View {
     case .mother:
       return "Ibu"
     case .children:
-      return ""
+      return "unknown"
     }
   }
 
@@ -34,7 +34,7 @@ struct MessagesText: View {
 
 struct MessagesCard: View {
 
-  @State var messages: [Message] = []
+  @Binding var messages: [Message]
   @Binding var isParent: Bool
 
   let router: HomeRouter
@@ -55,7 +55,7 @@ struct MessagesCard: View {
 
       NavigationLink(destination: router.routeMessages(isParent: $isParent)) {
         VStack(alignment: .leading) {
-          ForEach(Array(messages.prefix(5)), id: \.id) { message in
+          ForEach(Array(messages.prefix(4)), id: \.id) { message in
             HStack {
               MessagesText(message: message)
 
@@ -64,6 +64,14 @@ struct MessagesCard: View {
           }
           .padding(.horizontal, 23)
           .padding(.bottom, 3)
+
+          if messages.isEmpty {
+            Image(systemName: "bell.slash.fill")
+              .resizable()
+              .foregroundColor(.purpleColor)
+              .frame(width: 30, height: 30)
+              .padding(.top, 50)
+          }
         }
       }
       .buttonStyle(FlatLinkStyle())

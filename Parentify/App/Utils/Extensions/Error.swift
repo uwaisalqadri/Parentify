@@ -1,5 +1,5 @@
 //
-//  Error+Ext.swift
+//  Error.swift
 //  Parentify
 //
 //  Created by Uwais Alqadri on 2/20/22.

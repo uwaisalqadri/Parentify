@@ -1,5 +1,5 @@
 //
-//  View+Ext.swift
+//  View.swift
 //  Parentify
 //
 //  Created by Uwais Alqadri on 2/14/22.

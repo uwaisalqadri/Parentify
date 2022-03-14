@@ -53,7 +53,6 @@ class DefaultFirebaseManager: FirebaseManager {
   private let firebaseAuth = Auth.auth()
   private let firestoreDatabase = Firestore.firestore()
 
-  // MARK: Membership
   func registerUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {
     firebaseAuth.createUser(withEmail: email, password: password) { result, error in
       if let error = error {
@@ -134,11 +133,14 @@ class DefaultFirebaseManager: FirebaseManager {
         }
       }
   }
+}
 
-  // MARK: Assigment
+extension DefaultFirebaseManager {
+
   func getAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>) {
     firestoreDatabase
       .collection(Constant.assignment)
+      //.newWhere(recordDate: .assignment)
       .getDocuments { querySnapshot, error in
         if let error = error {
           completion(.failure(.invalidRequest(error: error)))
@@ -235,7 +237,10 @@ class DefaultFirebaseManager: FirebaseManager {
       }
   }
 
-  // MARK: Messages
+}
+
+extension DefaultFirebaseManager {
+
   func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>) {
     guard let messageId = message.id else { return }
     firestoreDatabase
@@ -253,7 +258,7 @@ class DefaultFirebaseManager: FirebaseManager {
   func getMessages(completion: @escaping CompletionResult<[MessageEntity]>) {
     firestoreDatabase
       .collection(Constant.messages)
-      //.order(by: "datetime", descending: true)
+      //.newWhere(recordDate: .message)
       .getDocuments { querySnapshot, error in
         if let error = error {
           completion(.failure(.invalidRequest(error: error)))
@@ -272,6 +277,10 @@ class DefaultFirebaseManager: FirebaseManager {
         }
       }
   }
+}
+
+extension DefaultFirebaseManager {
+
 
   func uploadChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>) {
     guard let chatId = chat.id else { return }
@@ -304,6 +313,7 @@ class DefaultFirebaseManager: FirebaseManager {
   func getChats(completion: @escaping CompletionResult<[ChatEntity]>) {
     firestoreDatabase
       .collection(Constant.chat)
+      //.newWhere(recordDate: .chat)
       .getDocuments { querySnapshot, error in
         if let error = error {
           completion(.failure(.invalidRequest(error: error)))
@@ -345,5 +355,4 @@ class DefaultFirebaseManager: FirebaseManager {
         }
       }
   }
-
 }

@@ -1,5 +1,5 @@
 //
-//  String+Ext.swift
+//  String.swift
 //  Parentify
 //
 //  Created by Uwais Alqadri on 2/14/22.
@@ -32,6 +32,10 @@ extension String {
     get { self.toDate() }
     set { self = newValue.toString() }
   }
+
+}
+
+extension String {
 
   func toDate(withFormat format: String = "yyyy-MM-dd'T'HH:mm:ss'Z'")-> Date {
     let dateFormatter = DateFormatter()

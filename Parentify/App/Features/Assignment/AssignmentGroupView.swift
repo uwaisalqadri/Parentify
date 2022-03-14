@@ -104,6 +104,7 @@ struct AssignmentGroupView: View {
       }.buttonStyle(FlatLinkStyle())
     )
     .onAppear {
+      assignmentGroup = getAssignmentGroups(assignments: [])[0]
       presenter.getAssignments()
     }
     .onReceive(presenter.$assignmentsState) { state in

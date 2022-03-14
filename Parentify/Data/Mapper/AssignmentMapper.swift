@@ -21,7 +21,7 @@ extension AssignmentEntity {
       title: title.orEmpty(),
       description: description.orEmpty(),
       type: AssigmnentType(rawValue: type?.rawValue ?? "")!,
-      dateCreated: dateCreated?.date ?? Date(),
+      dateCreated: dateCreated?.toDate() ?? Date(),
       attachments: attachments ?? [],
       assignedTo: assignedTo?.map { $0.map() } ?? []
     )
@@ -36,7 +36,7 @@ extension Assignment {
       title: title,
       description: description,
       type: AssigmnentTypeEntity(rawValue: type.rawValue),
-      dateCreated: dateCreated.string,
+      dateCreated: dateCreated.toTimestamp(),
       attachments: attachments,
       assignedTo: assignedTo.map { $0.map() }
     )

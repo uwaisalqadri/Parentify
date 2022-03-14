@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 enum AssigmnentTypeEntity: String, Codable {
   case needToDone = "need_to_done"
@@ -30,11 +31,11 @@ struct AssignmentEntity: BodyCodable, Codable {
   var title: String?
   var description: String?
   var type: AssigmnentTypeEntity?
-  var dateCreated: String?
+  var dateCreated: Timestamp?
   var attachments: [String]?
   var assignedTo: [UserEntity]?
 
-  init(id: String?, iconName: String?, title: String?, description: String?, type: AssigmnentTypeEntity?, dateCreated: String?, attachments: [String]?, assignedTo: [UserEntity]?) {
+  init(id: String?, iconName: String?, title: String?, description: String?, type: AssigmnentTypeEntity?, dateCreated: Timestamp?, attachments: [String]?, assignedTo: [UserEntity]?) {
     self.id = id
     self.iconName = iconName
     self.title = title

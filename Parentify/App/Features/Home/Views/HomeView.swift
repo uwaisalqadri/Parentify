@@ -16,6 +16,7 @@ struct HomeView: View {
 
   @State var assignmentGroups = [AssignmentGroup]()
   @State var assignments = [Assignment]()
+  @State var messages = [Message]()
 
   @State var unreadChats: Int = 0
   @State var isShowDetail = false
@@ -50,19 +51,17 @@ struct HomeView: View {
 
             }.padding([.horizontal, .top], 32)
 
-            if case .success(let messages) = presenter.messagesState {
-              MessagesCard(
-                messages: messages,
-                isParent: $isParent,
-                router: router,
-                onAddMessage: {
-                  isAddMessage.toggle()
-                }
-              )
-                .frame(height: 243)
-                .padding(.top, 20)
-                .padding(.horizontal, 25)
-            }
+            MessagesCard(
+              messages: $messages,
+              isParent: $isParent,
+              router: router,
+              onAddMessage: {
+                isAddMessage.toggle()
+              }
+            )
+            .frame(height: 243)
+            .padding(.top, 20)
+            .padding(.horizontal, 25)
 
             NavigationLink(destination: router.routeChatChannel(
               sender: membershipPresenter.userState.value ?? .empty)
@@ -93,6 +92,11 @@ struct HomeView: View {
         }
         .navigationBarHidden(true)
         .progressHUD(isShowing: $membershipPresenter.userState.isLoading)
+        .onAppear {
+          presenter.getMessages()
+          assignmentPresenter.getAssignments()
+          chatPresenter.getUnreadChats()
+        }
         .onReceive(presenter.$addMessageState) { state in
           if case .success = state {
             isAddMessage.toggle()
@@ -119,6 +123,11 @@ struct HomeView: View {
             unreadChats = data
           }
         }
+        .onReceive(presenter.$messagesState) { state in
+          if case .success(let data) = state {
+            messages = data
+          }
+        }
         .customDialog(isShowing: $isAddMessage) {
           AddMessageDialog { textMessage in
             let role = membershipPresenter.userState.value?.role ?? .children
@@ -131,10 +140,8 @@ struct HomeView: View {
       }
     }
     .onAppear {
+      assignmentGroups = getAssignmentGroups(assignments: [])
       membershipPresenter.getUser()
-      presenter.getMessages()
-      assignmentPresenter.getAssignments()
-      chatPresenter.getUnreadChats()
     }
   }
 }

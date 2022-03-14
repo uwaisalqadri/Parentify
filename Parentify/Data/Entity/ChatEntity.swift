@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct ChatEntity: BodyCodable, Codable {
 
@@ -20,11 +21,11 @@ struct ChatEntity: BodyCodable, Codable {
   var id: String?
   var sender: UserEntity?
   var message: String?
-  var sentDate: String?
+  var sentDate: Timestamp?
   var isRead: Bool?
   var seenBy: [UserEntity]?
 
-  init(id: String?, sender: UserEntity?, message: String?, sentDate: String?, isRead: Bool?, seenBy: [UserEntity]?) {
+  init(id: String?, sender: UserEntity?, message: String?, sentDate: Timestamp?, isRead: Bool?, seenBy: [UserEntity]?) {
     self.id = id
     self.sender = sender
     self.message = message

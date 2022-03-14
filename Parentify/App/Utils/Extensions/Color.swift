@@ -1,5 +1,5 @@
 //
-//  Color+Ext.swift
+//  Color.swift
 //  Parentify
 //
 //  Created by Uwais Alqadri on 2/14/22.

@@ -5,7 +5,7 @@
 //  Created by Uwais Alqadri on 2/20/22.
 //
 
-import Foundation
+import Firebase
 
 struct MessageEntity: BodyCodable, Codable {
 
@@ -19,9 +19,9 @@ struct MessageEntity: BodyCodable, Codable {
   var id: String?
   var message: String?
   var role: UserRoleEntity?
-  var datetime: String?
+  var datetime: Timestamp?
 
-  init(id: String?, message: String?, role: UserRoleEntity?, datetime: String?) {
+  init(id: String?, message: String?, role: UserRoleEntity?, datetime: Timestamp?) {
     self.id = id
     self.message = message
     self.role = role

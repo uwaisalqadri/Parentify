@@ -13,7 +13,7 @@ extension ChatEntity {
       id: UUID(uuidString: id.orEmpty()) ?? UUID(),
       sender: sender?.map() ?? .empty,
       message: message.orEmpty(),
-      sentDate: sentDate?.date ?? Date(),
+      sentDate: sentDate?.toDate() ?? Date(),
       isRead: isRead ?? false,
       seenBy: seenBy?.map { $0.map() } ?? []
     )
@@ -26,7 +26,7 @@ extension Chat {
       id: id.uuidString,
       sender: sender.map(),
       message: message,
-      sentDate: sentDate.string,
+      sentDate: sentDate.toTimestamp(),
       isRead: isRead,
       seenBy: seenBy.map { $0.map() }
     )
