@@ -161,7 +161,9 @@ struct ProfileView: View {
       }
     }
     .onDisappear {
-      // TODO: Save changes if any
+      if !isNewUser {
+        presenter.stopUser()
+      }
     }
     .onReceive(presenter.$createUserState) { state in
       if case .success = state {

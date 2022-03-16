@@ -29,6 +29,8 @@ protocol FirebaseManager {
   func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func fetchUser(completion: @escaping CompletionResult<UserEntity>)
   func fetchUsers(completion: @escaping CompletionResult<[UserEntity]>)
+  func stopUsers()
+  func stopUser()
 
   // MARK: Assignment
   func addAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
@@ -47,13 +49,18 @@ protocol FirebaseManager {
   func deleteChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>)
   func fetchChats(completion: @escaping CompletionResult<[ChatEntity]>)
   func fetchUnreadChats(completion: @escaping CompletionResult<Int>)
+  func stopChats()
+
 }
 
 class DefaultFirebaseManager: FirebaseManager {
 
   static let shared: DefaultFirebaseManager = DefaultFirebaseManager()
-
   let firebaseAuth = Auth.auth()
+
+  private var chatListener: ListenerRegistration?
+  private var usersListener: ListenerRegistration?
+  private var userListener: ListenerRegistration?
 
   func registerUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {
     firebaseAuth.createUser(withEmail: email, password: password) { result, error in
@@ -114,44 +121,62 @@ class DefaultFirebaseManager: FirebaseManager {
 
   func fetchUser(completion: @escaping CompletionResult<UserEntity>) {
     guard let email = firebaseAuth.currentUser?.email else { return }
-    firestoreCollection(.membership)
-      .document(email)
-      .getDocument { snapshot, error in
-        if let error = error {
-          completion(.failure(.invalidRequest(error: error)))
-        } else {
-          let result = Result { try snapshot?.data(as: UserEntity.self) }
-          switch result {
-          case .success(let data):
-            if let data = data {
-              completion(.success(data))
-            }
-          case .failure:
-            completion(.failure(.unknownError))
-          }
-        }
-      }
-  }
-
-  func fetchUsers(completion: @escaping CompletionResult<[UserEntity]>) {
-    firestoreCollection(.membership)
-      .getDocuments { querySnapshot, error in
-        if let error = error {
-          completion(.failure(.invalidRequest(error: error)))
-        } else if let querySnapshot = querySnapshot {
-          var users = [UserEntity]()
-          for document in querySnapshot.documents {
-            do {
-              if let user = try document.data(as: UserEntity.self) {
-                users.append(user)
+    if userListener == nil {
+      userListener = firestoreCollection(.membership)
+        .document(email)
+        .addSnapshotListener { querySnapshot, error in
+          if let error = error {
+            completion(.failure(.invalidRequest(error: error)))
+          } else {
+            let result = Result { try querySnapshot?.data(as: UserEntity.self) }
+            switch result {
+            case .success(let data):
+              if let data = data {
+                completion(.success(data))
               }
-              completion(.success(users))
-            } catch {
+            case .failure:
               completion(.failure(.unknownError))
             }
           }
         }
-      }
+    }
+  }
+
+  func fetchUsers(completion: @escaping CompletionResult<[UserEntity]>) {
+    if usersListener == nil {
+      usersListener = firestoreCollection(.membership)
+        .addSnapshotListener { querySnapshot, error in
+          if let error = error {
+            completion(.failure(.invalidRequest(error: error)))
+          } else if let querySnapshot = querySnapshot {
+            var users = [UserEntity]()
+            for document in querySnapshot.documents {
+              do {
+                if let user = try document.data(as: UserEntity.self) {
+                  users.append(user)
+                }
+                completion(.success(users))
+              } catch {
+                completion(.failure(.unknownError))
+              }
+            }
+          }
+        }
+    }
+  }
+
+  func stopUsers() {
+    if usersListener != nil {
+      usersListener?.remove()
+      usersListener = nil
+    }
+  }
+
+  func stopUser() {
+    if userListener != nil {
+      userListener?.remove()
+      userListener = nil
+    }
   }
 
 }
@@ -290,6 +315,7 @@ extension DefaultFirebaseManager {
         }
       }
   }
+
 }
 
 extension DefaultFirebaseManager {
@@ -321,28 +347,6 @@ extension DefaultFirebaseManager {
       }
   }
 
-  func fetchChats(completion: @escaping CompletionResult<[ChatEntity]>) {
-    firestoreCollection(.chat)
-      .orderByDate(recordDate: .chat)
-      .getDocuments { querySnapshot, error in
-        if let error = error {
-          completion(.failure(.invalidRequest(error: error)))
-        } else if let querySnapshot = querySnapshot {
-          var chats = [ChatEntity]()
-          for document in querySnapshot.documents {
-            do {
-              if let chat = try document.data(as: ChatEntity.self) {
-                chats.append(chat)
-              }
-              completion(.success(chats))
-            } catch {
-              completion(.failure(.unknownError))
-            }
-          }
-        }
-      }
-  }
-
   func fetchUnreadChats(completion: @escaping CompletionResult<Int>) {
     firestoreCollection(.chat)
       .whereField("is_read", isEqualTo: false)
@@ -364,4 +368,36 @@ extension DefaultFirebaseManager {
         }
       }
   }
+
+  func fetchChats(completion: @escaping CompletionResult<[ChatEntity]>) {
+    if chatListener == nil {
+      chatListener = firestoreCollection(.chat)
+        .orderByDate(recordDate: .chat)
+        .addSnapshotListener { querySnapshot, error in
+          if let error = error {
+            completion(.failure(.invalidRequest(error: error)))
+          } else if let querySnapshot = querySnapshot {
+            var chats = [ChatEntity]()
+            for document in  querySnapshot.documents {
+              do {
+                if let chat = try document.data(as: ChatEntity.self) {
+                  chats.append(chat)
+                }
+                completion(.success(chats))
+              } catch {
+                completion(.failure(.unknownError))
+              }
+            }
+          }
+        }
+    }
+  }
+
+  func stopChats() {
+    if chatListener != nil {
+      chatListener?.remove()
+      chatListener = nil
+    }
+  }
+
 }

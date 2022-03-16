@@ -17,6 +17,8 @@ struct ChatInputField: View {
       TextField("Type Chat...", text: $text)
         .font(.system(size: 13, weight: .medium))
         .foregroundColor(.black)
+        .autocapitalization(.none)
+        .disableAutocorrection(true)
         .padding(13)
         .background(
           Color.softgrayColor

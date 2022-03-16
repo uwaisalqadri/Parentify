@@ -31,6 +31,9 @@ struct ChatChannelView: View {
     .onAppear {
       membershipPresenter.fetchUsers()
     }
+    .onDisappear(perform: {
+      membershipPresenter.stopUsers()
+    })
     .onReceive(membershipPresenter.$allUserState) { state in
       if case .success(let data) = state {
         contacts = data.filter { $0.userId != sender.userId }

@@ -36,6 +36,10 @@ class MembershipPresenter: ObservableObject {
     }
   }
 
+  func stopUser() {
+    firebaseManager.stopUser()
+  }
+
   func fetchUsers() {
     allUserState = .loading
     firebaseManager.fetchUsers { result in
@@ -48,6 +52,10 @@ class MembershipPresenter: ObservableObject {
         }
       }
     }
+  }
+
+  func stopUsers() {
+    firebaseManager.stopUsers()
   }
 
   func createUser(user: User) {

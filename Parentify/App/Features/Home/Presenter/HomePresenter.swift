@@ -45,5 +45,4 @@ class HomePresenter: ObservableObject {
       }
     }
   }
-
 }

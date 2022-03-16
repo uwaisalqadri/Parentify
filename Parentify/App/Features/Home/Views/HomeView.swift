@@ -143,6 +143,9 @@ struct HomeView: View {
       assignmentGroups = getAssignmentGroups(assignments: [])
       membershipPresenter.fetchUser()
     }
+    .onDisappear {
+      membershipPresenter.stopUser()
+    }
   }
 }
 

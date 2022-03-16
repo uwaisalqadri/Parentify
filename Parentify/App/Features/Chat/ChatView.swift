@@ -29,6 +29,27 @@ struct ChatView: View {
         .padding(.top, 25)
       }
 
+      if chats.isEmpty {
+        HStack(alignment: .center) {
+          Spacer()
+
+          VStack(alignment: .center) {
+            Image(systemName: "message.and.waveform.fill")
+              .resizable()
+              .foregroundColor(.purpleColor)
+              .frame(width: 70, height: 60)
+
+            Text("Start a Chat")
+              .font(.system(size: 20, weight: .semibold))
+              .foregroundColor(.purpleColor)
+          }
+
+          Spacer()
+        }
+        .padding(.vertical, 60)
+        .padding(.bottom, 150)
+      }
+
       ChatInputField(text: $inputText) { text in
         presenter.uploadChat(
           chat: .init(
@@ -59,6 +80,9 @@ struct ChatView: View {
     .onAppear {
       presenter.fetchChats()
     }
+    .onDisappear(perform: {
+      presenter.stopChats()
+    })
     .onReceive(presenter.$chatsState) { state in
       if case .success(let data) = state {
         chats = data

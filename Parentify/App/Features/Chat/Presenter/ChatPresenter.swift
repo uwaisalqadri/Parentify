@@ -63,6 +63,10 @@ class ChatPresenter: ObservableObject {
     }
   }
 
+  func stopChats() {
+    firebaseManager.stopChats()
+  }
+
   func fetchUnreadChats() {
     unreadChatsState = .loading
     firebaseManager.fetchUnreadChats { result in
