@@ -55,7 +55,7 @@ struct MessagesCard: View {
 
       NavigationLink(destination: router.routeMessages(isParent: $isParent)) {
         VStack(alignment: .leading) {
-          ForEach(Array(messages.prefix(4)), id: \.id) { message in
+          ForEach(Array(messages.prefix(5)), id: \.id) { message in
             HStack {
               MessagesText(message: message)
 

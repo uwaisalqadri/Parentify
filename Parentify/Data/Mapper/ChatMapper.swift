@@ -26,7 +26,7 @@ extension Chat {
       id: id.uuidString,
       sender: sender.map(),
       message: message,
-      sentDate: sentDate.toTimestamp(),
+      sentDate: String(sentDate.timeIntervalSince1970),
       isRead: isRead,
       seenBy: seenBy.map { $0.map() }
     )

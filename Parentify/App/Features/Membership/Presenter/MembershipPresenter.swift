@@ -10,6 +10,7 @@ import Foundation
 class MembershipPresenter: ObservableObject {
 
   @Published var userState: ViewState<User> = .initiate
+  @Published var allUserState: ViewState<[User]> = .initiate
   @Published var createUserState: ViewState<Bool> = .initiate
   @Published var registerState: ViewState<Bool> = .initiate
   @Published var loginState: ViewState<Bool> = .initiate
@@ -30,6 +31,20 @@ class MembershipPresenter: ObservableObject {
       case .failure(let firebaseError):
         if case .invalidRequest(let error) = firebaseError {
           self.userState = .error(error: error)
+        }
+      }
+    }
+  }
+
+  func getUsers() {
+    allUserState = .loading
+    firebaseManager.getUsers { result in
+      switch result {
+      case .success(let data):
+        self.allUserState = .success(data: data.map { $0.map() })
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.allUserState = .error(error: error)
         }
       }
     }

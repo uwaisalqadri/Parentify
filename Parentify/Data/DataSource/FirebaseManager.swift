@@ -28,6 +28,7 @@ protocol FirebaseManager {
   func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func getUser(completion: @escaping CompletionResult<UserEntity>)
+  func getUsers(completion: @escaping CompletionResult<[UserEntity]>)
 
   // MARK: Assignment
   func addAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
@@ -50,8 +51,9 @@ protocol FirebaseManager {
 
 class DefaultFirebaseManager: FirebaseManager {
 
-  private let firebaseAuth = Auth.auth()
-  private let firestoreDatabase = Firestore.firestore()
+  static let shared: DefaultFirebaseManager = DefaultFirebaseManager()
+
+  let firebaseAuth = Auth.auth()
 
   func registerUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {
     firebaseAuth.createUser(withEmail: email, password: password) { result, error in
@@ -86,8 +88,7 @@ class DefaultFirebaseManager: FirebaseManager {
 
   func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>) {
     guard let email = user.email else { return }
-    firestoreDatabase
-      .collection(Constant.membership)
+    firestoreCollection(.membership)
       .document(email)
       .setData(user.asFormDictionary()) { error in
         if let error = error {
@@ -100,8 +101,7 @@ class DefaultFirebaseManager: FirebaseManager {
 
   func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>) {
     guard let email = user.email else { return }
-    firestoreDatabase
-      .collection(Constant.membership)
+    firestoreCollection(.membership)
       .document(email)
       .updateData(user.asFormDictionary()) { error in
         if let error = error {
@@ -114,8 +114,7 @@ class DefaultFirebaseManager: FirebaseManager {
 
   func getUser(completion: @escaping CompletionResult<UserEntity>) {
     guard let email = firebaseAuth.currentUser?.email else { return }
-    firestoreDatabase
-      .collection(Constant.membership)
+    firestoreCollection(.membership)
       .document(email)
       .getDocument { snapshot, error in
         if let error = error {
@@ -133,14 +132,35 @@ class DefaultFirebaseManager: FirebaseManager {
         }
       }
   }
+
+  func getUsers(completion: @escaping CompletionResult<[UserEntity]>) {
+    firestoreCollection(.membership)
+      .getDocuments { querySnapshot, error in
+        if let error = error {
+          completion(.failure(.invalidRequest(error: error)))
+        } else if let querySnapshot = querySnapshot {
+          var users = [UserEntity]()
+          for document in querySnapshot.documents {
+            do {
+              if let user = try document.data(as: UserEntity.self) {
+                users.append(user)
+              }
+              completion(.success(users))
+            } catch {
+              completion(.failure(.unknownError))
+            }
+          }
+        }
+      }
+  }
+
 }
 
 extension DefaultFirebaseManager {
 
   func getAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>) {
-    firestoreDatabase
-      .collection(Constant.assignment)
-      //.newWhere(recordDate: .assignment)
+    firestoreCollection(.assignment)
+      .orderByDate(recordDate: .assignment)
       .getDocuments { querySnapshot, error in
         if let error = error {
           completion(.failure(.invalidRequest(error: error)))
@@ -161,8 +181,7 @@ extension DefaultFirebaseManager {
   }
 
   func getDetailAssignment(assignmentId: String, completion: @escaping CompletionResult<AssignmentEntity>) {
-    firestoreDatabase
-      .collection(Constant.assignment)
+    firestoreCollection(.assignment)
       .document(assignmentId)
       .getDocument { snapshot, error in
         if let error = error {
@@ -183,8 +202,7 @@ extension DefaultFirebaseManager {
 
   func addAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>) {
     guard let assignmentId = assignment.id else { return }
-    firestoreDatabase
-      .collection(Constant.assignment)
+    firestoreCollection(.assignment)
       .document(assignmentId)
       .setData(assignment.asFormDictionary()) { error in
         if let error = error {
@@ -197,8 +215,7 @@ extension DefaultFirebaseManager {
 
   func updateAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>) {
     guard let assignmentId = assignment.id else { return }
-    firestoreDatabase
-      .collection(Constant.assignment)
+    firestoreCollection(.assignment)
       .document(assignmentId)
       .updateData(assignment.asFormDictionary()) { error in
         if let error = error {
@@ -211,8 +228,7 @@ extension DefaultFirebaseManager {
 
   func updateFinishedAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>) {
     guard let assignmentId = assignment.id else { return }
-    firestoreDatabase
-      .collection(Constant.assignment)
+    firestoreCollection(.assignment)
       .document(assignmentId)
       .updateData(assignment.asFormDictionary()) { error in
         if let error = error {
@@ -225,8 +241,7 @@ extension DefaultFirebaseManager {
 
   func deleteAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>) {
     guard let assignmentId = assignment.id else { return }
-    firestoreDatabase
-      .collection(Constant.assignment)
+    firestoreCollection(.assignment)
       .document(assignmentId)
       .delete { error in
         if let error = error {
@@ -243,8 +258,7 @@ extension DefaultFirebaseManager {
 
   func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>) {
     guard let messageId = message.id else { return }
-    firestoreDatabase
-      .collection(Constant.messages)
+    firestoreCollection(.messages)
       .document(messageId)
       .setData(message.asFormDictionary()) { error in
         if let error = error {
@@ -256,9 +270,8 @@ extension DefaultFirebaseManager {
   }
 
   func getMessages(completion: @escaping CompletionResult<[MessageEntity]>) {
-    firestoreDatabase
-      .collection(Constant.messages)
-      //.newWhere(recordDate: .message)
+    firestoreCollection(.messages)
+      .orderByDate(recordDate: .message)
       .getDocuments { querySnapshot, error in
         if let error = error {
           completion(.failure(.invalidRequest(error: error)))
@@ -284,8 +297,7 @@ extension DefaultFirebaseManager {
 
   func uploadChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>) {
     guard let chatId = chat.id else { return }
-    firestoreDatabase
-      .collection(Constant.chat)
+    firestoreCollection(.chat)
       .document(chatId)
       .setData(chat.asFormDictionary()) { error in
         if let error = error {
@@ -298,8 +310,7 @@ extension DefaultFirebaseManager {
 
   func deleteChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>) {
     guard let chatId = chat.id else { return }
-    firestoreDatabase
-      .collection(Constant.chat)
+    firestoreCollection(.chat)
       .document(chatId)
       .delete { error in
         if let error = error {
@@ -311,9 +322,8 @@ extension DefaultFirebaseManager {
   }
 
   func getChats(completion: @escaping CompletionResult<[ChatEntity]>) {
-    firestoreDatabase
-      .collection(Constant.chat)
-      //.newWhere(recordDate: .chat)
+    firestoreCollection(.chat)
+      .orderByDate(recordDate: .chat)
       .getDocuments { querySnapshot, error in
         if let error = error {
           completion(.failure(.invalidRequest(error: error)))
@@ -334,8 +344,7 @@ extension DefaultFirebaseManager {
   }
 
   func getUnreadChats(completion: @escaping CompletionResult<Int>) {
-    firestoreDatabase
-      .collection(Constant.chat)
+    firestoreCollection(.chat)
       .whereField("is_read", isEqualTo: false)
       .getDocuments { querySnapshot, error in
         if let error = error {

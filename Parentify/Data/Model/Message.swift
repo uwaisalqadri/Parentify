@@ -13,5 +13,5 @@ struct Message {
   var id = UUID()
   var message: String = ""
   var role: UserRole = .mother
-  var datetime: Date = Date()
+  var sentDate: Date = Date()
 }

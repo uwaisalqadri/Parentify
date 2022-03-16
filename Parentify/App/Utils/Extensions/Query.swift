@@ -11,20 +11,11 @@ import Firebase
 enum FirebaseRecordDate: String {
   case assignment = "date_created"
   case chat = "sent_date"
-  case message = "datetime"
+  case message = "sent_date_time"
 }
 
 extension Query {
-  func newWhere(recordDate: FirebaseRecordDate) -> Query {
-    let dateData = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-    guard let today = Calendar.current.date(from: dateData),
-          let end = Calendar.current.date(byAdding: .hour, value: 24, to: today),
-          let start = Calendar.current.date(byAdding: .day, value: 2, to: today) else {
-            fatalError("No records found in the specified range")
-          }
-
-    print("OKEOKE", recordDate.rawValue, end.toTimestamp(), today.toTimestamp())
-    return whereField(recordDate.rawValue, isLessThanOrEqualTo: end.toTimestamp())
-      .whereField(recordDate.rawValue, isGreaterThanOrEqualTo: today.toTimestamp())
+  func orderByDate(recordDate: FirebaseRecordDate, descending: Bool = false) -> Query {
+    return self.order(by: recordDate.rawValue, descending: descending)
   }
 }

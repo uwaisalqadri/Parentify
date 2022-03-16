@@ -131,7 +131,7 @@ struct HomeView: View {
         .customDialog(isShowing: $isAddMessage) {
           AddMessageDialog { textMessage in
             let role = membershipPresenter.userState.value?.role ?? .children
-            presenter.addMessage(message: .init(message: textMessage, role: role, datetime: Date()))
+            presenter.addMessage(message: .init(message: textMessage, role: role, sentDate: Date()))
           } onDismiss: {
             isAddMessage.toggle()
           }

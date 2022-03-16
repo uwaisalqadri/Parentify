@@ -36,7 +36,7 @@ extension Assignment {
       title: title,
       description: description,
       type: AssigmnentTypeEntity(rawValue: type.rawValue),
-      dateCreated: dateCreated.toTimestamp(),
+      dateCreated: String(dateCreated.timeIntervalSince1970),
       attachments: attachments,
       assignedTo: assignedTo.map { $0.map() }
     )

@@ -27,11 +27,6 @@ struct ChatRow: View {
         .padding(.vertical, 11)
         .cardShadow(backgroundColor: isSender ? Color.pinkColor : Color.purpleColor, cornerRadius: 22, opacity: 0, radius: 0)
         .contextMenu {
-//          Button(action: {
-//          }) {
-//            Label("Detail", systemImage: "info.circle.fill")
-//          }
-
           if isSender {
             if #available(iOS 15.0, *) {
               Button(role: .destructive) {

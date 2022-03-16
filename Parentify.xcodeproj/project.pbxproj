@@ -23,7 +23,6 @@
 		9132024F27DD8E07009BE708 /* ChatChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9132024E27DD8E07009BE708 /* ChatChannelView.swift */; };
 		9132025127DD90DC009BE708 /* ChatChannelRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9132025027DD90DC009BE708 /* ChatChannelRow.swift */; };
 		9132025327DDDB2E009BE708 /* ReverseScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9132025227DDDB2E009BE708 /* ReverseScrollView.swift */; };
-		9132025527DDF898009BE708 /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9132025427DDF898009BE708 /* Timestamp.swift */; };
 		91413FC127BA95AA00799155 /* ParentifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FB127BA95A700799155 /* ParentifyApp.swift */; };
 		91413FC527BA95AA00799155 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91413FB327BA95AA00799155 /* Assets.xcassets */; };
 		91413FD227BA997300799155 /* AppAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91413FD127BA997300799155 /* AppAssembler.swift */; };
@@ -41,6 +40,7 @@
 		918EE07A27D43E9400D38EA1 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 918EE07927D43E9400D38EA1 /* GoogleSignIn */; };
 		918EE07E27D57A6B00D38EA1 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918EE07D27D57A6B00D38EA1 /* ImagePicker.swift */; };
 		918EE08027D57AEE00D38EA1 /* AssignmentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918EE07F27D57AEE00D38EA1 /* AssignmentEntity.swift */; };
+		91938AA527E0A5CB0020F66A /* FirebaseReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91938AA427E0A5CB0020F66A /* FirebaseReference.swift */; };
 		91A5C0A327C117CD00D861DA /* MemojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A5C0A227C117CD00D861DA /* MemojiView.swift */; };
 		91B3293E27BCD31300FBFA00 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3293927BCD31300FBFA00 /* ButtonStyles.swift */; };
 		91B3293F27BCD31400FBFA00 /* DateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3293A27BCD31300FBFA00 /* DateTextField.swift */; };
@@ -124,7 +124,6 @@
 		9132024E27DD8E07009BE708 /* ChatChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatChannelView.swift; sourceTree = "<group>"; };
 		9132025027DD90DC009BE708 /* ChatChannelRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatChannelRow.swift; sourceTree = "<group>"; };
 		9132025227DDDB2E009BE708 /* ReverseScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseScrollView.swift; sourceTree = "<group>"; };
-		9132025427DDF898009BE708 /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
 		91413FB127BA95A700799155 /* ParentifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentifyApp.swift; sourceTree = "<group>"; };
 		91413FB327BA95AA00799155 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91413FB827BA95AA00799155 /* Parentify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Parentify.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +141,7 @@
 		918EE07627D43DFF00D38EA1 /* GoogleAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthManager.swift; sourceTree = "<group>"; };
 		918EE07D27D57A6B00D38EA1 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		918EE07F27D57AEE00D38EA1 /* AssignmentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentEntity.swift; sourceTree = "<group>"; };
+		91938AA427E0A5CB0020F66A /* FirebaseReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseReference.swift; sourceTree = "<group>"; };
 		91A5C0A227C117CD00D861DA /* MemojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemojiView.swift; sourceTree = "<group>"; };
 		91B3293927BCD31300FBFA00 /* ButtonStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		91B3293A27BCD31300FBFA00 /* DateTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTextField.swift; sourceTree = "<group>"; };
@@ -405,7 +405,6 @@
 				91413FF527BAA0C500799155 /* View.swift */,
 				9104EFC227C1EFE50099A294 /* Error.swift */,
 				9104EFC427C1F9BD0099A294 /* UIImage.swift */,
-				9132025427DDF898009BE708 /* Timestamp.swift */,
 				915E9FF127DECE2500104429 /* Query.swift */,
 			);
 			path = Extensions;
@@ -587,6 +586,7 @@
 			children = (
 				91FF767127BDF791001B9CED /* Constant.swift */,
 				91FF767327BDFA0A001B9CED /* BodyCodable.swift */,
+				91938AA427E0A5CB0020F66A /* FirebaseReference.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -691,6 +691,7 @@
 				91B3295E27BCD8AC00FBFA00 /* MessagesCard.swift in Sources */,
 				91B3294027BCD31400FBFA00 /* CommonTextField.swift in Sources */,
 				91FF767427BDFA0A001B9CED /* BodyCodable.swift in Sources */,
+				91938AA527E0A5CB0020F66A /* FirebaseReference.swift in Sources */,
 				9128775D27DAC09E0065A7B0 /* SelectIconView.swift in Sources */,
 				91FF767227BDF791001B9CED /* Constant.swift in Sources */,
 				91B3294127BCD31400FBFA00 /* BlurView.swift in Sources */,
@@ -703,7 +704,6 @@
 				91FF766F27BDF443001B9CED /* UserEntity.swift in Sources */,
 				9104EFCB27C21D340099A294 /* MessageMapper.swift in Sources */,
 				9170623327BF7274005C2983 /* ContentView.swift in Sources */,
-				9132025527DDF898009BE708 /* Timestamp.swift in Sources */,
 				91B3294427BCD34800FBFA00 /* RoundedCornersModifier.swift in Sources */,
 				9128775B27DAC0600065A7B0 /* SFSymbolSource.swift in Sources */,
 				91B3297027BCDF4100FBFA00 /* AssignmentPresenter.swift in Sources */,

@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum Action {
-  case finished
+  case finished(assignment: Assignment)
   case none
 }
 
@@ -185,9 +185,9 @@ struct AssignmentCard: View {
             if !isParent {
               translation = value.translation
               if (getGesturePercentage(geometry, from: value)) >= thresholdPercentage {
-                swipeAction = .finished
-              } else {
                 swipeAction = .none
+              } else {
+                swipeAction = .finished(assignment: assignment)
               }
             }
 

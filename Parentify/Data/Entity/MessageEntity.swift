@@ -13,18 +13,18 @@ struct MessageEntity: BodyCodable, Codable {
     case id = "message_id"
     case message = "message"
     case role = "role"
-    case datetime = "datetime"
+    case sentDate = "sent_date_time"
   }
 
   var id: String?
   var message: String?
   var role: UserRoleEntity?
-  var datetime: Timestamp?
+  var sentDate: String?
 
-  init(id: String?, message: String?, role: UserRoleEntity?, datetime: Timestamp?) {
+  init(id: String?, message: String?, role: UserRoleEntity?, sentDate: String?) {
     self.id = id
     self.message = message
     self.role = role
-    self.datetime = datetime
+    self.sentDate = sentDate
   }
 }

@@ -35,13 +35,19 @@ struct AssignmentGroupView: View {
               AssignmentRow(
                 assignment: item,
                 isParent: $isParent,
+                onSwipe: { action in
+                  if case .finished(let assignment) = action {
+                    presenter.updateFinishedAssignment(assignment: assignment)
+                  }
+                },
                 onDelete: { assignment in
                   presenter.deleteAssignment(assignment: assignment)
                 },
                 onShowDetail: { assignment in
                   selectedAssignment = assignment
                   isShowDetail.toggle()
-                }).padding(.top, 12)
+                }
+              ).padding(.top, 12)
             }.buttonStyle(FlatLinkStyle())
 
           }.padding(.horizontal, 22)

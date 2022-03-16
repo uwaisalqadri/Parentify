@@ -8,28 +8,24 @@
 import SwiftUI
 
 struct ChatChannelRow: View {
+
+  @State var contact: User = .empty
+
   var body: some View {
     HStack {
       VStack(alignment: .leading) {
-        Text("Mamah")
+        Text(contact.name)
           .foregroundColor(.purpleColor)
-          .font(.system(size: 18, weight: .semibold))
+          .font(.system(size: 17, weight: .semibold))
 
         Text("Jangan Lupa Kunci Pintu Ya")
-          .foregroundColor(Color(.systemGray3))
-          .font(.system(size: 15, weight: .medium))
+          .foregroundColor(.black)
+          .font(.system(size: 12, weight: .regular))
       }
 
       Spacer()
     }
     .padding(.vertical, 20)
     .padding(.horizontal, 10)
-  }
-}
-
-struct ChatChannelRow_Previews: PreviewProvider {
-  static var previews: some View {
-    ChatChannelRow()
-      .previewLayout(.fixed(width: 320, height: 100))
   }
 }

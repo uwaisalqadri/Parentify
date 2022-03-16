@@ -39,7 +39,7 @@ class GoogleAuthManager: ObservableObject {
     GIDSignIn.sharedInstance.signOut()
 
     do {
-      try Auth.auth().signOut()
+      try DefaultFirebaseManager.shared.firebaseAuth.signOut()
       state = .signedOut
     } catch {
       print(error.localizedDescription)
@@ -56,7 +56,7 @@ class GoogleAuthManager: ObservableObject {
 
     let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
 
-    Auth.auth().signIn(with: credential) { [weak self] _, error in
+    DefaultFirebaseManager.shared.firebaseAuth.signIn(with: credential) { [weak self] _, error in
       guard let self = self else { return }
       if let error = error {
         print(error.localizedDescription)

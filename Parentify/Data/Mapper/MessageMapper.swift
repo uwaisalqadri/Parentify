@@ -13,7 +13,7 @@ extension MessageEntity {
       id: UUID(uuidString: id.orEmpty()) ?? UUID(),
       message: message.orEmpty(),
       role: UserRole(rawValue: role?.rawValue ?? "")!,
-      datetime: datetime?.toDate() ?? Date()
+      sentDate: sentDate?.toDate() ?? Date()
     )
   }
 }
@@ -24,7 +24,7 @@ extension Message {
       id: id.uuidString,
       message: message,
       role: UserRoleEntity(rawValue: role.rawValue),
-      datetime: datetime.toTimestamp()
+      sentDate: String(sentDate.timeIntervalSince1970)
     )
   }
 }

@@ -12,6 +12,7 @@ class AssignmentPresenter: ObservableObject {
 
   @Published var addAssignmentState: ViewState<Bool> = .initiate
   @Published var updateAssignmentState: ViewState<Bool> = .initiate
+  @Published var updateFinishedAssignmentState: ViewState<Bool> = .initiate
   @Published var deleteAssignmentState: ViewState<Bool> = .initiate
   @Published var assignmentsState: ViewState<[Assignment]> = .initiate
   @Published var assignmentDetailState: ViewState<Assignment> = .initiate
@@ -45,6 +46,20 @@ class AssignmentPresenter: ObservableObject {
       case .failure(let firebaseError):
         if case .invalidRequest(let error) = firebaseError {
           self.updateAssignmentState = .error(error: error)
+        }
+      }
+    }
+  }
+
+  func updateFinishedAssignment(assignment: Assignment) {
+    updateFinishedAssignmentState = .loading
+    firebaseManager.updateFinishedAssignment(assignment: assignment.map()) { result in
+      switch result {
+      case .success(let isSuccess):
+        self.updateFinishedAssignmentState = .success(data: isSuccess)
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.updateFinishedAssignmentState = .error(error: error)
         }
       }
     }
