@@ -30,12 +30,12 @@ struct MessagesView: View {
     }
     .navigationBarTitle("Pesan Penting")
     .onAppear {
-      homePresenter.getMessages()
+      homePresenter.fetchMessages()
     }
     .onReceive(homePresenter.$addMessageState) { state in
       if case .success = state {
         isAddMessage.toggle()
-        homePresenter.getMessages()
+        homePresenter.fetchMessages()
       }
     }
     .toolbar {

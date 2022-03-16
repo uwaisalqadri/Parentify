@@ -49,9 +49,9 @@ class ChatPresenter: ObservableObject {
   }
 
 
-  func getChats() {
+  func fetchChats() {
     chatsState = .loading
-    firebaseManager.getChats { result in
+    firebaseManager.fetchChats { result in
       switch result {
       case .success(let data):
         self.chatsState = .success(data: data.map { $0.map() })
@@ -63,9 +63,9 @@ class ChatPresenter: ObservableObject {
     }
   }
 
-  func getUnreadChats() {
+  func fetchUnreadChats() {
     unreadChatsState = .loading
-    firebaseManager.getUnreadChats { result in
+    firebaseManager.fetchUnreadChats { result in
       switch result {
       case .success(let data):
         self.unreadChatsState = .success(data: data)

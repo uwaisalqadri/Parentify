@@ -32,9 +32,9 @@ class HomePresenter: ObservableObject {
     }
   }
 
-  func getMessages() {
+  func fetchMessages() {
     messagesState = .loading
-    firebaseManager.getMessages { result in
+    firebaseManager.fetchMessages { result in
       switch result {
       case .success(let data):
         self.messagesState = .success(data: data.map { $0.map() })

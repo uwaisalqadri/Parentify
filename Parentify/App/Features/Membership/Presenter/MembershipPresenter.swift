@@ -22,9 +22,9 @@ class MembershipPresenter: ObservableObject {
     self.firebaseManager = firebaseManager
   }
 
-  func getUser() {
+  func fetchUser() {
     userState = .loading
-    firebaseManager.getUser { result in
+    firebaseManager.fetchUser { result in
       switch result {
       case .success(let data):
         self.userState = .success(data: data.map())
@@ -36,9 +36,9 @@ class MembershipPresenter: ObservableObject {
     }
   }
 
-  func getUsers() {
+  func fetchUsers() {
     allUserState = .loading
-    firebaseManager.getUsers { result in
+    firebaseManager.fetchUsers { result in
       switch result {
       case .success(let data):
         self.allUserState = .success(data: data.map { $0.map() })

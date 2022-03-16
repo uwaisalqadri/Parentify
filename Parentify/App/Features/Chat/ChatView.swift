@@ -57,7 +57,7 @@ struct ChatView: View {
       hideKeyboard()
     }
     .onAppear {
-      presenter.getChats()
+      presenter.fetchChats()
     }
     .onReceive(presenter.$chatsState) { state in
       if case .success(let data) = state {
@@ -66,12 +66,12 @@ struct ChatView: View {
     }
     .onReceive(presenter.$uploadChatState) { state in
       if case .success = state {
-        presenter.getChats()
+        presenter.fetchChats()
       }
     }
     .onReceive(presenter.$deleteChatState) { state in
       if case .success = state {
-        presenter.getChats()
+        presenter.fetchChats()
       }
     }
 

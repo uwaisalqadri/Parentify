@@ -157,7 +157,7 @@ struct ProfileView: View {
     }
     .onAppear {
       if !isNewUser {
-        presenter.getUser()
+        presenter.fetchUser()
       }
     }
     .onDisappear {
@@ -197,7 +197,7 @@ struct ProfileView: View {
       )
 
       presenter.updateUser(user: profile)
-      presenter.getUser()
+      presenter.fetchUser()
       isShowEditProfile.toggle()
     }
   }

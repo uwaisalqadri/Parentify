@@ -29,7 +29,7 @@ struct ChatChannelView: View {
     }
     .navigationTitle("Chats")
     .onAppear {
-      membershipPresenter.getUsers()
+      membershipPresenter.fetchUsers()
     }
     .onReceive(membershipPresenter.$allUserState) { state in
       if case .success(let data) = state {

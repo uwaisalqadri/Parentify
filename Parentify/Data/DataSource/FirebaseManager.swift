@@ -27,26 +27,26 @@ protocol FirebaseManager {
   func signOutUser(completion: @escaping CompletionResult<Bool>)
   func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
-  func getUser(completion: @escaping CompletionResult<UserEntity>)
-  func getUsers(completion: @escaping CompletionResult<[UserEntity]>)
+  func fetchUser(completion: @escaping CompletionResult<UserEntity>)
+  func fetchUsers(completion: @escaping CompletionResult<[UserEntity]>)
 
   // MARK: Assignment
   func addAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
   func updateAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
   func deleteAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
   func updateFinishedAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
-  func getAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>)
-  func getDetailAssignment(assignmentId: String, completion: @escaping CompletionResult<AssignmentEntity>)
+  func fetchAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>)
+  func fetchDetailAssignment(assignmentId: String, completion: @escaping CompletionResult<AssignmentEntity>)
 
   // MARK: Messages
   func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>)
-  func getMessages(completion: @escaping CompletionResult<[MessageEntity]>)
+  func fetchMessages(completion: @escaping CompletionResult<[MessageEntity]>)
 
   // MARK: Chat
   func uploadChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>)
   func deleteChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>)
-  func getChats(completion: @escaping CompletionResult<[ChatEntity]>)
-  func getUnreadChats(completion: @escaping CompletionResult<Int>)
+  func fetchChats(completion: @escaping CompletionResult<[ChatEntity]>)
+  func fetchUnreadChats(completion: @escaping CompletionResult<Int>)
 }
 
 class DefaultFirebaseManager: FirebaseManager {
@@ -112,7 +112,7 @@ class DefaultFirebaseManager: FirebaseManager {
       }
   }
 
-  func getUser(completion: @escaping CompletionResult<UserEntity>) {
+  func fetchUser(completion: @escaping CompletionResult<UserEntity>) {
     guard let email = firebaseAuth.currentUser?.email else { return }
     firestoreCollection(.membership)
       .document(email)
@@ -133,7 +133,7 @@ class DefaultFirebaseManager: FirebaseManager {
       }
   }
 
-  func getUsers(completion: @escaping CompletionResult<[UserEntity]>) {
+  func fetchUsers(completion: @escaping CompletionResult<[UserEntity]>) {
     firestoreCollection(.membership)
       .getDocuments { querySnapshot, error in
         if let error = error {
@@ -158,7 +158,7 @@ class DefaultFirebaseManager: FirebaseManager {
 
 extension DefaultFirebaseManager {
 
-  func getAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>) {
+  func fetchAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>) {
     firestoreCollection(.assignment)
       .orderByDate(recordDate: .assignment)
       .getDocuments { querySnapshot, error in
@@ -180,7 +180,7 @@ extension DefaultFirebaseManager {
       }
   }
 
-  func getDetailAssignment(assignmentId: String, completion: @escaping CompletionResult<AssignmentEntity>) {
+  func fetchDetailAssignment(assignmentId: String, completion: @escaping CompletionResult<AssignmentEntity>) {
     firestoreCollection(.assignment)
       .document(assignmentId)
       .getDocument { snapshot, error in
@@ -269,7 +269,7 @@ extension DefaultFirebaseManager {
       }
   }
 
-  func getMessages(completion: @escaping CompletionResult<[MessageEntity]>) {
+  func fetchMessages(completion: @escaping CompletionResult<[MessageEntity]>) {
     firestoreCollection(.messages)
       .orderByDate(recordDate: .message)
       .getDocuments { querySnapshot, error in
@@ -321,7 +321,7 @@ extension DefaultFirebaseManager {
       }
   }
 
-  func getChats(completion: @escaping CompletionResult<[ChatEntity]>) {
+  func fetchChats(completion: @escaping CompletionResult<[ChatEntity]>) {
     firestoreCollection(.chat)
       .orderByDate(recordDate: .chat)
       .getDocuments { querySnapshot, error in
@@ -343,7 +343,7 @@ extension DefaultFirebaseManager {
       }
   }
 
-  func getUnreadChats(completion: @escaping CompletionResult<Int>) {
+  func fetchUnreadChats(completion: @escaping CompletionResult<Int>) {
     firestoreCollection(.chat)
       .whereField("is_read", isEqualTo: false)
       .getDocuments { querySnapshot, error in

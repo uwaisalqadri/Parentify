@@ -79,9 +79,9 @@ class AssignmentPresenter: ObservableObject {
     }
   }
 
-  func getAssignments() {
+  func fetchAssignments() {
     assignmentsState = .loading
-    firebaseManager.getAssignments { result in
+    firebaseManager.fetchAssignments { result in
       switch result {
       case .success(let data):
         self.assignmentsState = .success(data: data.map { $0.map() })
@@ -93,9 +93,9 @@ class AssignmentPresenter: ObservableObject {
     }
   }
 
-  func getDetailAssignment(assignmentId: String) {
+  func fetchDetailAssignment(assignmentId: String) {
     assignmentDetailState = .loading
-    firebaseManager.getDetailAssignment(assignmentId: assignmentId) { result in
+    firebaseManager.fetchDetailAssignment(assignmentId: assignmentId) { result in
       switch result {
       case .success(let data):
         self.assignmentDetailState = .success(data: data.map())

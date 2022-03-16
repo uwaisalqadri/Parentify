@@ -83,7 +83,7 @@ struct HomeView: View {
                   assignmentPresenter.deleteAssignment(assignment: assignment)
                 },
                 onUploaded: {
-                  assignmentPresenter.getAssignments()
+                  assignmentPresenter.fetchAssignments()
                 }
               )
             }
@@ -93,14 +93,14 @@ struct HomeView: View {
         .navigationBarHidden(true)
         .progressHUD(isShowing: $membershipPresenter.userState.isLoading)
         .onAppear {
-          presenter.getMessages()
-          assignmentPresenter.getAssignments()
-          chatPresenter.getUnreadChats()
+          presenter.fetchMessages()
+          assignmentPresenter.fetchAssignments()
+          chatPresenter.fetchUnreadChats()
         }
         .onReceive(presenter.$addMessageState) { state in
           if case .success = state {
             isAddMessage.toggle()
-            presenter.getMessages()
+            presenter.fetchMessages()
           }
         }
         .onReceive(membershipPresenter.$userState) { state in
@@ -115,7 +115,7 @@ struct HomeView: View {
         }
         .onReceive(assignmentPresenter.$deleteAssignmentState) { state in
           if case .success = state {
-            assignmentPresenter.getAssignments()
+            assignmentPresenter.fetchAssignments()
           }
         }
         .onReceive(chatPresenter.$unreadChatsState) { state in
@@ -141,7 +141,7 @@ struct HomeView: View {
     }
     .onAppear {
       assignmentGroups = getAssignmentGroups(assignments: [])
-      membershipPresenter.getUser()
+      membershipPresenter.fetchUser()
     }
   }
 }

@@ -35,7 +35,7 @@ struct AssignmentDetailView: View {
     self.onUploaded = onUploaded
 
     if !assignmentId.isEmpty {
-      presenter.getDetailAssignment(assignmentId: assignmentId)
+      presenter.fetchDetailAssignment(assignmentId: assignmentId)
     }
   }
 
@@ -193,7 +193,7 @@ struct AssignmentDetailView: View {
     }
     .onAppear {
       if !assignmentId.isEmpty {
-        presenter.getDetailAssignment(assignmentId: assignmentId)
+        presenter.fetchDetailAssignment(assignmentId: assignmentId)
       }
     }
 
