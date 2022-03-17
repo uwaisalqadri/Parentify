@@ -16,7 +16,7 @@ extension AssigmnentType {
 extension AssignmentEntity {
   func map() -> Assignment {
     return Assignment(
-      id: UUID(uuidString: id.orEmpty()) ?? UUID(),
+      id: id.orEmpty(),
       iconName: iconName.orEmpty(),
       title: title.orEmpty(),
       description: description.orEmpty(),
@@ -31,7 +31,7 @@ extension AssignmentEntity {
 extension Assignment {
   func map() -> AssignmentEntity {
     return AssignmentEntity(
-      id: id.uuidString,
+      id: id,
       iconName: iconName,
       title: title,
       description: description,

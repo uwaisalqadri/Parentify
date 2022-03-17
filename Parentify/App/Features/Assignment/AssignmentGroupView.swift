@@ -10,8 +10,9 @@ import SwiftUI
 struct AssignmentGroupView: View {
 
   @ObservedObject var presenter: AssignmentPresenter
-
   @Binding var isParent: Bool
+
+  @State var assignmentId: String = ""
   @State var assignmentType: AssigmnentType = .needToDone
 
   @State var isShowDetail: Bool = false
@@ -29,7 +30,7 @@ struct AssignmentGroupView: View {
         VStack(alignment: .leading) {
           ForEach(Array(assignmentGroup.assignments.enumerated()), id: \.offset) { index, item in
             NavigationLink(
-              destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: selectedAssignment.id.uuidString, assignmentType: selectedAssignment.type),
+              destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: $assignmentId, assignmentType: selectedAssignment.type),
               isActive: $isShowDetail
             ) {
               AssignmentRow(
@@ -43,8 +44,8 @@ struct AssignmentGroupView: View {
                 onDelete: { assignment in
                   presenter.deleteAssignment(assignment: assignment)
                 },
-                onShowDetail: { assignment in
-                  selectedAssignment = assignment
+                onShowDetail: { assignmentId in
+                  self.assignmentId = assignmentId
                   isShowDetail.toggle()
                 }
               ).padding(.top, 12)
@@ -52,7 +53,7 @@ struct AssignmentGroupView: View {
 
           }.padding(.horizontal, 22)
 
-          if assignmentGroup.assignments.isEmpty {
+          if presenter.assignmentsState != .loading && assignmentGroup.assignments.isEmpty {
             HStack(alignment: .center) {
               Spacer()
 
@@ -100,7 +101,7 @@ struct AssignmentGroupView: View {
     .progressHUD(isShowing: $presenter.assignmentsState.isLoading)
     .background(
       NavigationLink(
-        destination: router.routeAssignmentDetail(isParent: $isParent) {
+        destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: $assignmentId) {
           presenter.fetchAssignments()
           onUploaded?()
         },
@@ -111,8 +112,11 @@ struct AssignmentGroupView: View {
     )
     .onAppear {
       assignmentGroup = getAssignmentGroups(assignments: [])[0]
-      presenter.fetchAssignments()
+      presenter.fetchLiveAssignments()
     }
+    .onDisappear(perform: {
+      presenter.stopAssignments()
+    })
     .onReceive(presenter.$assignmentsState) { state in
       if case .success(let data) = state {
         let needToDone = data.filter { $0.type == .needToDone }
@@ -124,11 +128,6 @@ struct AssignmentGroupView: View {
         case .additional:
           assignmentGroup = getAssignmentGroups(assignments: additional)[1]
         }
-      }
-    }
-    .onReceive(presenter.$deleteAssignmentState) { state in
-      if case .success = state {
-        presenter.fetchAssignments()
       }
     }
   }

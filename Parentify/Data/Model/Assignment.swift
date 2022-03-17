@@ -24,7 +24,7 @@ struct AssignmentGroup {
 struct Assignment {
   static let empty: Assignment = Assignment()
 
-  var id: UUID = UUID()
+  var id: String = ""
   var iconName: String = ""
   var title: String = ""
   var description: String = ""

@@ -107,5 +107,22 @@ class AssignmentPresenter: ObservableObject {
     }
   }
 
+  func fetchLiveAssignments() {
+    assignmentsState = .loading
+    firebaseManager.fetchLiveAssignments { result in
+      switch result {
+      case .success(let data):
+        self.assignmentsState = .success(data: data.map { $0.map() })
+      case .failure(let firebaseError):
+        if case .invalidRequest(let error) = firebaseError {
+          self.assignmentsState = .error(error: error)
+        }
+      }
+    }
+  }
+
+  func stopAssignments() {
+    firebaseManager.stopAssignments()
+  }
 
 }

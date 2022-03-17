@@ -11,31 +11,32 @@ struct AssignmentDetailView: View {
 
   @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: AssignmentPresenter
-  @State var assignmentId: String = ""
-  @State var assignmentType: AssigmnentType = .additional
+  @Binding var assignmentId: String
+  @Binding var isParent: Bool
+
+  @State private var assignmentType: AssigmnentType = .additional
   @State private var sortOrder: SortOrder = .defaultOrder
 
-  @State var assignment: Assignment = .empty
-  @State var title: String = "Judul"
-  @State var description: String = "Deskripsi"
-  @State var imageSystemName: String = "plus"
-  @State var selectedImage: UIImage = UIImage()
+  @State private var assignment: Assignment = .empty
+  @State private var title: String = "Judul"
+  @State private var description: String = "Deskripsi"
+  @State private var imageSystemName: String = "plus"
+  @State private var selectedImage: UIImage = UIImage()
 
-  @Binding var isParent: Bool
-  @State var isShowPicker: Bool = false
-  @State var isSelectIcon: Bool = false
+  @State private var isShowPicker: Bool = false
+  @State private var isSelectIcon: Bool = false
 
   var onUploaded: (() -> Void)?
 
-  init(presenter: AssignmentPresenter, isParent: Binding<Bool>, assignmentId: String = "", assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
+  init(presenter: AssignmentPresenter, isParent: Binding<Bool>, assignmentId: Binding<String>, assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
     self.presenter = presenter
     self._isParent = isParent
-    self.assignmentId = assignmentId
+    self._assignmentId = assignmentId
     self.assignmentType = assignmentType
     self.onUploaded = onUploaded
 
-    if !assignmentId.isEmpty {
-      presenter.fetchDetailAssignment(assignmentId: assignmentId)
+    if !assignmentId.wrappedValue.isEmpty {
+      presenter.fetchDetailAssignment(assignmentId: assignmentId.wrappedValue)
     }
   }
 
@@ -77,7 +78,7 @@ struct AssignmentDetailView: View {
         if isParent {
           Button(action: {
             assignment = .init(
-              id: assignmentId.isEmpty ? UUID() : UUID(uuidString: assignmentId)!,
+              id: assignmentId.isEmpty ? UUID().uuidString : assignmentId,
               iconName: imageSystemName,
               title: title,
               description: description,
@@ -169,7 +170,7 @@ struct AssignmentDetailView: View {
     .onReceive(presenter.$assignmentDetailState) { state in
       if case .success(let data) = state {
         assignment = data
-        assignmentId = assignment.id.uuidString
+        assignmentId = assignment.id
         title = assignment.title
         description = assignment.description
         imageSystemName = assignment.iconName
@@ -192,9 +193,13 @@ struct AssignmentDetailView: View {
       }
     }
     .onAppear {
+      print("assignmentId", assignmentId)
       if !assignmentId.isEmpty {
         presenter.fetchDetailAssignment(assignmentId: assignmentId)
       }
+    }
+    .onDisappear {
+      assignmentId = ""
     }
 
   }

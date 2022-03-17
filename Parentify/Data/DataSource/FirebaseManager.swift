@@ -38,7 +38,9 @@ protocol FirebaseManager {
   func deleteAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
   func updateFinishedAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
   func fetchAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>)
+  func fetchLiveAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>)
   func fetchDetailAssignment(assignmentId: String, completion: @escaping CompletionResult<AssignmentEntity>)
+  func stopAssignments()
 
   // MARK: Messages
   func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>)
@@ -61,6 +63,7 @@ class DefaultFirebaseManager: FirebaseManager {
   private var chatListener: ListenerRegistration?
   private var usersListener: ListenerRegistration?
   private var userListener: ListenerRegistration?
+  private var assignmentListener: ListenerRegistration?
 
   func registerUser(email: String, password: String, completion: @escaping CompletionResult<Bool>) {
     firebaseAuth.createUser(withEmail: email, password: password) { result, error in
@@ -205,6 +208,30 @@ extension DefaultFirebaseManager {
       }
   }
 
+  func fetchLiveAssignments(completion: @escaping CompletionResult<[AssignmentEntity]>) {
+    if assignmentListener == nil {
+      assignmentListener = firestoreCollection(.assignment)
+        .orderByDate(recordDate: .assignment)
+        .addSnapshotListener { querySnapshot, error in
+          if let error = error {
+            completion(.failure(.invalidRequest(error: error)))
+          } else if let querySnapshot = querySnapshot {
+            var assignments = [AssignmentEntity]()
+            for document in querySnapshot.documents {
+              do {
+                if let assignment = try document.data(as: AssignmentEntity.self) {
+                  assignments.append(assignment)
+                }
+                completion(.success(assignments))
+              } catch {
+                completion(.failure(.unknownError))
+              }
+            }
+          }
+        }
+    }
+  }
+
   func fetchDetailAssignment(assignmentId: String, completion: @escaping CompletionResult<AssignmentEntity>) {
     firestoreCollection(.assignment)
       .document(assignmentId)
@@ -275,6 +302,13 @@ extension DefaultFirebaseManager {
           return completion(.success(true))
         }
       }
+  }
+
+  func stopAssignments() {
+    if assignmentListener != nil {
+      assignmentListener?.remove()
+      assignmentListener = nil
+    }
   }
 
 }

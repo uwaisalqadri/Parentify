@@ -22,7 +22,7 @@ struct AssignmentGroupRow: View {
   var onUploaded: (() -> Void)?
 
   @State var actionTitle: String = "Lihat Semuanya"
-  @State var selectedAssignment: Assignment = .empty
+  @State var selectedAssignmentId: String = ""
 
   var router: AssignmentRouter = AppAssembler.shared.resolve()
 
@@ -52,23 +52,25 @@ struct AssignmentGroupRow: View {
     .padding(.horizontal, 32)
 
     ForEach(Array(assignmentGroup.assignments.prefix(3).enumerated()), id: \.offset) { index, item in
-      NavigationLink(
-        destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: selectedAssignment.id.uuidString),
-        isActive: $isShowDetail
-      ) {
-        AssignmentRow(assignment: item, isParent: $isParent) { action in
-          print("action", action)
-        } onDelete: { assignment in
-          onDelete?(assignment)
-        } onShowDetail: { assignment in
-          selectedAssignment = assignment
-          isShowDetail.toggle()
-        }
-      }.buttonStyle(FlatLinkStyle())
-
+      AssignmentRow(assignment: item, isParent: $isParent) { action in
+        print("action", action)
+      } onDelete: { assignment in
+        onDelete?(assignment)
+      } onShowDetail: { assignmentId in
+        selectedAssignmentId = assignmentId
+        isShowDetail.toggle()
+      }
     }
     .padding(.horizontal, 25)
     .padding(.top, 12)
+    .overlay(
+      NavigationLink(
+        destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: $selectedAssignmentId),
+        isActive: $isShowDetail
+      ) {
+        EmptyView()
+      }, alignment: .center
+    )
 
     if assignmentGroup.assignments.isEmpty {
       HStack(alignment: .center) {
@@ -95,12 +97,12 @@ struct AssignmentGroupRow: View {
 
 struct AssignmentRow: View {
 
-  var assignment: Assignment
+  @State var assignment: Assignment
   @Binding var isParent: Bool
 
   var onSwipe: ((Action) -> Void)? = nil
   var onDelete: ((Assignment) -> Void)? = nil
-  var onShowDetail: ((Assignment) -> Void)? = nil
+  var onShowDetail: ((String) -> Void)? = nil
 
   var body: some View {
     ZStack(alignment: .topTrailing) {
@@ -110,10 +112,16 @@ struct AssignmentRow: View {
         .font(.system(size: 15, weight: .bold))
         .padding([.top, .trailing], 30)
 
-      AssignmentCard(isParent: _isParent, assignment: assignment, onSwipe: onSwipe, onDelete: onDelete, onShowDetail: onShowDetail)
-        .onTapGesture {
-          onShowDetail?(assignment)
-        }
+      AssignmentCard(
+        isParent: _isParent,
+        assignment: $assignment,
+        onSwipe: onSwipe,
+        onDelete: onDelete,
+        onShowDetail: onShowDetail
+      )
+      .onTapGesture {
+        onShowDetail?(assignment.id)
+      }
 
     }.padding(.bottom, 50)
   }
@@ -126,10 +134,10 @@ struct AssignmentCard: View {
   private var thresholdPercentage: CGFloat = 0.5 //  draged 50% the width of the screen in either direction
 
   @Binding private var isParent: Bool
-  private var assignment: Assignment
+  @Binding private var assignment: Assignment
   private var onSwipe: ((Action) -> Void)?
   private var onDelete: ((Assignment) -> Void)?
-  private var onShowDetail: ((Assignment) -> Void)?
+  private var onShowDetail: ((String) -> Void)?
 
   private func getGesturePercentage(_ geometry: GeometryProxy, from gesture: DragGesture.Value) -> CGFloat {
     gesture.translation.width / geometry.size.width
@@ -137,13 +145,13 @@ struct AssignmentCard: View {
 
   init(
     isParent: Binding<Bool>,
-    assignment: Assignment,
+    assignment: Binding<Assignment>,
     onSwipe: ((Action) -> Void)? = nil,
     onDelete: ((Assignment) -> Void)? = nil,
-    onShowDetail: ((Assignment) -> Void)? = nil
+    onShowDetail: ((String) -> Void)? = nil
   ) {
     self._isParent = isParent
-    self.assignment = assignment
+    self._assignment = assignment
     self.onSwipe = onSwipe
     self.onDelete = onDelete
     self.onShowDetail = onShowDetail
@@ -207,7 +215,7 @@ struct AssignmentCard: View {
       )
       .contextMenu {
         Button(action: {
-          onShowDetail?(assignment)
+          onShowDetail?(assignment.id)
         }) {
           Label("Detail", systemImage: "info.circle.fill")
         }
