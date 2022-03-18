@@ -15,6 +15,7 @@ extension ChatEntity {
       message: message.orEmpty(),
       sentDate: sentDate?.toDate() ?? Date(),
       isRead: isRead ?? false,
+      assignment: assignment?.map() ?? .empty,
       seenBy: seenBy?.map { $0.map() } ?? []
     )
   }
@@ -28,6 +29,7 @@ extension Chat {
       message: message,
       sentDate: String(sentDate.timeIntervalSince1970),
       isRead: isRead,
+      assignment: assignment.map(),
       seenBy: seenBy.map { $0.map() }
     )
   }

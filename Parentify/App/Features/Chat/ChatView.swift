@@ -14,6 +14,7 @@ struct ChatView: View {
   @State private var inputText: String = ""
   @State private var chats: [Chat] = []
 
+  @State var assignment: Assignment = .empty
   @State var sender: User = .empty
 
   var body: some View {
@@ -28,8 +29,11 @@ struct ChatView: View {
         }
         .padding(.top, 25)
       }
+      .onTapGesture {
+        hideKeyboard()
+      }
 
-      if chats.isEmpty {
+      if presenter.chatsState != .loading && chats.isEmpty {
         HStack(alignment: .center) {
           Spacer()
 
@@ -57,6 +61,7 @@ struct ChatView: View {
             message: text,
             sentDate: Date(),
             isRead: false,
+            assignment: assignment,
             seenBy: []
           )
         )
@@ -67,16 +72,14 @@ struct ChatView: View {
     .navigationBarTitleDisplayMode(.inline)
     .overlay(
       VStack {
-        ImageCard(profileImage: sender.profilePict)
-          .frame(width: 48, height: 48)
-          .padding(.trailing, 20)
+        ImageMembersCard(members: [.empty, .empty, .empty])
+          .frame(width: 100, height: 100)
+          .padding(.trailing, 10)
           .padding(.top, 35)
+
       }.offset(x: 0, y: -80)
       , alignment: .topTrailing
     )
-    .onTapGesture {
-      hideKeyboard()
-    }
     .onAppear {
       presenter.fetchChats()
     }

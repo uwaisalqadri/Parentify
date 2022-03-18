@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ChatChannelView: View {
 
+  @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: ChatPresenter
   @ObservedObject var membershipPresenter: MembershipPresenter
 
+  @State var assignment: Assignment = .empty
   @State var sender: User = .empty
   @State var contacts: [User] = []
 
@@ -21,7 +23,7 @@ struct ChatChannelView: View {
     List {
       Section(header: Text("Direct")) {
         ForEach(contacts, id: \.userId) { user in
-          NavigationLink(destination: router.routeChat(sender: sender)) {
+          NavigationLink(destination: router.routeChat(sender: sender, assignment: assignment)) {
             ChatChannelRow(contact: user)
           }.buttonStyle(PlainButtonStyle())
         }
@@ -30,10 +32,16 @@ struct ChatChannelView: View {
     .navigationTitle("Chats")
     .onAppear {
       membershipPresenter.fetchUsers()
+      membershipPresenter.fetchUser()
     }
     .onDisappear(perform: {
       membershipPresenter.stopUsers()
     })
+    .onReceive(membershipPresenter.$userState) { state in
+      if case .success(let data) = state {
+        sender = data
+      }
+    }
     .onReceive(membershipPresenter.$allUserState) { state in
       if case .success(let data) = state {
         contacts = data.filter { $0.userId != sender.userId }

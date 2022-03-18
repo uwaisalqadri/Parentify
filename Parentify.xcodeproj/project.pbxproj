@@ -36,6 +36,8 @@
 		9170623327BF7274005C2983 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170623227BF7274005C2983 /* ContentView.swift */; };
 		9170623527BF79D9005C2983 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170623427BF79D9005C2983 /* ActivityIndicator.swift */; };
 		9170623727BF85E8005C2983 /* ProgressHUDModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170623627BF85E8005C2983 /* ProgressHUDModifier.swift */; };
+		9181DFD727E35E130028B5D8 /* ChatAssignmentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9181DFD627E35E130028B5D8 /* ChatAssignmentRow.swift */; };
+		9181DFD927E403380028B5D8 /* ImageMembersCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9181DFD827E403370028B5D8 /* ImageMembersCard.swift */; };
 		918EE07727D43DFF00D38EA1 /* GoogleAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918EE07627D43DFF00D38EA1 /* GoogleAuthManager.swift */; };
 		918EE07A27D43E9400D38EA1 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 918EE07927D43E9400D38EA1 /* GoogleSignIn */; };
 		918EE07E27D57A6B00D38EA1 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918EE07D27D57A6B00D38EA1 /* ImagePicker.swift */; };
@@ -138,6 +140,8 @@
 		9170623227BF7274005C2983 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9170623427BF79D9005C2983 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		9170623627BF85E8005C2983 /* ProgressHUDModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUDModifier.swift; sourceTree = "<group>"; };
+		9181DFD627E35E130028B5D8 /* ChatAssignmentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAssignmentRow.swift; sourceTree = "<group>"; };
+		9181DFD827E403370028B5D8 /* ImageMembersCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMembersCard.swift; sourceTree = "<group>"; };
 		918EE07627D43DFF00D38EA1 /* GoogleAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthManager.swift; sourceTree = "<group>"; };
 		918EE07D27D57A6B00D38EA1 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		918EE07F27D57AEE00D38EA1 /* AssignmentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentEntity.swift; sourceTree = "<group>"; };
@@ -473,6 +477,8 @@
 				91B3298727BD11DB00FBFA00 /* ChatRow.swift */,
 				9132025027DD90DC009BE708 /* ChatChannelRow.swift */,
 				91B3298927BD29D900FBFA00 /* ChatInputField.swift */,
+				9181DFD627E35E130028B5D8 /* ChatAssignmentRow.swift */,
+				9181DFD827E403370028B5D8 /* ImageMembersCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -712,6 +718,7 @@
 				9132025127DD90DC009BE708 /* ChatChannelRow.swift in Sources */,
 				91B3297227BCDF6F00FBFA00 /* ChatPresenter.swift in Sources */,
 				91B3298427BCE61B00FBFA00 /* Chat.swift in Sources */,
+				9181DFD927E403380028B5D8 /* ImageMembersCard.swift in Sources */,
 				91413FC127BA95AA00799155 /* ParentifyApp.swift in Sources */,
 				9128775F27DAC1050065A7B0 /* SFSymbol.swift in Sources */,
 				9104EFC527C1F9BD0099A294 /* UIImage.swift in Sources */,
@@ -749,6 +756,7 @@
 				91B3296827BCDE3400FBFA00 /* AssignmentDetailView.swift in Sources */,
 				91FF767F27BE3E43001B9CED /* BottomSheetModifier.swift in Sources */,
 				918EE07727D43DFF00D38EA1 /* GoogleAuthManager.swift in Sources */,
+				9181DFD727E35E130028B5D8 /* ChatAssignmentRow.swift in Sources */,
 				91B3296027BCDA3300FBFA00 /* User.swift in Sources */,
 				91B3297A27BCE00B00FBFA00 /* ChatAssembler.swift in Sources */,
 				9170623727BF85E8005C2983 /* ProgressHUDModifier.swift in Sources */,

@@ -15,41 +15,50 @@ struct ChatRow: View {
   var onDelete: ((Chat) -> Void)?
 
   var body: some View {
-    HStack {
-      if isSender {
-        Spacer()
-      }
+    ZStack {
+      if !chat.assignment.title.isEmpty {
+        ChatAssignmentRow(assignment: chat.assignment)
 
-      Text(chat.message)
-        .foregroundColor(.white)
-        .font(.system(size: 13, weight: .medium))
-        .padding(.horizontal, 19)
-        .padding(.vertical, 11)
-        .cardShadow(backgroundColor: isSender ? Color.pinkColor : Color.purpleColor, cornerRadius: 22, opacity: 0, radius: 0)
-        .contextMenu {
+      } else {
+        HStack {
           if isSender {
-            if #available(iOS 15.0, *) {
-              Button(role: .destructive) {
-                onDelete?(chat)
-              } label: {
-                Label("Remove", systemImage: "trash.fill")
-              }
-            } else {
-              Button(action: {
-                onDelete?(chat)
-              }) {
-                Label("Remove", systemImage: "trash.fill")
-              }
-            }
+            Spacer()
           }
 
-        }
-        .padding(.horizontal, 19)
-        .padding(.bottom, 15)
+          Text(chat.message)
+            .foregroundColor(.white)
+            .font(.system(size: 13, weight: .medium))
+            .padding(.horizontal, 19)
+            .padding(.vertical, 11)
+            .cardShadow(backgroundColor: isSender ? Color.pinkColor : Color.purpleColor, cornerRadius: 22, opacity: 0, radius: 0)
+            .contextMenu {
+              if isSender {
+                if #available(iOS 15.0, *) {
+                  Button(role: .destructive) {
+                    onDelete?(chat)
+                  } label: {
+                    Label("Remove", systemImage: "trash.fill")
+                  }
+                } else {
+                  Button(action: {
+                    onDelete?(chat)
+                  }) {
+                    Label("Remove", systemImage: "trash.fill")
+                  }
+                }
+              }
 
-      if !isSender {
-        Spacer()
+            }
+            .padding(.horizontal, 19)
+            .padding(.bottom, 15)
+
+          if !isSender {
+            Spacer()
+          }
+        }
+
       }
+
     }
 
   }

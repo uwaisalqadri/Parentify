@@ -25,11 +25,14 @@ struct AssignmentDetailView: View {
 
   @State private var isShowPicker: Bool = false
   @State private var isSelectIcon: Bool = false
-
+  @State private var isShowChat: Bool = false
+  
+  let router: AssignmentRouter
   var onUploaded: (() -> Void)?
 
-  init(presenter: AssignmentPresenter, isParent: Binding<Bool>, assignmentId: Binding<String>, assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
+  init(presenter: AssignmentPresenter, router: AssignmentRouter, isParent: Binding<Bool>, assignmentId: Binding<String>, assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
     self.presenter = presenter
+    self.router = router
     self._isParent = isParent
     self._assignmentId = assignmentId
     self.assignmentType = assignmentType
@@ -111,7 +114,7 @@ struct AssignmentDetailView: View {
         }
 
         Button(action: {
-          print("Chat")
+          isShowChat.toggle()
         }) {
           HStack {
             Spacer()
@@ -135,6 +138,12 @@ struct AssignmentDetailView: View {
     .padding(.horizontal, 20)
     .navigationTitle(assignment.title)
     .navigationBarTitleDisplayMode(.inline)
+    .fullScreenCover(isPresented: $isShowChat) {
+      NavigationView {
+        router.routeChatChannel(assignment: assignment)
+          .navigationBarBackButtonHidden(false)
+      }
+    }
     .toolbar {
       ToolbarItemGroup(placement: .navigationBarTrailing) {
         Button(action: {
