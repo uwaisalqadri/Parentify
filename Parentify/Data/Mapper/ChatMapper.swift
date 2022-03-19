@@ -35,7 +35,7 @@ extension ChatEntity {
       message: message.orEmpty(),
       sentDate: sentDate?.toDate() ?? Date(),
       isRead: isRead ?? false,
-      isGroupChat: isGroupChat ?? false,
+      channelName: channelName.orEmpty(),
       assignment: assignment?.map() ?? .empty,
       seenBy: seenBy?.map { $0.map() } ?? []
     )
@@ -50,7 +50,7 @@ extension Chat {
       message: message,
       sentDate: String(sentDate.timeIntervalSince1970),
       isRead: isRead,
-      isGroupChat: isGroupChat,
+      channelName: channelName,
       assignment: assignment.map(),
       seenBy: seenBy.map { $0.map() }
     )

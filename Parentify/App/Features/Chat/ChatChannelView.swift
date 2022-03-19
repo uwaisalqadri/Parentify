@@ -37,7 +37,7 @@ struct ChatChannelView: View {
       Section(header: Text("Direct")) {
         ForEach(contacts, id: \.userId) { user in
           NavigationLink(
-            destination: router.routeChat(currentUser: currentUser, sender: user, assignment: assignment, section: .direct)
+            destination: router.routeChat(currentUser: currentUser, sender: user, assignment: assignment, channelName: "", section: .direct)
           ) {
             ChatChannelRow(section: .direct, contact: user)
           }.buttonStyle(PlainButtonStyle())
@@ -62,7 +62,7 @@ struct ChatChannelView: View {
 
         ForEach(channels, id: \.id) { channel in
           NavigationLink(
-            destination: router.routeChat(currentUser: currentUser, sender: .empty, assignment: assignment, section: .group)
+            destination: router.routeChat(currentUser: currentUser, sender: .empty, assignment: assignment, channelName: channel.channelName, section: .group)
           ) {
             ChatChannelRow(section: .group, channel: channel)
           }.buttonStyle(PlainButtonStyle())

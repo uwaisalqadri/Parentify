@@ -17,15 +17,17 @@ struct ChatView: View {
 
   @State var assignment: Assignment = .empty
   let section: ChatChannelSection
+  let channelName: String
   let currentUser: User
   let sender: User
 
-  init(presenter: ChatPresenter, membershipPresenter: MembershipPresenter, section: ChatChannelSection = .direct, assignment: Assignment = .empty, currentUser: User, sender: User) {
+  init(presenter: ChatPresenter, membershipPresenter: MembershipPresenter, section: ChatChannelSection,  channelName: String, assignment: Assignment = .empty, currentUser: User, sender: User) {
     self.currentUser = currentUser
     self.sender = sender
     self.presenter = presenter
     self.membershipPresenter = membershipPresenter
     self.section = section
+    self.channelName = channelName
     self.assignment = assignment
 
     presenter.fetchChats()
@@ -67,19 +69,12 @@ struct ChatView: View {
 
       ChatInputField(text: $inputText) { text in
         presenter.uploadChat(
-          chat: .init(
-            sender: currentUser,
-            message: text,
-            sentDate: Date(),
-            isRead: false,
-            assignment: assignment,
-            seenBy: []
-          )
+          chat: .init(sender: currentUser, message: text, sentDate: Date(), isRead: false, channelName: channelName, assignment: assignment, seenBy: [])
         )
       }
 
     }
-    .navigationBarTitle(sender.name)
+    .navigationBarTitle(section == .direct ? sender.name : channelName)
     .navigationBarTitleDisplayMode(.inline)
     .gesture(
       DragGesture(minimumDistance: 20, coordinateSpace: .global)
@@ -113,9 +108,9 @@ struct ChatView: View {
       if case .success(let data) = state {
         switch section {
         case .direct:
-          chats = data.filter { $0.sender.userId == currentUser.userId || $0.sender.userId == sender.userId }
+          chats = data.filter { $0.channelName.isEmpty && $0.sender.userId == currentUser.userId || $0.sender.userId == sender.userId }
         case .group:
-          chats = data
+          chats = data.filter { $0.channelName == channelName }
         }
       }
     }

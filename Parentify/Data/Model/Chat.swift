@@ -24,7 +24,7 @@ struct Chat {
   var message: String = ""
   var sentDate: Date = Date()
   var isRead: Bool = false
-  var isGroupChat: Bool = false
+  var channelName: String = ""
   var assignment: Assignment = .empty
   var seenBy: [User] = []
 }
