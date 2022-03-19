@@ -11,13 +11,12 @@ struct AssignmentDetailView: View {
 
   @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: AssignmentPresenter
-  @Binding var assignmentId: String
   @Binding var isParent: Bool
 
+  @State var assignment: Assignment = .empty
   @State private var assignmentType: AssigmnentType = .additional
   @State private var sortOrder: SortOrder = .defaultOrder
 
-  @State private var assignment: Assignment = .empty
   @State private var title: String = "Judul"
   @State private var description: String = "Deskripsi"
   @State private var imageSystemName: String = "plus"
@@ -26,20 +25,21 @@ struct AssignmentDetailView: View {
   @State private var isShowPicker: Bool = false
   @State private var isSelectIcon: Bool = false
   @State private var isShowChat: Bool = false
-  
+
+  let assignmentId: String
   let router: AssignmentRouter
   var onUploaded: (() -> Void)?
 
-  init(presenter: AssignmentPresenter, router: AssignmentRouter, isParent: Binding<Bool>, assignmentId: Binding<String>, assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
+  init(presenter: AssignmentPresenter, router: AssignmentRouter, isParent: Binding<Bool>, assignmentId: String, assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
     self.presenter = presenter
     self.router = router
     self._isParent = isParent
-    self._assignmentId = assignmentId
+    self.assignmentId = assignmentId
     self.assignmentType = assignmentType
     self.onUploaded = onUploaded
 
-    if !assignmentId.wrappedValue.isEmpty {
-      presenter.fetchDetailAssignment(assignmentId: assignmentId.wrappedValue)
+    if !assignmentId.isEmpty {
+      presenter.fetchDetailAssignment(assignmentId: assignmentId)
     }
   }
 
@@ -156,7 +156,8 @@ struct AssignmentDetailView: View {
         Menu {
           Picker(selection: $assignmentType, label: Text("Sort")) {
             ForEach(AssigmnentType.allCases, id: \.self) { type in
-              Text(type.rawValue == "need_to_done" ? "Harus Dikerjakan" : "Tambahan").tag(type)
+              Text(type.rawValue == "need_to_done" ? "Harus Dikerjakan" : "Tambahan")
+                .tag(type)
             }
           }
         } label: {
@@ -179,7 +180,6 @@ struct AssignmentDetailView: View {
     .onReceive(presenter.$assignmentDetailState) { state in
       if case .success(let data) = state {
         assignment = data
-        assignmentId = assignment.id
         title = assignment.title
         description = assignment.description
         imageSystemName = assignment.iconName
@@ -206,9 +206,6 @@ struct AssignmentDetailView: View {
       if !assignmentId.isEmpty {
         presenter.fetchDetailAssignment(assignmentId: assignmentId)
       }
-    }
-    .onDisappear {
-      assignmentId = ""
     }
 
   }

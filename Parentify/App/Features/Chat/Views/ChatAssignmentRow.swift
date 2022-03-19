@@ -36,7 +36,7 @@ struct ChatAssignmentRow: View {
     }
     .padding(23)
     .cardShadow(cornerRadius: 27)
-    .frame(height: 100)
+    .frame(width: 270, height: 100)
   }
 }
 

@@ -28,11 +28,6 @@ struct HomeRouter {
     return router.routeMessages(isParent: isParent)
   }
 
-  func routeChat(sender: User) -> ChatView {
-    let router: ChatRouter = assembler.resolve()
-    return router.routeChat(sender: sender)
-  }
-
   func routeChatChannel() -> ChatChannelView {
     let router: ChatRouter = assembler.resolve()
     return router.routeChatChannel()

@@ -14,8 +14,8 @@ struct ChatRouter {
     self.assembler = assembler
   }
 
-  func routeChat(sender: User, assignment: Assignment = .empty) -> ChatView {
-    return ChatView(presenter: assembler.resolve(), assignment: assignment, sender: sender)
+  func routeChat(currentUser: User, sender: User, assignment: Assignment = .empty, section: ChatChannelSection) -> ChatView {
+    return ChatView(presenter: assembler.resolve(), membershipPresenter: assembler.resolve(), section: section, assignment: assignment, currentUser: currentUser, sender: sender)
   }
 
   func routeChatChannel(assignment: Assignment = .empty) -> ChatChannelView {

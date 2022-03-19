@@ -26,6 +26,7 @@ struct MemojiView: View {
               isShowMemojiTextView = false
             }) {
               Text("Done")
+                .foregroundColor(.purpleColor)
             }
           }
         }

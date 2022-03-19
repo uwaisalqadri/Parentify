@@ -30,7 +30,7 @@ struct AssignmentGroupView: View {
         VStack(alignment: .leading) {
           ForEach(Array(assignmentGroup.assignments.enumerated()), id: \.offset) { index, item in
             NavigationLink(
-              destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: $assignmentId, assignmentType: selectedAssignment.type),
+              destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: assignmentId, assignmentType: selectedAssignment.type),
               isActive: $isShowDetail
             ) {
               AssignmentRow(
@@ -101,7 +101,7 @@ struct AssignmentGroupView: View {
     .progressHUD(isShowing: $presenter.assignmentsState.isLoading)
     .background(
       NavigationLink(
-        destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: $assignmentId) {
+        destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: assignmentId) {
           presenter.fetchAssignments()
           onUploaded?()
         },

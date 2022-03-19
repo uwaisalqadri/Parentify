@@ -23,6 +23,7 @@ class UserEntity: Codable, BodyCodable {
     case password = "password"
     case isParent = "is_parent"
     case profilePict = "profile_pict"
+    case lastChat = "last_chat"
   }
 
   var userId: String?
@@ -32,8 +33,9 @@ class UserEntity: Codable, BodyCodable {
   var password: String?
   var isParent: Bool?
   var profilePict: String?
+  var lastChat: String?
 
-  init(userId: String?, role: UserRoleEntity?, name: String?, email: String?, password: String?, isParent: Bool?, profilePict: String?) {
+  init(userId: String?, role: UserRoleEntity?, name: String?, email: String?, password: String?, isParent: Bool?, profilePict: String?, lastChat: String?) {
     self.userId = userId
     self.role = role
     self.name = name
@@ -41,5 +43,6 @@ class UserEntity: Codable, BodyCodable {
     self.password = password
     self.isParent = isParent
     self.profilePict = profilePict
+    self.lastChat = lastChat
   }
 }

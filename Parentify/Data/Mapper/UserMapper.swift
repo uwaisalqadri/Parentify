@@ -16,7 +16,8 @@ extension UserEntity {
       email: email.orEmpty(),
       password: password.orEmpty(),
       isParent: isParent ?? false,
-      profilePict: profilePict?.toImage() ?? UIImage()
+      profilePict: profilePict?.toImage() ?? UIImage(),
+      lastChat: lastChat.orEmpty()
     )
   }
 }
@@ -30,7 +31,8 @@ extension User {
       email: email,
       password: password,
       isParent: isParent,
-      profilePict: profilePict.toJpegString(compressionQuality: 0.5)
+      profilePict: profilePict.toJpegString(compressionQuality: 0.5),
+      lastChat: lastChat
     )
   }
 }

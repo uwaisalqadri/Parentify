@@ -7,25 +7,26 @@
 
 import SwiftUI
 
+enum ChatChannelSection {
+  case direct
+  case group
+}
+
 struct ChatChannelRow: View {
 
-  @State var contact: User = .empty
+  var section: ChatChannelSection = .direct
+  var contact: User = .empty
+  var channel: ChatChannel = .empty
 
   var body: some View {
     HStack {
       VStack(alignment: .leading) {
-        Text(contact.name)
+        Text(section == .direct ? contact.name : channel.channelName)
           .foregroundColor(.purpleColor)
-          .font(.system(size: 17, weight: .semibold))
-
-        Text("Jangan Lupa Kunci Pintu Ya")
-          .foregroundColor(.black)
-          .font(.system(size: 12, weight: .regular))
+          .font(.system(size: 15, weight: .semibold))
       }
 
       Spacer()
     }
-    .padding(.vertical, 20)
-    .padding(.horizontal, 10)
   }
 }

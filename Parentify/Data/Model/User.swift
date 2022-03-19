@@ -23,4 +23,5 @@ struct User {
   var password: String = ""
   var isParent: Bool = false
   var profilePict: UIImage = UIImage()
+  var lastChat: String = ""
 }

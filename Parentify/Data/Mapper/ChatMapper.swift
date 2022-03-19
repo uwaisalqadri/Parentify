@@ -7,6 +7,26 @@
 
 import SwiftUI
 
+extension ChatChannelEntity {
+  func map() -> ChatChannel {
+    return ChatChannel(
+      id: UUID(uuidString: id.orEmpty()) ?? UUID(),
+      channelName: channelName.orEmpty(),
+      users: users?.map { $0.map() } ?? []
+    )
+  }
+}
+
+extension ChatChannel {
+  func map() -> ChatChannelEntity {
+    return ChatChannelEntity(
+      id: id.uuidString,
+      channelName: channelName,
+      users: users.map { $0.map() }
+    )
+  }
+}
+
 extension ChatEntity {
   func map() -> Chat {
     return Chat(
@@ -15,6 +35,7 @@ extension ChatEntity {
       message: message.orEmpty(),
       sentDate: sentDate?.toDate() ?? Date(),
       isRead: isRead ?? false,
+      isGroupChat: isGroupChat ?? false,
       assignment: assignment?.map() ?? .empty,
       seenBy: seenBy?.map { $0.map() } ?? []
     )
@@ -29,6 +50,7 @@ extension Chat {
       message: message,
       sentDate: String(sentDate.timeIntervalSince1970),
       isRead: isRead,
+      isGroupChat: isGroupChat,
       assignment: assignment.map(),
       seenBy: seenBy.map { $0.map() }
     )

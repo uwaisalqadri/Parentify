@@ -7,21 +7,21 @@
 
 import SwiftUI
 
-struct ChatChannelEntity {
+struct ChatChannelEntity: Codable, BodyCodable {
 
   enum CodingKeys: String, CodingKey {
-    case chats = "chats"
+    case id = "channel_id"
+    case channelName = "channel_name"
     case users = "users"
-    case isGroupChat = "is_group_chat"
   }
 
-  var chats: [ChatEntity]?
+  var id: String?
+  var channelName: String?
   var users: [UserEntity]?
-  var isGroupChat: Bool?
 
-  init(chats: [ChatEntity]?, users: [UserEntity]?, isGroupChat: Bool?) {
-    self.chats = chats
+  init(id: String?, channelName: String?, users: [UserEntity]?) {
+    self.id = id
+    self.channelName = channelName
     self.users = users
-    self.isGroupChat = isGroupChat
   }
 }

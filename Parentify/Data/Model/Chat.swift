@@ -12,9 +12,8 @@ struct ChatChannel {
   static let empty: ChatChannel = ChatChannel()
 
   var id: UUID = UUID()
-  var chats: [Chat] = []
+  var channelName: String = ""
   var users: [User] = []
-  var isGroupChat: Bool = false
 }
 
 struct Chat {
@@ -25,6 +24,7 @@ struct Chat {
   var message: String = ""
   var sentDate: Date = Date()
   var isRead: Bool = false
+  var isGroupChat: Bool = false
   var assignment: Assignment = .empty
   var seenBy: [User] = []
 }

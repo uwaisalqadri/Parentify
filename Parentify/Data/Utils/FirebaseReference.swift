@@ -11,6 +11,7 @@ import Firebase
 enum FirestoreCollection: String {
   case assignment
   case chat
+  case channel
   case membership
   case messages
 

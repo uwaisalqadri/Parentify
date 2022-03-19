@@ -47,11 +47,14 @@ protocol FirebaseManager {
   func fetchMessages(completion: @escaping CompletionResult<[MessageEntity]>)
 
   // MARK: Chat
+  func addChatChannel(channel: ChatChannelEntity, completion: @escaping CompletionResult<Bool>)
+  func fetchChannels(completion: @escaping CompletionResult<[ChatChannelEntity]>)
   func uploadChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>)
   func deleteChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>)
   func fetchChats(completion: @escaping CompletionResult<[ChatEntity]>)
   func fetchUnreadChats(completion: @escaping CompletionResult<Int>)
   func stopChats()
+  func stopChannels()
 
 }
 
@@ -61,6 +64,7 @@ class DefaultFirebaseManager: FirebaseManager {
   let firebaseAuth = Auth.auth()
 
   private var chatListener: ListenerRegistration?
+  private var channelListener: ListenerRegistration?
   private var usersListener: ListenerRegistration?
   private var userListener: ListenerRegistration?
   private var assignmentListener: ListenerRegistration?
@@ -354,6 +358,48 @@ extension DefaultFirebaseManager {
 
 extension DefaultFirebaseManager {
 
+  func addChatChannel(channel: ChatChannelEntity, completion: @escaping CompletionResult<Bool>) {
+    guard let channelId = channel.id else { return }
+    firestoreCollection(.channel)
+      .document(channelId)
+      .setData(channel.asFormDictionary()) { error in
+        if let error = error {
+          return completion(.failure(.invalidRequest(error: error)))
+        } else {
+          return completion(.success(true))
+        }
+      }
+  }
+
+  func fetchChannels(completion: @escaping CompletionResult<[ChatChannelEntity]>) {
+    if channelListener == nil {
+      channelListener = firestoreCollection(.channel)
+        .addSnapshotListener { querySnapshot, error in
+          if let error = error {
+            completion(.failure(.invalidRequest(error: error)))
+          } else if let querySnapshot = querySnapshot {
+            var channels = [ChatChannelEntity]()
+            for document in  querySnapshot.documents {
+              do {
+                if let channel = try document.data(as: ChatChannelEntity.self) {
+                  channels.append(channel)
+                }
+                completion(.success(channels))
+              } catch {
+                completion(.failure(.unknownError))
+              }
+            }
+          }
+        }
+    }
+  }
+
+  func stopChannels() {
+    if channelListener != nil {
+      channelListener?.remove()
+      channelListener = nil
+    }
+  }
 
   func uploadChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>) {
     guard let chatId = chat.id else { return }

@@ -65,7 +65,7 @@ struct AssignmentGroupRow: View {
     .padding(.top, 12)
     .overlay(
       NavigationLink(
-        destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: $selectedAssignmentId),
+        destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: selectedAssignmentId),
         isActive: $isShowDetail
       ) {
         EmptyView()

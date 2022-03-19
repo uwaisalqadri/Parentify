@@ -14,30 +14,6 @@ func getMessages() -> [Message] {
   ]
 }
 
-func getChatChannel() -> [ChatChannel] {
-  return [
-    .init(chats: getChats(), users: [], isGroupChat: false),
-    .init(chats: getChats(), users: [], isGroupChat: false),
-    .init(chats: getChats(), users: [], isGroupChat: false),
-    .init(chats: getChats(), users: [], isGroupChat: false),
-    .init(chats: getChats(), users: [], isGroupChat: false),
-    .init(chats: getChats(), users: [], isGroupChat: false),
-    .init(chats: getChats(), users: [], isGroupChat: false),
-    .init(chats: getChats(), users: [], isGroupChat: false)
-  ]
-}
-
-func getChats() -> [Chat] {
-  return [
-    .init(sender: .empty, message: "Udah dikerjain nak?", sentDate: Date(), seenBy: []),
-    .init(sender: .empty, message: "Nanti klo udah selesai di kumpulin ke guru ya", sentDate: Date(), seenBy: []),
-    .init(sender: .empty, message: "Aman ma", sentDate: Date(), seenBy: []),
-    .init(sender: .empty, message: "Udah dikerjain nak?", sentDate: Date(), seenBy: []),
-    .init(sender: .empty, message: "Nanti klo udah selesai di kumpulin ke guru ya", sentDate: Date(), seenBy: []),
-    .init(sender: .empty, message: "Aman ma", sentDate: Date(), seenBy: [])
-  ]
-}
-
 func getAssignmentGroups(assignments: [Assignment]) -> [AssignmentGroup] {
   return [
     .init(title: "Perlu Dikerjakan", type: .needToDone, assignments: assignments.filter { $0.type == .needToDone }),
