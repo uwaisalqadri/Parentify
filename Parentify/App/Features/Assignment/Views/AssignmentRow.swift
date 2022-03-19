@@ -14,17 +14,19 @@ enum Action {
 
 struct AssignmentGroupRow: View {
 
+  let router: AssignmentRouter
+  let selectedAssignmentId: String
+
   @Binding var isShowDetail: Bool
   @Binding var isParent: Bool
 
-  var assignmentGroup: AssignmentGroup
+  let assignmentGroup: AssignmentGroup
+  var onSwipe: ((Action) -> Void)?
   var onDelete: ((Assignment) -> Void)?
+  var onShowDetail: ((String) -> Void)?
   var onUploaded: (() -> Void)?
 
   @State var actionTitle: String = "Lihat Semuanya"
-  @State var selectedAssignmentId: String = ""
-
-  var router: AssignmentRouter = AppAssembler.shared.resolve()
 
   var body: some View {
     HStack {
@@ -35,16 +37,12 @@ struct AssignmentGroupRow: View {
       Spacer()
 
       NavigationLink(
-        destination: router.routeAssignmentGroup(
-          isParent: $isParent,
-          assignmentType: assignmentGroup.type
-        ) {
-          onUploaded?()
-        }
+        destination: router.routeAssignmentGroup(isParent: $isParent, assignmentType: assignmentGroup.type, onUploaded: onUploaded)
       ) {
         Text(actionTitle)
           .foregroundColor(.purpleColor)
           .font(.system(size: 13, weight: .medium))
+
       }.buttonStyle(FlatLinkStyle())
 
     }
@@ -52,14 +50,13 @@ struct AssignmentGroupRow: View {
     .padding(.horizontal, 32)
 
     ForEach(Array(assignmentGroup.assignments.prefix(3).enumerated()), id: \.offset) { index, item in
-      AssignmentRow(assignment: item, isParent: $isParent) { action in
-        print("action", action)
-      } onDelete: { assignment in
-        onDelete?(assignment)
-      } onShowDetail: { assignmentId in
-        selectedAssignmentId = assignmentId
-        isShowDetail.toggle()
-      }
+      AssignmentRow(
+        assignment: item,
+        isParent: $isParent,
+        onSwipe: onSwipe,
+        onDelete: onDelete,
+        onShowDetail: onShowDetail
+      )
     }
     .padding(.horizontal, 25)
     .padding(.top, 12)

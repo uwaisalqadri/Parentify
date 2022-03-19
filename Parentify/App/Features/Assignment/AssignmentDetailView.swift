@@ -11,9 +11,9 @@ struct AssignmentDetailView: View {
 
   @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: AssignmentPresenter
-  @Binding var isParent: Bool
+  @Binding private var isParent: Bool
 
-  @State var assignment: Assignment = .empty
+  @State private var assignment: Assignment = .empty
   @State private var assignmentType: AssigmnentType = .additional
   @State private var sortOrder: SortOrder = .defaultOrder
 
@@ -80,7 +80,7 @@ struct AssignmentDetailView: View {
 
         if isParent {
           Button(action: {
-            assignment = .init(
+            let assignment: Assignment = .init(
               id: assignmentId.isEmpty ? UUID().uuidString : assignmentId,
               iconName: imageSystemName,
               title: title,
@@ -202,7 +202,6 @@ struct AssignmentDetailView: View {
       }
     }
     .onAppear {
-      print("assignmentId", assignmentId)
       if !assignmentId.isEmpty {
         presenter.fetchDetailAssignment(assignmentId: assignmentId)
       }

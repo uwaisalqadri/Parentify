@@ -70,6 +70,7 @@ struct ChatChannelView: View {
       }
     }
     .navigationTitle("Chats")
+    .navigationBarTitleDisplayMode(.large)
     .onDisappear {
       membershipPresenter.stopUsers()
       presenter.stopChannels()

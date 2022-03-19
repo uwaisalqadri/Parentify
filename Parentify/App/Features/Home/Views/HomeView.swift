@@ -18,6 +18,7 @@ struct HomeView: View {
   @State var assignments = [Assignment]()
   @State var messages = [Message]()
 
+  @State var selectedAssignmentId: String = ""
   @State var unreadChats: Int = 0
   @State var isShowDetail = false
   @State var isShowProgress = false
@@ -25,6 +26,7 @@ struct HomeView: View {
   @State var isParent = false
 
   let router: HomeRouter
+  let assignmentRouter: AssignmentRouter
 
   var body: some View {
     NavigationView {
@@ -73,12 +75,28 @@ struct HomeView: View {
               Array(assignmentGroups.enumerated()),
               id: \.offset
             ) { index, item in
+
               AssignmentGroupRow(
+                router: assignmentRouter,
+                selectedAssignmentId: selectedAssignmentId,
                 isShowDetail: $isShowDetail,
                 isParent: $isParent,
                 assignmentGroup: item,
+                onSwipe: { action in
+                  switch action {
+                  case .finished(let assignment):
+                    assignmentPresenter.updateFinishedAssignment(assignment: assignment)
+                  case .none:
+                    break
+                  }
+                },
                 onDelete: { assignment in
                   assignmentPresenter.deleteAssignment(assignment: assignment)
+                },
+                onShowDetail: { assignmentId in
+                  selectedAssignmentId = assignmentId
+                  isShowDetail.toggle()
+                  print("onShowDetail", selectedAssignmentId)
                 },
                 onUploaded: {
                   assignmentPresenter.fetchAssignments()
@@ -203,6 +221,6 @@ struct HomeView_Previews: PreviewProvider {
   static var assembler: Assembler = AppAssembler()
 
   static var previews: some View {
-    HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve())
+    HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
   }
 }
