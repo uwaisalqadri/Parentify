@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ChatAssignmentRow: View {
 
-  @State var assignment: Assignment = .empty
+  let assignment: Assignment
 
   var body: some View {
     HStack {
-      VStack(alignment: .leading) {
+      VStack(alignment: .trailing) {
         Text(assignment.title)
           .font(.system(size: 12, weight: .semibold))
           .padding(.bottom, 1)

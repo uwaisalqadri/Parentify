@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MessagesRow: View {
 
-  @State var message: Message
+  let message: Message
 
   var body: some View {
     HStack {

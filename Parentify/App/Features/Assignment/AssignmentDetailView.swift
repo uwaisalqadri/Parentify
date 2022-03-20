@@ -21,6 +21,7 @@ struct AssignmentDetailView: View {
   @State private var description: String = "Deskripsi"
   @State private var imageSystemName: String = "plus"
   @State private var selectedImage: UIImage = UIImage()
+  @State private var assignedUsers = [User]()
 
   @State private var isShowPicker: Bool = false
   @State private var isSelectIcon: Bool = false
@@ -69,12 +70,22 @@ struct AssignmentDetailView: View {
 
         TextEditor(text: $description)
           .font(.system(size: 15, weight: .regular))
-          .frame(height: 200)
           .multilineTextAlignment(.leading)
           .autocapitalization(.none)
           .disableAutocorrection(true)
           .disabled(!isParent)
           .padding(.horizontal, 5)
+          .fixedSize(horizontal: false, vertical: true)
+
+        AttachUserView(
+          users: assignedUsers,
+          onAttachUser: {
+            assignedUsers.append(.empty)
+          },
+          onDetachUser: { index in
+            assignedUsers.remove(at: index)
+          }
+        )
 
         Spacer()
 

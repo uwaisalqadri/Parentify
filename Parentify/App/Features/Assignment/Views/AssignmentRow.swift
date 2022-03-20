@@ -94,7 +94,7 @@ struct AssignmentGroupRow: View {
 
 struct AssignmentRow: View {
 
-  @State var assignment: Assignment
+  let assignment: Assignment
   @Binding var isParent: Bool
 
   var onSwipe: ((Action) -> Void)? = nil
@@ -111,7 +111,7 @@ struct AssignmentRow: View {
 
       AssignmentCard(
         isParent: _isParent,
-        assignment: $assignment,
+        assignment: assignment,
         onSwipe: onSwipe,
         onDelete: onDelete,
         onShowDetail: onShowDetail
@@ -131,7 +131,7 @@ struct AssignmentCard: View {
   private var thresholdPercentage: CGFloat = 0.5 //  draged 50% the width of the screen in either direction
 
   @Binding private var isParent: Bool
-  @Binding private var assignment: Assignment
+  private let assignment: Assignment
   private var onSwipe: ((Action) -> Void)?
   private var onDelete: ((Assignment) -> Void)?
   private var onShowDetail: ((String) -> Void)?
@@ -142,13 +142,13 @@ struct AssignmentCard: View {
 
   init(
     isParent: Binding<Bool>,
-    assignment: Binding<Assignment>,
+    assignment: Assignment,
     onSwipe: ((Action) -> Void)? = nil,
     onDelete: ((Assignment) -> Void)? = nil,
     onShowDetail: ((String) -> Void)? = nil
   ) {
     self._isParent = isParent
-    self._assignment = assignment
+    self.assignment = assignment
     self.onSwipe = onSwipe
     self.onDelete = onDelete
     self.onShowDetail = onShowDetail

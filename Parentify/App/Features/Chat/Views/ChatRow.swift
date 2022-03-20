@@ -9,22 +9,22 @@ import SwiftUI
 
 struct ChatRow: View {
 
-  @State var chat: Chat = .empty
-  @State var isSender: Bool = false
+  let chat: Chat
+  let isSender: Bool
 
   var onDelete: ((Chat) -> Void)?
 
   var body: some View {
     ZStack {
-      if !chat.assignment.title.isEmpty {
-        ChatAssignmentRow(assignment: chat.assignment)
+      HStack {
+        if isSender {
+          Spacer()
+        }
 
-      } else {
-        HStack {
-          if isSender {
-            Spacer()
-          }
+        if chat.message == "assignment_type" {
+          ChatAssignmentRow(assignment: chat.assignment)
 
+        } else {
           Text(chat.message)
             .foregroundColor(.white)
             .font(.system(size: 13, weight: .medium))
@@ -52,11 +52,11 @@ struct ChatRow: View {
             .padding(.horizontal, 19)
             .padding(.bottom, 15)
 
-          if !isSender {
-            Spacer()
-          }
         }
 
+        if !isSender {
+          Spacer()
+        }
       }
 
     }

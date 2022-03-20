@@ -96,7 +96,6 @@ struct HomeView: View {
                 onShowDetail: { assignmentId in
                   selectedAssignmentId = assignmentId
                   isShowDetail.toggle()
-                  print("onShowDetail", selectedAssignmentId)
                 },
                 onUploaded: {
                   assignmentPresenter.fetchAssignments()

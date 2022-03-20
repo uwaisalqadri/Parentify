@@ -13,12 +13,12 @@ struct ChatChannelView: View {
   @ObservedObject var presenter: ChatPresenter
   @ObservedObject var membershipPresenter: MembershipPresenter
 
-  @State var assignment: Assignment = .empty
   @State var currentUser: User = .empty
   @State var contacts: [User] = []
   @State var channels: [ChatChannel] = []
   @State var isAddChatChannel: Bool = false
 
+  let assignment: Assignment
   let router: ChatRouter
 
   init(presenter: ChatPresenter, membershipPresenter: MembershipPresenter, assignment: Assignment = .empty, router: ChatRouter) {

@@ -55,7 +55,6 @@ class ChatPresenter: ObservableObject {
     firebaseManager.fetchChannels { result in
       switch result {
       case .success(let data):
-        print("channel", data)
         self.channelsState = .success(data: data.map { $0.map() })
       case .failure(let firebaseError):
         if case .invalidRequest(let error) = firebaseError {

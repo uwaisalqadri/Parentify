@@ -14,14 +14,15 @@ struct ChatView: View {
   @ObservedObject var membershipPresenter: MembershipPresenter
   @State private var inputText: String = ""
   @State private var chats: [Chat] = []
+  @State private var isShowDialog: Bool = false
 
-  @State var assignment: Assignment = .empty
+  let assignment: Assignment
   let section: ChatChannelSection
   let channelName: String
   let currentUser: User
   let sender: User
 
-  init(presenter: ChatPresenter, membershipPresenter: MembershipPresenter, section: ChatChannelSection,  channelName: String, assignment: Assignment = .empty, currentUser: User, sender: User) {
+  init(presenter: ChatPresenter, membershipPresenter: MembershipPresenter, section: ChatChannelSection,  channelName: String, assignment: Assignment, currentUser: User, sender: User) {
     self.currentUser = currentUser
     self.sender = sender
     self.presenter = presenter
@@ -113,6 +114,22 @@ struct ChatView: View {
           chats = data.filter { $0.channelName == channelName }
         }
       }
+    }
+    .alert(isPresented: $isShowDialog) {
+      Alert(
+        title: Text("Send Assignment?"),
+        message: nil,
+        primaryButton: .destructive(Text("No")),
+        secondaryButton: .cancel(Text("Yes"), action: { // 1
+          isShowDialog.toggle()
+          presenter.uploadChat(
+            chat: .init(sender: currentUser, message: "assignment_type", sentDate: Date(), isRead: false, channelName: channelName, assignment: assignment, seenBy: [])
+          )
+        })
+      )
+    }
+    .onAppear {
+      isShowDialog = !assignment.id.isEmpty
     }
     .onDisappear {
       presenter.stopChats()
