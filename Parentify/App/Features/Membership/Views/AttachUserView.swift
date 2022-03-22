@@ -10,6 +10,7 @@ import SwiftUI
 struct AttachUserView: View {
 
   var users = [User]()
+  var imageSize: CGFloat = 32
 
   var onSelectUser: ((User) -> Void)?
   var onAttachUser: (() -> Void)?
@@ -18,11 +19,12 @@ struct AttachUserView: View {
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack {
-        ForEach(Array(users.enumerated()), id: \.offset) { index, user in
+        let children = users.filter { !($0.isParent) || $0.role == .children }
+        ForEach(Array(children.enumerated()), id: \.offset) { index, user in
           ZStack(alignment: .bottomTrailing) {
             Image(uiImage: user.profilePict)
               .resizable()
-              .frame(width: 32, height: 32)
+              .frame(width: imageSize, height: imageSize)
               .cardShadow(cornerRadius: 8)
               .onTapGesture {
                 onSelectUser?(user)
@@ -31,7 +33,7 @@ struct AttachUserView: View {
             Image(systemName: "xmark.circle.fill")
               .resizable()
               .foregroundColor(.redColor)
-              .frame(width: 15, height: 15)
+              .frame(width: imageSize == 32 ? 15 : 20, height: imageSize == 32 ? 15 : 20)
               .padding([.bottom, .trailing], -3)
               .onTapGesture {
                 onDetachUser?(index)
@@ -44,7 +46,7 @@ struct AttachUserView: View {
         }) {
           Image("ImgAttachUser")
             .resizable()
-            .frame(width: 32, height: 32)
+            .frame(width: imageSize, height: imageSize)
         }
       }
       .padding()

@@ -42,3 +42,9 @@ extension Assignment {
     )
   }
 }
+
+extension Array where Element == Assignment {
+  func filterAssignedAssignments(currentUser: User) -> [Assignment] {
+    return self.filter { $0.assignedTo.filter { $0.userId == currentUser.userId }.count > 0 }
+  }
+}

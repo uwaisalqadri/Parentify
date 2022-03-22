@@ -120,7 +120,7 @@ struct ChatView: View {
         title: Text("Send Assignment?"),
         message: nil,
         primaryButton: .destructive(Text("No")),
-        secondaryButton: .cancel(Text("Yes"), action: { // 1
+        secondaryButton: .cancel(Text("Yes"), action: {
           isShowDialog.toggle()
           presenter.uploadChat(
             chat: .init(sender: currentUser, message: "assignment_type", sentDate: Date(), isRead: false, channelName: channelName, assignment: assignment, seenBy: [])

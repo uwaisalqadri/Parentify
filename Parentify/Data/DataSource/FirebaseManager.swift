@@ -28,7 +28,7 @@ protocol FirebaseManager {
   func createUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func fetchUser(completion: @escaping CompletionResult<UserEntity>)
-  func fetchUsers(completion: @escaping CompletionResult<[UserEntity]>)
+  func fetchUsers(isChildren: Bool, completion: @escaping CompletionResult<[UserEntity]>)
   func stopUsers()
   func stopUser()
 
@@ -149,9 +149,10 @@ class DefaultFirebaseManager: FirebaseManager {
     }
   }
 
-  func fetchUsers(completion: @escaping CompletionResult<[UserEntity]>) {
+  func fetchUsers(isChildren: Bool = false, completion: @escaping CompletionResult<[UserEntity]>) {
     if usersListener == nil {
       usersListener = firestoreCollection(.membership)
+        .whereRoleIsChildren(isChildren: isChildren)
         .addSnapshotListener { querySnapshot, error in
           if let error = error {
             completion(.failure(.invalidRequest(error: error)))

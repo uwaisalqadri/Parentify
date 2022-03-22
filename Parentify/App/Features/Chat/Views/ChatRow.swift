@@ -23,6 +23,23 @@ struct ChatRow: View {
 
         if chat.message == "assignment_type" {
           ChatAssignmentRow(assignment: chat.assignment)
+            .contextMenu {
+              if isSender {
+                if #available(iOS 15.0, *) {
+                  Button(role: .destructive) {
+                    onDelete?(chat)
+                  } label: {
+                    Label("Remove", systemImage: "trash.fill")
+                  }
+                } else {
+                  Button(action: {
+                    onDelete?(chat)
+                  }) {
+                    Label("Remove", systemImage: "trash.fill")
+                  }
+                }
+              }
+            }
 
         } else {
           Text(chat.message)

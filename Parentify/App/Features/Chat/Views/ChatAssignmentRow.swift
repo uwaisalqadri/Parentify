@@ -21,8 +21,8 @@ struct ChatAssignmentRow: View {
         Text(assignment.dateCreated.toString(format: "MMMM d, yyyy"))
           .foregroundColor(.gray)
           .font(.system(size: 10, weight: .medium))
-
       }
+      .padding(.trailing, 12)
 
       Image(systemName: "plus")
         .foregroundColor(.white)
@@ -32,11 +32,12 @@ struct ChatAssignmentRow: View {
             .frame(width: 45, height: 45, alignment: .center)
             .cornerRadius(15)
         )
-        .padding(.horizontal, 20)
+        .padding(.trailing, 10)
     }
     .padding(23)
     .cardShadow(cornerRadius: 27)
-    .frame(width: 270, height: 100)
+    .frame(width: 220, height: 100)
+
   }
 }
 

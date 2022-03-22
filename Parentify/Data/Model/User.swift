@@ -13,7 +13,7 @@ enum UserRole: String {
   case children = "children"
 }
 
-struct User {
+struct User: Equatable {
   static let empty: User = User()
 
   var userId: String = ""

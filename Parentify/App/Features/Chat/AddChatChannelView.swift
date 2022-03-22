@@ -10,6 +10,8 @@ import SwiftUI
 struct AddChatChannelView: View {
 
   @State private var chatChannelName: String = ""
+  @State private var members: [User] = []
+  @State private var isSelectUser: Bool = false
 
   var onAddChatChannel: ((String) -> Void)?
 
@@ -18,15 +20,28 @@ struct AddChatChannelView: View {
       ScrollView {
         VStack {
           TextField("Nama Grup", text: $chatChannelName)
-            .font(.system(size: 16, weight: .semibold))
+            .font(.system(size: 12, weight: .semibold))
             .foregroundColor(.black)
-            .padding(18)
+            .padding(15)
             .autocapitalization(.none)
             .disableAutocorrection(true)
             .cardShadow(cornerRadius: 13)
             .padding(.top, 12)
+
+          AttachUserView(
+            users: members,
+            imageSize: 50,
+            onSelectUser: {_ in
+
+            },
+            onAttachUser: {
+              isSelectUser.toggle()
+            },
+            onDetachUser: {index in
+              members.remove(at: index)
+            })
         }
-        .padding(20)
+        .padding(.horizontal, 30)
       }
       .navigationTitle("Buat Grup")
       .toolbar {

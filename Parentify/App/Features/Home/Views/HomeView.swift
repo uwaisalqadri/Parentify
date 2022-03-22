@@ -18,6 +18,7 @@ struct HomeView: View {
   @State var assignments = [Assignment]()
   @State var messages = [Message]()
 
+  @State var currentUser: User = .empty
   @State var selectedAssignmentId: String = ""
   @State var unreadChats: Int = 0
   @State var isShowDetail = false
@@ -121,11 +122,13 @@ struct HomeView: View {
         .onReceive(membershipPresenter.$userState) { state in
           if case .success(let profile) = state {
             isParent = profile.isParent
+            currentUser = profile
           }
         }
         .onReceive(assignmentPresenter.$assignmentsState) { state in
           if case .success(let data) = state {
-            assignmentGroups = getAssignmentGroups(assignments: data)
+            let filteredData = data.filterAssignedAssignments(currentUser: currentUser)
+            assignmentGroups = getAssignmentGroups(assignments: isParent ? data : filteredData)
           }
         }
         .onReceive(assignmentPresenter.$deleteAssignmentState) { state in

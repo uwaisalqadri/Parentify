@@ -10,16 +10,19 @@ import SwiftUI
 struct AssignmentGroupView: View {
 
   @ObservedObject var presenter: AssignmentPresenter
+  @ObservedObject var membershipPresenter: MembershipPresenter
   @Binding var isParent: Bool
 
+  @State var currentUser: User = .empty
   @State var assignmentId: String = ""
-  @State var assignmentType: AssigmnentType = .needToDone
 
   @State var isShowDetail: Bool = false
   @State var isAddAssignment: Bool = false
 
   @State var assignmentGroup: AssignmentGroup = .empty
   @State var selectedAssignment: Assignment = .empty
+
+  let assignmentType: AssigmnentType
   let router: AssignmentRouter
 
   var onUploaded: (() -> Void)?
@@ -113,10 +116,16 @@ struct AssignmentGroupView: View {
     .onAppear {
       assignmentGroup = getAssignmentGroups(assignments: [])[0]
       presenter.fetchLiveAssignments()
+      membershipPresenter.fetchUser()
     }
-    .onDisappear(perform: {
+    .onDisappear {
       presenter.stopAssignments()
-    })
+    }
+    .onReceive(membershipPresenter.$userState) { state in
+      if case .success(let data) = state {
+        currentUser = data
+      }
+    }
     .onReceive(presenter.$assignmentsState) { state in
       if case .success(let data) = state {
         let needToDone = data.filter { $0.type == .needToDone }
@@ -124,11 +133,16 @@ struct AssignmentGroupView: View {
 
         switch assignmentType {
         case .needToDone:
-          assignmentGroup = getAssignmentGroups(assignments: needToDone)[0]
+          assignmentGroup = getAssignmentGroups(
+            assignments: isParent ? needToDone : needToDone.filterAssignedAssignments(currentUser: currentUser)
+          )[0]
         case .additional:
-          assignmentGroup = getAssignmentGroups(assignments: additional)[1]
+          assignmentGroup = getAssignmentGroups(
+            assignments: isParent ? additional : additional.filterAssignedAssignments(currentUser: currentUser)
+          )[1]
         }
       }
+
     }
   }
 

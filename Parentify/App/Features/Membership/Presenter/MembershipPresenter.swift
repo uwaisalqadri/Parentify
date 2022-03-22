@@ -40,9 +40,9 @@ class MembershipPresenter: ObservableObject {
     firebaseManager.stopUser()
   }
 
-  func fetchUsers() {
+  func fetchUsers(isChildren: Bool = false) {
     allUserState = .loading
-    firebaseManager.fetchUsers { result in
+    firebaseManager.fetchUsers(isChildren: isChildren) { result in
       switch result {
       case .success(let data):
         self.allUserState = .success(data: data.map { $0.map() })

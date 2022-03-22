@@ -444,13 +444,13 @@
 		91B3294627BCD4D700FBFA00 /* Membership */ = {
 			isa = PBXGroup;
 			children = (
-				91B3294F27BCD71B00FBFA00 /* Router */,
 				91B3295027BCD72100FBFA00 /* Presenter */,
+				91B3294F27BCD71B00FBFA00 /* Router */,
 				91B3295127BCD72800FBFA00 /* Views */,
 				91B3295727BCD7C500FBFA00 /* ProfileView.swift */,
 				91B3298B27BD309B00FBFA00 /* MessagesView.swift */,
-				91B3298F27BD35A000FBFA00 /* SignInView.swift */,
 				91FF768027BE4EE6001B9CED /* SelectRoleView.swift */,
+				91B3298F27BD35A000FBFA00 /* SignInView.swift */,
 			);
 			path = Membership;
 			sourceTree = "<group>";
@@ -479,10 +479,10 @@
 		91B3294927BCD52500FBFA00 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				91B3298727BD11DB00FBFA00 /* ChatRow.swift */,
+				9181DFD627E35E130028B5D8 /* ChatAssignmentRow.swift */,
 				9132025027DD90DC009BE708 /* ChatChannelRow.swift */,
 				91B3298927BD29D900FBFA00 /* ChatInputField.swift */,
-				9181DFD627E35E130028B5D8 /* ChatAssignmentRow.swift */,
+				91B3298727BD11DB00FBFA00 /* ChatRow.swift */,
 				9181DFD827E403370028B5D8 /* ImageMembersCard.swift */,
 			);
 			path = Views;

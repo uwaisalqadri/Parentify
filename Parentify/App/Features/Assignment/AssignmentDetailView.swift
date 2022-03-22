@@ -11,6 +11,7 @@ struct AssignmentDetailView: View {
 
   @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: AssignmentPresenter
+  @ObservedObject var membershipPresenter: MembershipPresenter
   @Binding private var isParent: Bool
 
   @State private var assignment: Assignment = .empty
@@ -22,6 +23,7 @@ struct AssignmentDetailView: View {
   @State private var imageSystemName: String = "plus"
   @State private var selectedImage: UIImage = UIImage()
   @State private var assignedUsers = [User]()
+  @State private var children = [User]()
 
   @State private var isShowPicker: Bool = false
   @State private var isSelectIcon: Bool = false
@@ -31,8 +33,9 @@ struct AssignmentDetailView: View {
   let router: AssignmentRouter
   var onUploaded: (() -> Void)?
 
-  init(presenter: AssignmentPresenter, router: AssignmentRouter, isParent: Binding<Bool>, assignmentId: String, assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
+  init(presenter: AssignmentPresenter, membershipPresenter: MembershipPresenter, router: AssignmentRouter, isParent: Binding<Bool>, assignmentId: String, assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
     self.presenter = presenter
+    self.membershipPresenter = membershipPresenter
     self.router = router
     self._isParent = isParent
     self.assignmentId = assignmentId
@@ -77,15 +80,19 @@ struct AssignmentDetailView: View {
           .padding(.horizontal, 5)
           .fixedSize(horizontal: false, vertical: true)
 
-        AttachUserView(
-          users: assignedUsers,
-          onAttachUser: {
-            assignedUsers.append(.empty)
-          },
-          onDetachUser: { index in
-            assignedUsers.remove(at: index)
-          }
-        )
+        if isParent {
+          AttachUserView(
+            users: Array(assignedUsers.prefix(children.count)),
+            onAttachUser: {
+              children.forEach {
+                assignedUsers.append($0)
+              }
+            },
+            onDetachUser: { index in
+              assignedUsers.remove(at: index)
+            }
+          )
+        }
 
         Spacer()
 
@@ -99,7 +106,7 @@ struct AssignmentDetailView: View {
               type: assignmentType,
               dateCreated: Date(),
               attachments: [selectedImage.toJpegString(compressionQuality: 0.5) ?? ""],
-              assignedTo: []
+              assignedTo: assignedUsers
             )
 
             if !assignmentId.isEmpty {
@@ -195,9 +202,15 @@ struct AssignmentDetailView: View {
         description = assignment.description
         imageSystemName = assignment.iconName
         assignmentType = assignment.type
+        assignedUsers = assignment.assignedTo
         assignment.attachments.forEach { attachment in
           selectedImage = attachment.toImage() ?? UIImage()
         }
+      }
+    }
+    .onReceive(membershipPresenter.$allUserState) { state in
+      if case .success(let data) = state {
+        children = data
       }
     }
     .onTapGesture {
@@ -215,6 +228,15 @@ struct AssignmentDetailView: View {
     .onAppear {
       if !assignmentId.isEmpty {
         presenter.fetchDetailAssignment(assignmentId: assignmentId)
+      }
+
+      if isParent {
+        membershipPresenter.fetchUsers(isChildren: true)
+      }
+    }
+    .onDisappear {
+      if isParent {
+        membershipPresenter.stopUsers()
       }
     }
 

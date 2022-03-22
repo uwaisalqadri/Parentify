@@ -15,11 +15,19 @@ struct AssignmentRouter {
   }
 
   func routeAssignmentGroup(isParent: Binding<Bool>, assignmentType: AssigmnentType, onUploaded: (() -> Void)? = nil) -> AssignmentGroupView {
-    return AssignmentGroupView(presenter: assembler.resolve(), isParent: isParent, assignmentType: assignmentType, router: self, onUploaded: onUploaded)
+    return AssignmentGroupView(presenter: assembler.resolve(), membershipPresenter: assembler.resolve(), isParent: isParent, assignmentType: assignmentType, router: self, onUploaded: onUploaded)
   }
 
   func routeAssignmentDetail(isParent: Binding<Bool>, assignmentId: String, assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) -> AssignmentDetailView {
-    return AssignmentDetailView(presenter: assembler.resolve(), router: self, isParent: isParent, assignmentId: assignmentId, assignmentType: assignmentType, onUploaded: onUploaded)
+    return AssignmentDetailView(
+      presenter: assembler.resolve(),
+      membershipPresenter: assembler.resolve(),
+      router: self,
+      isParent: isParent,
+      assignmentId: assignmentId,
+      assignmentType: assignmentType,
+      onUploaded: onUploaded
+    )
   }
 
   func routeChatChannel(assignment: Assignment = .empty) -> ChatChannelView {
