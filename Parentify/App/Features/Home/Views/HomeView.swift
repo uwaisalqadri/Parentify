@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
 
+  @AppStorage(Constant.isUserExist) var isUserExist: Bool = false
   @ObservedObject var membershipPresenter: MembershipPresenter
   @ObservedObject var assignmentPresenter: AssignmentPresenter
   @ObservedObject var chatPresenter: ChatPresenter
@@ -125,6 +126,13 @@ struct HomeView: View {
             currentUser = profile
           }
         }
+        .onReceive(membershipPresenter.$allUserState) { state in
+          if case .success(let data) = state {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+              isUserExist = data.filter { $0.email == currentUser.email }.count > 0
+            }
+          }
+        }
         .onReceive(assignmentPresenter.$assignmentsState) { state in
           if case .success(let data) = state {
             let filteredData = data.filterAssignedAssignments(currentUser: currentUser)
@@ -160,6 +168,7 @@ struct HomeView: View {
     .onAppear {
       assignmentGroups = getAssignmentGroups(assignments: [])
       membershipPresenter.fetchUser()
+      membershipPresenter.fetchUsers()
     }
     .onDisappear {
       membershipPresenter.stopUser()

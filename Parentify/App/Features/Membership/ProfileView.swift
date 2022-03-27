@@ -12,10 +12,10 @@ import GoogleSignIn
 
 struct ProfileView: View {
 
+  @AppStorage(Constant.isUserExist) var isUserExist: Bool = false
   @EnvironmentObject var googleAuthManager: GoogleAuthManager
   @ObservedObject var presenter: MembershipPresenter
 
-  @State var isNewUser: Bool
   @State var profile: User
 
   @State private var profileImage = UIImage()
@@ -48,7 +48,7 @@ struct ProfileView: View {
 
         VStack {
           HStack {
-            Text(isNewUser ? "Complete Profile" : "Edit Profile")
+            Text(isUserExist ? "Complete Profile" : "Edit Profile")
               .font(.system(size: 17, weight: .bold))
 
             Spacer()
@@ -109,7 +109,7 @@ struct ProfileView: View {
 
         Spacer()
 
-        if !isNewUser {
+        if isUserExist {
           Button(action: {
             presenter.signOutUser()
             googleAuthManager.signOut()
@@ -136,7 +136,7 @@ struct ProfileView: View {
       }
       .onReceive(presenter.$userState) { state in
         if case .success(let user) = state {
-          if !isNewUser {
+          if isUserExist {
             profile = user
             profileImage = user.profilePict
           }
@@ -149,19 +149,19 @@ struct ProfileView: View {
     .sheet(isPresented: $isShowMemojiTextView) {
       MemojiView(profileImage: $profileImage, isShowMemojiTextView: $isShowMemojiTextView)
     }
-    .fullScreenCover(isPresented: $presenter.logoutState.value ?? false) {
+    .fullScreenCover(isPresented: $presenter.signOutState.value ?? false) {
       router.routeSignIn()
     }
     .onTapGesture {
       hideKeyboard()
     }
     .onAppear {
-      if !isNewUser {
+      if isUserExist {
         presenter.fetchUser()
       }
     }
     .onDisappear {
-      if !isNewUser {
+      if isUserExist {
         presenter.stopUser()
       }
     }
@@ -173,27 +173,27 @@ struct ProfileView: View {
   }
 
   private func signInUser() {
-    let googleUser = GIDSignIn.sharedInstance.currentUser
-    if let user = Auth.auth().currentUser, isNewUser {
+    guard let user = DefaultFirebaseManager.shared.firebaseAuth.currentUser,
+          let googleUser = GIDSignIn.sharedInstance.currentUser else { return }
+
+    if !isUserExist {
       let profile: User = .init(
         userId: user.uid,
         role: profile.role,
-        name: googleUser?.profile?.name ?? profile.name,
-        email: googleUser?.profile?.email ?? profile.email,
-        password: profile.password,
+        name: googleUser.profile?.name ?? profile.name,
+        email: googleUser.profile?.email ?? profile.email,
         isParent: profile.role != .children ? true : false,
         profilePict: profileImage
       )
 
       presenter.createUser(user: profile)
 
-    } else if let user = Auth.auth().currentUser {
+    } else {
       let profile: User = .init(
         userId: user.uid,
         role: profile.role,
-        name: googleUser?.profile?.name ?? profile.name,
-        email: googleUser?.profile?.email ?? profile.email,
-        password: profile.password,
+        name: googleUser.profile?.name ?? profile.name,
+        email: googleUser.profile?.email ?? profile.email,
         isParent: profile.role != .children ? true : false,
         profilePict: profileImage
       )

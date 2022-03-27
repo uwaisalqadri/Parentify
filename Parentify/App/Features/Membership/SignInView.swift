@@ -12,10 +12,10 @@ struct SignInView: View {
 
   @ObservedObject var presenter: MembershipPresenter
   @EnvironmentObject var googleAuthManager: GoogleAuthManager
-  @AppStorage(Constant.isNewUser) private var isNewUser: Bool = true
+  @AppStorage(Constant.isUserExist) private var isUserExist: Bool = false
 
-  @State var email: String = ""
-  @State var password: String = ""
+  @State var email: String = "uwaisalqadri@icloud.com"
+  @State var password: String = "Wasweswos123"
   @State var isSelectRole: Bool = false
   @State private var signInError: Error?
   @State private var isShowAlert: Bool = false
@@ -53,11 +53,7 @@ struct SignInView: View {
           )
 
           Button(action: {
-            if !email.isEmpty || !password.isEmpty {
-              signInUser(email: email, password: password)
-            } else {
-              isShowAlert.toggle()
-            }
+            presenter.fetchUsers()
           }) {
             HStack {
               Spacer()
@@ -95,7 +91,7 @@ struct SignInView: View {
         }
         .padding(.horizontal, 25)
         .showSheet(isPresented: $isSelectRole) {
-          router.routeSelectRole(email: email, password: password) { role in
+          router.routeSelectRole(email: email) { role in
             print("JEJEJE", role)
           }
         }
@@ -106,7 +102,15 @@ struct SignInView: View {
             dismissButton: .default(Text("Oke Sip!"))
           )
         }
-        .onReceive(presenter.$loginState) { state in
+        .onReceive(presenter.$allUserState) { state in
+          if case .success(let data) = state {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+              let isMatchEmail = data.filter { $0.email == email }.count > 0
+              signInUser(email: email, password: password, isUserExist: isMatchEmail)
+            }
+          }
+        }
+        .onReceive(presenter.$signInState) { state in
           if case .error(let error) = state {
             signInError = error
             isShowAlert = true
@@ -130,23 +134,25 @@ struct SignInView: View {
 
       }
     }
-    .progressHUD(isShowing: $presenter.loginState.isLoading)
+    .progressHUD(isShowing: $presenter.allUserState.isLoading)
+    .progressHUD(isShowing: $presenter.signInState.isLoading)
     .onTapGesture {
       hideKeyboard()
     }
     .onReceive(dismissSelectRole) { _ in
       isSelectRole = false
-      presenter.loginState.value = true
+      isUserExist = true
+      presenter.signInState.value = true
     }
   }
 
-  private func signInUser(email: String, password: String) {
-    if isNewUser || signInError?.localizedDescription == "There is no user record corresponding to this identifier. The user may have been deleted." {
+  private func signInUser(email: String, password: String, isUserExist: Bool) {
+    if !isUserExist || signInError?.localizedDescription == "There is no user record corresponding to this identifier. The user may have been deleted." {
       isSelectRole.toggle()
       presenter.registerUser(email: email, password: password)
-      isNewUser = false
     } else {
       presenter.signInUser(email: email, password: password)
+      self.isUserExist = true
     }
   }
 

@@ -9,20 +9,19 @@ import SwiftUI
 
 struct ContentView: View {
 
+  @EnvironmentObject var googleAuthManager: GoogleAuthManager
+
+  let isSignedIn: Bool
   let assembler: Assembler
-  var isSignedIn: Bool
 
   var body: some View {
-    if isSignedIn {
-      HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
-    } else {
-      SignInView(presenter: assembler.resolve(), router: assembler.resolve())
+    ZStack {
+      if isSignedIn {
+        HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
+      } else {
+        SignInView(presenter: assembler.resolve(), router: assembler.resolve())
+      }
     }
-  }
-}
 
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView(assembler: AppAssembler.shared, isSignedIn: false)
   }
 }

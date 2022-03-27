@@ -12,5 +12,5 @@ struct Constant {
   static let chat = "chat"
   static let membership = "membership"
   static let messages = "messages"
-  static let isNewUser = "is_new_user"
+  static let isUserExist = "is_user_exist"
 }

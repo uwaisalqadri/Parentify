@@ -13,8 +13,8 @@ class MembershipPresenter: ObservableObject {
   @Published var allUserState: ViewState<[User]> = .initiate
   @Published var createUserState: ViewState<Bool> = .initiate
   @Published var registerState: ViewState<Bool> = .initiate
-  @Published var loginState: ViewState<Bool> = .initiate
-  @Published var logoutState: ViewState<Bool> = .initiate
+  @Published var signInState: ViewState<Bool> = .initiate
+  @Published var signOutState: ViewState<Bool> = .initiate
 
   private let firebaseManager: FirebaseManager
 
@@ -52,10 +52,6 @@ class MembershipPresenter: ObservableObject {
         }
       }
     }
-  }
-
-  func stopUsers() {
-    firebaseManager.stopUsers()
   }
 
   func createUser(user: User) {
@@ -101,25 +97,25 @@ class MembershipPresenter: ObservableObject {
   }
 
   func signInUser(email: String, password: String) {
-    loginState = .loading
+    signInState = .loading
     firebaseManager.signInUser(email: email, password: password) { result in
       switch result {
       case .success(let isSuccess):
-        self.loginState = .success(data: isSuccess)
+        self.signInState = .success(data: isSuccess)
       case .failure(let firebaseError):
         if case .invalidRequest(let error) = firebaseError {
-          self.loginState = .error(error: error)
+          self.signInState = .error(error: error)
         }
       }
     }
   }
 
   func signOutUser() {
-    logoutState = .loading
+    signOutState = .loading
     firebaseManager.signOutUser { result in
       switch result {
       case .success(let isSuccess):
-        self.logoutState = .success(data: isSuccess)
+        self.signOutState = .success(data: isSuccess)
       default:
         break
       }

@@ -18,9 +18,14 @@ struct HomeRouter {
     return HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: self, assignmentRouter: assembler.resolve())
   }
 
-  func routeProfile(isNewUser: Bool = false, user: User = .empty) -> ProfileView {
+  func routeProfile(user: User = .empty) -> ProfileView {
     let router: MembershipRouter = assembler.resolve()
-    return router.routeProfile(isNewUser: isNewUser, user: user)
+    return router.routeProfile(user: user)
+  }
+
+  func routeSignIn() -> SignInView {
+    let router: MembershipRouter = assembler.resolve()
+    return router.routeSignIn()
   }
 
   func routeMessages(isParent: Binding<Bool>) -> MessagesView {

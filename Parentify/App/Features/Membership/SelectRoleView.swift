@@ -10,7 +10,6 @@ import SwiftUI
 struct SelectRoleView: View {
 
   @State var email: String = ""
-  @State var password: String = ""
   @State private var isInputProfile: Bool = false
   @State private var selectedRole: UserRole = .children
   var onSelectRole: ((UserRole) -> Void)? = nil
@@ -44,7 +43,7 @@ struct SelectRoleView: View {
 
       }
       .background(
-        NavigationLink(destination: router.routeProfile(isNewUser: true, user: .init(role: selectedRole, email: email, password: password)), isActive: $isInputProfile) {
+        NavigationLink(destination: router.routeProfile(user: .init(role: selectedRole, email: email)), isActive: $isInputProfile) {
           EmptyView()
         }
       )

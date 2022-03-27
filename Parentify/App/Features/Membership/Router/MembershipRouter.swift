@@ -14,8 +14,8 @@ struct MembershipRouter {
     self.assembler = assembler
   }
 
-  func routeProfile(isNewUser: Bool = false, user: User) -> ProfileView {
-    return ProfileView(presenter: assembler.resolve(), isNewUser: isNewUser, profile: user, router: self)
+  func routeProfile(user: User) -> ProfileView {
+    return ProfileView(presenter: assembler.resolve(), profile: user, router: self)
   }
 
   func routeMessages(isParent: Binding<Bool>) -> MessagesView {
@@ -31,8 +31,8 @@ struct MembershipRouter {
     return router.routeHome()
   }
 
-  func routeSelectRole(email: String, password: String, onSelectRole: @escaping ((UserRole) -> Void)) -> SelectRoleView {
-    return SelectRoleView(email: email, password: password, onSelectRole: onSelectRole, router: self)
+  func routeSelectRole(email: String, onSelectRole: @escaping ((UserRole) -> Void)) -> SelectRoleView {
+    return SelectRoleView(email: email, onSelectRole: onSelectRole, router: self)
   }
 
 }

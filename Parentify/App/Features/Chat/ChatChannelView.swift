@@ -71,10 +71,6 @@ struct ChatChannelView: View {
     }
     .navigationTitle("Chats")
     .navigationBarTitleDisplayMode(.large)
-    .onDisappear {
-      membershipPresenter.stopUsers()
-      presenter.stopChannels()
-    }
     .showSheet(isPresented: $isAddChatChannel) {
       AddChatChannelView { name in
         presenter.addChatChannel(channel: .init(channelName: name, users: []))

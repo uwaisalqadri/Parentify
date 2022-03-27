@@ -44,6 +44,7 @@
 		918EE08027D57AEE00D38EA1 /* AssignmentEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918EE07F27D57AEE00D38EA1 /* AssignmentEntity.swift */; };
 		91938AA527E0A5CB0020F66A /* FirebaseReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91938AA427E0A5CB0020F66A /* FirebaseReference.swift */; };
 		91A5C0A327C117CD00D861DA /* MemojiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A5C0A227C117CD00D861DA /* MemojiView.swift */; };
+		91ABD46127EF3606003BF515 /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABD46027EF3606003BF515 /* Binding.swift */; };
 		91B3293E27BCD31300FBFA00 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3293927BCD31300FBFA00 /* ButtonStyles.swift */; };
 		91B3293F27BCD31400FBFA00 /* DateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3293A27BCD31300FBFA00 /* DateTextField.swift */; };
 		91B3294027BCD31400FBFA00 /* CommonTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B3293B27BCD31300FBFA00 /* CommonTextField.swift */; };
@@ -149,6 +150,7 @@
 		918EE07F27D57AEE00D38EA1 /* AssignmentEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentEntity.swift; sourceTree = "<group>"; };
 		91938AA427E0A5CB0020F66A /* FirebaseReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseReference.swift; sourceTree = "<group>"; };
 		91A5C0A227C117CD00D861DA /* MemojiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemojiView.swift; sourceTree = "<group>"; };
+		91ABD46027EF3606003BF515 /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		91B3293927BCD31300FBFA00 /* ButtonStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		91B3293A27BCD31300FBFA00 /* DateTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTextField.swift; sourceTree = "<group>"; };
 		91B3293B27BCD31300FBFA00 /* CommonTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTextField.swift; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 				9104EFC227C1EFE50099A294 /* Error.swift */,
 				9104EFC427C1F9BD0099A294 /* UIImage.swift */,
 				915E9FF127DECE2500104429 /* Query.swift */,
+				91ABD46027EF3606003BF515 /* Binding.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -756,6 +759,7 @@
 				91B3297C27BCE02C00FBFA00 /* MembershipAssembler.swift in Sources */,
 				91B3297427BCDF8200FBFA00 /* MembershipPresenter.swift in Sources */,
 				9104EFC727C20BD20099A294 /* Message.swift in Sources */,
+				91ABD46127EF3606003BF515 /* Binding.swift in Sources */,
 				91FF768127BE4EE6001B9CED /* SelectRoleView.swift in Sources */,
 				91413FF027BAA08C00799155 /* Date.swift in Sources */,
 				912C5CDE27D6CA5500A5E882 /* AssignmentMapper.swift in Sources */,

@@ -12,16 +12,10 @@ struct CommonTextField: View {
   var placeholder: String = ""
   @Binding var text: String
   var image: UIImage?
-  var isNumberPad = false
+  var keyboardType: UIKeyboardType = .default
+  var isPassword: Bool = false
 
   var clickHandler: (() -> Void)? = nil
-
-  private let numberFormatter: NumberFormatter = {
-    let numberFormatter = NumberFormatter()
-    numberFormatter.numberStyle = .currency
-    numberFormatter.maximumFractionDigits = 2
-    return numberFormatter
-  }()
 
   var body: some View {
     HStack {
@@ -40,55 +34,53 @@ struct CommonTextField: View {
           )
       }
 
-      if isNumberPad {
-        TextField(placeholder, value: $text.int, formatter: numberFormatter, onCommit: {
-          hideKeyboard()
-        })
-          .font(.system(size: 16, weight: .semibold))
-          .foregroundColor(.black)
-          .padding(.leading, 10)
-          .autocapitalization(.none)
-          .disableAutocorrection(true)
-          .keyboardType(.numberPad)
-
-        HStack {
-          Button(action: {
-            text.int -= 1
-          }) {
-            Image(systemName: "minus")
-              .foregroundColor(.purpleColor)
-          }.frame(width: 8, height: 8)
-          .padding(.trailing, 13)
-
-          Button(action: {
-            text.int += 1
-          }) {
-            Image(systemName: "plus")
-              .foregroundColor(.purpleColor)
-              .frame(width: 10, height: 10)
-          }.frame(width: 8, height: 8)
-
-        }.padding(.trailing, 20)
+      if isPassword {
+        SecureTextField(title: placeholder, text: $text)
+        .font(.system(size: 16, weight: .semibold))
+        .foregroundColor(.black)
+        .padding(.leading, 10)
+        .autocapitalization(.none)
+        .disableAutocorrection(true)
+        .keyboardType(keyboardType)
 
       } else {
         TextField(placeholder, text: $text, onCommit: {
           hideKeyboard()
         })
-          .font(.system(size: 16, weight: .semibold))
-          .foregroundColor(.black)
-          .padding(.leading, 10)
-          .autocapitalization(.none)
-          .disableAutocorrection(true)
-
+        .font(.system(size: 16, weight: .semibold))
+        .foregroundColor(.black)
+        .padding(.leading, 10)
+        .autocapitalization(.none)
+        .disableAutocorrection(true)
+        .keyboardType(keyboardType)
       }
+
     }
     .cardShadow(cornerRadius: 13)
   }
 }
 
-//struct CommonTextField_Previews: PreviewProvider {
-//  static var previews: some View {
-//    CommonTextField(placeholder: "Balance")
-//      .previewLayout(.sizeThatFits)
-//  }
-//}
+struct SecureTextField: View {
+
+  var title: String
+  @Binding var text: String
+  @State var isSecured: Bool = true
+
+  var body: some View {
+    ZStack(alignment: .trailing) {
+      if isSecured {
+        SecureField(title, text: $text)
+      } else {
+        TextField(title, text: $text)
+      }
+
+      Button(action: {
+        isSecured.toggle()
+      }) {
+        Image(systemName: self.isSecured ? "eye.slash" : "eye")
+          .accentColor(.gray)
+      }.padding(.trailing, 15)
+
+    }
+  }
+}

@@ -234,11 +234,6 @@ struct AssignmentDetailView: View {
         membershipPresenter.fetchUsers(isChildren: true)
       }
     }
-    .onDisappear {
-      if isParent {
-        membershipPresenter.stopUsers()
-      }
-    }
 
   }
 }

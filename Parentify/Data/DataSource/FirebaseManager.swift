@@ -29,7 +29,6 @@ protocol FirebaseManager {
   func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func fetchUser(completion: @escaping CompletionResult<UserEntity>)
   func fetchUsers(isChildren: Bool, completion: @escaping CompletionResult<[UserEntity]>)
-  func stopUsers()
   func stopUser()
 
   // MARK: Assignment
@@ -65,7 +64,6 @@ class DefaultFirebaseManager: FirebaseManager {
 
   private var chatListener: ListenerRegistration?
   private var channelListener: ListenerRegistration?
-  private var usersListener: ListenerRegistration?
   private var userListener: ListenerRegistration?
   private var assignmentListener: ListenerRegistration?
 
@@ -150,34 +148,25 @@ class DefaultFirebaseManager: FirebaseManager {
   }
 
   func fetchUsers(isChildren: Bool = false, completion: @escaping CompletionResult<[UserEntity]>) {
-    if usersListener == nil {
-      usersListener = firestoreCollection(.membership)
-        .whereRoleIsChildren(isChildren: isChildren)
-        .addSnapshotListener { querySnapshot, error in
-          if let error = error {
-            completion(.failure(.invalidRequest(error: error)))
-          } else if let querySnapshot = querySnapshot {
-            var users = [UserEntity]()
-            for document in querySnapshot.documents {
-              do {
-                if let user = try document.data(as: UserEntity.self) {
-                  users.append(user)
-                }
-                completion(.success(users))
-              } catch {
-                completion(.failure(.unknownError))
+    firestoreCollection(.membership)
+      .whereRoleIsChildren(isChildren: isChildren)
+      .getDocuments { querySnapshot, error in
+        if let error = error {
+          completion(.failure(.invalidRequest(error: error)))
+        } else if let querySnapshot = querySnapshot {
+          var users = [UserEntity]()
+          for document in querySnapshot.documents {
+            do {
+              if let user = try document.data(as: UserEntity.self) {
+                users.append(user)
               }
+              completion(.success(users))
+            } catch {
+              completion(.failure(.unknownError))
             }
           }
         }
-    }
-  }
-
-  func stopUsers() {
-    if usersListener != nil {
-      usersListener?.remove()
-      usersListener = nil
-    }
+      }
   }
 
   func stopUser() {

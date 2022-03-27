@@ -20,7 +20,6 @@ struct User: Equatable {
   var role: UserRole = .children
   var name: String = ""
   var email: String = ""
-  var password: String = ""
   var isParent: Bool = false
   var profilePict: UIImage = UIImage()
   var lastChat: String = ""
