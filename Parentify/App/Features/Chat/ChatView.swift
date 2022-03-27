@@ -77,7 +77,7 @@ struct ChatView: View {
             isRead: false,
             channelName: channel.channelName,
             assignment: assignment,
-            seenBy: section == .direct ? [sender] : []
+            seenBy: section == .direct ? [sender, currentUser] : []
           )
         )
       }
@@ -119,8 +119,8 @@ struct ChatView: View {
         case .direct:
           chats = data.filter {
             $0.channelName.isEmpty &&
-            $0.sender.userId == currentUser.userId &&
-            $0.seenBy.first?.userId == sender.userId
+            $0.sender.userId == currentUser.userId && $0.seenBy.first?.userId == sender.userId ||
+            $0.sender.userId == sender.userId && $0.seenBy.last?.userId == sender.userId
           }
         case .group:
           chats = data.filter { $0.channelName == channel.channelName }
@@ -142,7 +142,7 @@ struct ChatView: View {
               isRead: false,
               channelName: channel.channelName,
               assignment: assignment,
-              seenBy: section == .direct ? [sender] : []
+              seenBy: section == .direct ? [sender, currentUser] : []
             )
           )
         })

@@ -106,7 +106,6 @@ struct AssignmentGroupView: View {
     .background(
       NavigationLink(
         destination: router.routeAssignmentDetail(isParent: isParent, assignmentId: assignmentId) {
-          presenter.fetchAssignments()
           onUploaded?()
         },
         isActive: $isAddAssignment
@@ -116,7 +115,6 @@ struct AssignmentGroupView: View {
     )
     .onAppear {
       assignmentGroup = getAssignmentGroups(assignments: [])[0]
-      presenter.fetchLiveAssignments()
       membershipPresenter.fetchUser()
     }
     .onDisappear {
@@ -125,6 +123,7 @@ struct AssignmentGroupView: View {
     .onReceive(membershipPresenter.$userState) { state in
       if case .success(let data) = state {
         currentUser = data
+        presenter.fetchLiveAssignments()
       }
     }
     .onReceive(presenter.$assignmentsState) { state in

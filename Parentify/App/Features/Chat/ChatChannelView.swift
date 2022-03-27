@@ -72,6 +72,7 @@ struct ChatChannelView: View {
     }
     .navigationTitle("Chats")
     .navigationBarTitleDisplayMode(.large)
+    .progressHUD(isShowing: $presenter.addChatChannelState.isLoading)
     .showSheet(isPresented: $isAddChatChannel) {
       AddChatChannelView(users: users) { name, members in
         presenter.addChatChannel(channel: .init(channelName: name, users: members))
@@ -96,6 +97,7 @@ struct ChatChannelView: View {
     .onReceive(presenter.$channelsState) { state in
       if case .success(let data) = state {
         channels = data
+          //.filter { $0.users.contains(currentUser) }
       }
     }
   }
