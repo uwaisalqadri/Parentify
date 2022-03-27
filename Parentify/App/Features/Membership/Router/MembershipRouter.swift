@@ -18,7 +18,7 @@ struct MembershipRouter {
     return ProfileView(presenter: assembler.resolve(), profile: user, router: self)
   }
 
-  func routeMessages(isParent: Binding<Bool>) -> MessagesView {
+  func routeMessages(isParent: Bool) -> MessagesView {
     return MessagesView(homePresenter: assembler.resolve(), membershipPresenter: assembler.resolve(), isParent: isParent)
   }
 

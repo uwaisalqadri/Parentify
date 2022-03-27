@@ -11,16 +11,17 @@ struct AssignmentGroupView: View {
 
   @ObservedObject var presenter: AssignmentPresenter
   @ObservedObject var membershipPresenter: MembershipPresenter
-  @Binding var isParent: Bool
 
-  @State var currentUser: User = .empty
-  @State var assignmentId: String = ""
+  @State private var currentUser: User = .empty
+  @State private var assignmentId: String = ""
 
-  @State var isShowDetail: Bool = false
-  @State var isAddAssignment: Bool = false
+  @State private var isShowDetail: Bool = false
+  @State private var isAddAssignment: Bool = false
 
-  @State var assignmentGroup: AssignmentGroup = .empty
-  @State var selectedAssignment: Assignment = .empty
+  @State private var assignmentGroup: AssignmentGroup = .empty
+  @State private var selectedAssignment: Assignment = .empty
+
+  let isParent: Bool
 
   let assignmentType: AssigmnentType
   let router: AssignmentRouter
@@ -33,12 +34,12 @@ struct AssignmentGroupView: View {
         VStack(alignment: .leading) {
           ForEach(Array(assignmentGroup.assignments.enumerated()), id: \.offset) { index, item in
             NavigationLink(
-              destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: assignmentId, assignmentType: selectedAssignment.type),
+              destination: router.routeAssignmentDetail(isParent: isParent, assignmentId: assignmentId, assignmentType: selectedAssignment.type),
               isActive: $isShowDetail
             ) {
               AssignmentRow(
                 assignment: item,
-                isParent: $isParent,
+                isParent: isParent,
                 onSwipe: { action in
                   if case .finished(let assignment) = action {
                     presenter.updateFinishedAssignment(assignment: assignment)
@@ -104,7 +105,7 @@ struct AssignmentGroupView: View {
     .progressHUD(isShowing: $presenter.assignmentsState.isLoading)
     .background(
       NavigationLink(
-        destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: assignmentId) {
+        destination: router.routeAssignmentDetail(isParent: isParent, assignmentId: assignmentId) {
           presenter.fetchAssignments()
           onUploaded?()
         },

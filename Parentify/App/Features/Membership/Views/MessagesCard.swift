@@ -35,8 +35,7 @@ struct MessagesText: View {
 struct MessagesCard: View {
 
   @Binding var messages: [Message]
-  @Binding var isParent: Bool
-
+  let isParent: Bool
   let router: HomeRouter
 
   var onAddMessage: () -> Void
@@ -53,7 +52,7 @@ struct MessagesCard: View {
       .padding(.bottom, 10)
       .padding(.horizontal, 23)
 
-      NavigationLink(destination: router.routeMessages(isParent: $isParent)) {
+      NavigationLink(destination: router.routeMessages(isParent: isParent)) {
         VStack(alignment: .leading) {
           ForEach(Array(messages.prefix(5)), id: \.id) { message in
             HStack {

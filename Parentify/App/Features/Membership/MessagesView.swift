@@ -11,7 +11,7 @@ struct MessagesView: View {
 
   @ObservedObject var homePresenter: HomePresenter
   @ObservedObject var membershipPresenter: MembershipPresenter
-  @Binding var isParent: Bool
+  let isParent: Bool
 
   @State var isAddMessage: Bool = false
 

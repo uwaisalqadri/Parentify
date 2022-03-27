@@ -12,16 +12,16 @@ struct ContentView: View {
   @EnvironmentObject var googleAuthManager: GoogleAuthManager
 
   let isSignedIn: Bool
-  let assembler: Assembler
+  let router: HomeRouter
 
   var body: some View {
     ZStack {
       if isSignedIn {
-        HomeView(membershipPresenter: assembler.resolve(), assignmentPresenter: assembler.resolve(), chatPresenter: assembler.resolve(), presenter: assembler.resolve(), router: assembler.resolve(), assignmentRouter: assembler.resolve())
+        router.routeHome()
       } else {
-        SignInView(presenter: assembler.resolve(), router: assembler.resolve())
+        router.routeSignIn()
       }
     }
-
   }
+
 }

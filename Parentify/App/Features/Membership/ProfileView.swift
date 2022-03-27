@@ -22,6 +22,7 @@ struct ProfileView: View {
   @State private var isShowMemojiTextView = false
   @State private var isShowEditProfile = true
   @State private var isShowDeveloper = false
+  @State private var isSignedOut = false
 
   let router: MembershipRouter
 
@@ -111,8 +112,7 @@ struct ProfileView: View {
 
         if isUserExist {
           Button(action: {
-            presenter.signOutUser()
-            googleAuthManager.signOut()
+            signOut()
           }) {
             HStack {
               Text("Sign Out")
@@ -149,7 +149,7 @@ struct ProfileView: View {
     .sheet(isPresented: $isShowMemojiTextView) {
       MemojiView(profileImage: $profileImage, isShowMemojiTextView: $isShowMemojiTextView)
     }
-    .fullScreenCover(isPresented: $presenter.signOutState.value ?? false) {
+    .fullScreenCover(isPresented: $isSignedOut) {
       router.routeSignIn()
     }
     .onTapGesture {
@@ -170,6 +170,12 @@ struct ProfileView: View {
         Notifications.dismissSelectRole.post()
       }
     }
+  }
+
+  private func signOut() {
+    presenter.signOutUser()
+    googleAuthManager.signOut()
+    isSignedOut = true
   }
 
   private func signInUser() {

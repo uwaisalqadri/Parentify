@@ -14,11 +14,26 @@ struct AssignmentRouter {
     self.assembler = assembler
   }
 
-  func routeAssignmentGroup(isParent: Binding<Bool>, assignmentType: AssigmnentType, onUploaded: (() -> Void)? = nil) -> AssignmentGroupView {
-    return AssignmentGroupView(presenter: assembler.resolve(), membershipPresenter: assembler.resolve(), isParent: isParent, assignmentType: assignmentType, router: self, onUploaded: onUploaded)
+  func routeAssignmentGroup(
+    isParent: Bool,
+    assignmentType: AssigmnentType,
+    onUploaded: (() -> Void)? = nil
+  ) -> AssignmentGroupView {
+    return AssignmentGroupView(
+      presenter: assembler.resolve(),
+      membershipPresenter: assembler.resolve(),
+      isParent: isParent,
+      assignmentType: assignmentType,
+      router: self,
+      onUploaded: onUploaded)
   }
 
-  func routeAssignmentDetail(isParent: Binding<Bool>, assignmentId: String, assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) -> AssignmentDetailView {
+  func routeAssignmentDetail(
+    isParent: Bool,
+    assignmentId: String,
+    assignmentType: AssigmnentType = .additional,
+    onUploaded: (() -> Void)? = nil
+  ) -> AssignmentDetailView {
     return AssignmentDetailView(
       presenter: assembler.resolve(),
       membershipPresenter: assembler.resolve(),

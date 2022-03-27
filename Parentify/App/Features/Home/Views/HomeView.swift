@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
 
   @AppStorage(Constant.isUserExist) var isUserExist: Bool = false
+  @EnvironmentObject var googleAuthManager: GoogleAuthManager
   @ObservedObject var membershipPresenter: MembershipPresenter
   @ObservedObject var assignmentPresenter: AssignmentPresenter
   @ObservedObject var chatPresenter: ChatPresenter
@@ -26,6 +27,7 @@ struct HomeView: View {
   @State var isShowProgress = false
   @State var isAddMessage = false
   @State var isParent = false
+  @State var isSignedOut = false
 
   let router: HomeRouter
   let assignmentRouter: AssignmentRouter
@@ -57,7 +59,7 @@ struct HomeView: View {
 
             MessagesCard(
               messages: $messages,
-              isParent: $isParent,
+              isParent: isParent,
               router: router,
               onAddMessage: {
                 isAddMessage.toggle()
@@ -82,7 +84,7 @@ struct HomeView: View {
                 router: assignmentRouter,
                 selectedAssignmentId: selectedAssignmentId,
                 isShowDetail: $isShowDetail,
-                isParent: $isParent,
+                isParent: isParent,
                 assignmentGroup: item,
                 onSwipe: { action in
                   switch action {
@@ -127,10 +129,15 @@ struct HomeView: View {
           }
         }
         .onReceive(membershipPresenter.$allUserState) { state in
-          if case .success(let data) = state {
+          switch state {
+          case .success(let data):
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
               isUserExist = data.filter { $0.email == currentUser.email }.count > 0
             }
+          case .error:
+            isUserExist = false
+          default:
+            break
           }
         }
         .onReceive(assignmentPresenter.$assignmentsState) { state in
@@ -154,6 +161,9 @@ struct HomeView: View {
             messages = data
           }
         }
+        .fullScreenCover(isPresented: $isSignedOut) {
+          router.routeSignIn()
+        }
         .customDialog(isShowing: $isAddMessage) {
           AddMessageDialog { textMessage in
             let role = membershipPresenter.userState.value?.role ?? .children
@@ -169,10 +179,18 @@ struct HomeView: View {
       assignmentGroups = getAssignmentGroups(assignments: [])
       membershipPresenter.fetchUser()
       membershipPresenter.fetchUsers()
+
+      isSignedOut = DefaultFirebaseManager.shared.firebaseAuth.currentUser == nil
     }
     .onDisappear {
       membershipPresenter.stopUser()
     }
+  }
+
+  private func signOut() {
+    membershipPresenter.signOutUser()
+    googleAuthManager.signOut()
+    isSignedOut = true
   }
 }
 

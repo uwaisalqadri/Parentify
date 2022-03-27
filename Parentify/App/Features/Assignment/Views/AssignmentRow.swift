@@ -18,7 +18,7 @@ struct AssignmentGroupRow: View {
   let selectedAssignmentId: String
 
   @Binding var isShowDetail: Bool
-  @Binding var isParent: Bool
+  let isParent: Bool
 
   let assignmentGroup: AssignmentGroup
   var onSwipe: ((Action) -> Void)?
@@ -37,7 +37,7 @@ struct AssignmentGroupRow: View {
       Spacer()
 
       NavigationLink(
-        destination: router.routeAssignmentGroup(isParent: $isParent, assignmentType: assignmentGroup.type, onUploaded: onUploaded)
+        destination: router.routeAssignmentGroup(isParent: isParent, assignmentType: assignmentGroup.type, onUploaded: onUploaded)
       ) {
         Text(actionTitle)
           .foregroundColor(.purpleColor)
@@ -52,7 +52,7 @@ struct AssignmentGroupRow: View {
     ForEach(Array(assignmentGroup.assignments.prefix(3).enumerated()), id: \.offset) { index, item in
       AssignmentRow(
         assignment: item,
-        isParent: $isParent,
+        isParent: isParent,
         onSwipe: onSwipe,
         onDelete: onDelete,
         onShowDetail: onShowDetail
@@ -62,7 +62,7 @@ struct AssignmentGroupRow: View {
     .padding(.top, 12)
     .overlay(
       NavigationLink(
-        destination: router.routeAssignmentDetail(isParent: $isParent, assignmentId: selectedAssignmentId),
+        destination: router.routeAssignmentDetail(isParent: isParent, assignmentId: selectedAssignmentId),
         isActive: $isShowDetail
       ) {
         EmptyView()
@@ -95,7 +95,7 @@ struct AssignmentGroupRow: View {
 struct AssignmentRow: View {
 
   let assignment: Assignment
-  @Binding var isParent: Bool
+  let isParent: Bool
 
   var onSwipe: ((Action) -> Void)? = nil
   var onDelete: ((Assignment) -> Void)? = nil
@@ -110,7 +110,7 @@ struct AssignmentRow: View {
         .padding([.top, .trailing], 30)
 
       AssignmentCard(
-        isParent: _isParent,
+        isParent: isParent,
         assignment: assignment,
         onSwipe: onSwipe,
         onDelete: onDelete,
@@ -130,8 +130,9 @@ struct AssignmentCard: View {
   @State private var swipeAction: Action = .none
   private var thresholdPercentage: CGFloat = 0.5 //  draged 50% the width of the screen in either direction
 
-  @Binding private var isParent: Bool
+  private let isParent: Bool
   private let assignment: Assignment
+
   private var onSwipe: ((Action) -> Void)?
   private var onDelete: ((Assignment) -> Void)?
   private var onShowDetail: ((String) -> Void)?
@@ -141,13 +142,13 @@ struct AssignmentCard: View {
   }
 
   init(
-    isParent: Binding<Bool>,
+    isParent: Bool,
     assignment: Assignment,
     onSwipe: ((Action) -> Void)? = nil,
     onDelete: ((Assignment) -> Void)? = nil,
     onShowDetail: ((String) -> Void)? = nil
   ) {
-    self._isParent = isParent
+    self.isParent = isParent
     self.assignment = assignment
     self.onSwipe = onSwipe
     self.onDelete = onDelete

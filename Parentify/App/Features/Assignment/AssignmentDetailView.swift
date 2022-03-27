@@ -12,7 +12,6 @@ struct AssignmentDetailView: View {
   @Environment(\.presentationMode) var presentationMode
   @ObservedObject var presenter: AssignmentPresenter
   @ObservedObject var membershipPresenter: MembershipPresenter
-  @Binding private var isParent: Bool
 
   @State private var assignment: Assignment = .empty
   @State private var assignmentType: AssigmnentType = .additional
@@ -29,15 +28,16 @@ struct AssignmentDetailView: View {
   @State private var isSelectIcon: Bool = false
   @State private var isShowChat: Bool = false
 
+  let isParent: Bool
   let assignmentId: String
   let router: AssignmentRouter
   var onUploaded: (() -> Void)?
 
-  init(presenter: AssignmentPresenter, membershipPresenter: MembershipPresenter, router: AssignmentRouter, isParent: Binding<Bool>, assignmentId: String, assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
+  init(presenter: AssignmentPresenter, membershipPresenter: MembershipPresenter, router: AssignmentRouter, isParent: Bool, assignmentId: String, assignmentType: AssigmnentType = .additional, onUploaded: (() -> Void)? = nil) {
     self.presenter = presenter
     self.membershipPresenter = membershipPresenter
     self.router = router
-    self._isParent = isParent
+    self.isParent = isParent
     self.assignmentId = assignmentId
     self.assignmentType = assignmentType
     self.onUploaded = onUploaded

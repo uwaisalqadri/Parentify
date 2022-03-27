@@ -28,7 +28,7 @@ struct HomeRouter {
     return router.routeSignIn()
   }
 
-  func routeMessages(isParent: Binding<Bool>) -> MessagesView {
+  func routeMessages(isParent: Bool) -> MessagesView {
     let router: MembershipRouter = assembler.resolve()
     return router.routeMessages(isParent: isParent)
   }
