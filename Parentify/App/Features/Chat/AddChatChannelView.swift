@@ -9,11 +9,13 @@ import SwiftUI
 
 struct AddChatChannelView: View {
 
+  let users: [User]
+  @State private var members = [User]()
   @State private var chatChannelName: String = ""
-  @State private var members: [User] = []
+
   @State private var isSelectUser: Bool = false
 
-  var onAddChatChannel: ((String) -> Void)?
+  var onAddChatChannel: ((String, [User]) -> Void)?
 
   var body: some View {
     NavigationView {
@@ -29,15 +31,14 @@ struct AddChatChannelView: View {
             .padding(.top, 12)
 
           AttachUserView(
-            users: members,
+            users: Array(members.prefix(users.count)),
             imageSize: 50,
-            onSelectUser: {_ in
-
-            },
             onAttachUser: {
-              isSelectUser.toggle()
+              users.forEach {
+                members.append($0)
+              }
             },
-            onDetachUser: {index in
+            onDetachUser: { index in
               members.remove(at: index)
             })
         }
@@ -47,7 +48,8 @@ struct AddChatChannelView: View {
       .toolbar {
         ToolbarItem(id: "create") {
           Button(action: {
-            onAddChatChannel?(chatChannelName)
+            onAddChatChannel?(chatChannelName, members)
+            isSelectUser.toggle()
           }) {
             Text("Buat")
               .foregroundColor(.purpleColor)

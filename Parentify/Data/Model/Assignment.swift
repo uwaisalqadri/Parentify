@@ -18,7 +18,7 @@ struct AssignmentGroup {
   var id: UUID = UUID()
   var title: String = ""
   var type: AssigmnentType = .additional
-  var assignments: [Assignment] = []
+  var assignments = [Assignment]()
 }
 
 struct Assignment {
@@ -30,6 +30,6 @@ struct Assignment {
   var description: String = ""
   var type: AssigmnentType = .additional
   var dateCreated: Date = Date()
-  var attachments: [String] = []
-  var assignedTo: [User] = []
+  var attachments = [String]()
+  var assignedTo = [User]()
 }

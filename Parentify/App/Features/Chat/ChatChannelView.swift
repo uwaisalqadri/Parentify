@@ -14,8 +14,9 @@ struct ChatChannelView: View {
   @ObservedObject var membershipPresenter: MembershipPresenter
 
   @State var currentUser: User = .empty
-  @State var contacts: [User] = []
-  @State var channels: [ChatChannel] = []
+  @State var contacts = [User]()
+  @State var channels = [ChatChannel]()
+  @State var users = [User]()
   @State var isAddChatChannel: Bool = false
 
   let assignment: Assignment
@@ -37,7 +38,7 @@ struct ChatChannelView: View {
       Section(header: Text("Direct")) {
         ForEach(contacts, id: \.userId) { user in
           NavigationLink(
-            destination: router.routeChat(currentUser: currentUser, sender: user, assignment: assignment, channelName: "", section: .direct)
+            destination: router.routeChat(currentUser: currentUser, sender: user, assignment: assignment, channel: .empty, section: .direct)
           ) {
             ChatChannelRow(section: .direct, contact: user)
           }.buttonStyle(PlainButtonStyle())
@@ -62,7 +63,7 @@ struct ChatChannelView: View {
 
         ForEach(channels, id: \.id) { channel in
           NavigationLink(
-            destination: router.routeChat(currentUser: currentUser, sender: .empty, assignment: assignment, channelName: channel.channelName, section: .group)
+            destination: router.routeChat(currentUser: currentUser, sender: .empty, assignment: assignment, channel: channel, section: .group)
           ) {
             ChatChannelRow(section: .group, channel: channel)
           }.buttonStyle(PlainButtonStyle())
@@ -72,8 +73,8 @@ struct ChatChannelView: View {
     .navigationTitle("Chats")
     .navigationBarTitleDisplayMode(.large)
     .showSheet(isPresented: $isAddChatChannel) {
-      AddChatChannelView { name in
-        presenter.addChatChannel(channel: .init(channelName: name, users: []))
+      AddChatChannelView(users: users) { name, members in
+        presenter.addChatChannel(channel: .init(channelName: name, users: members))
       }
     }
     .onReceive(presenter.$addChatChannelState) { state in
@@ -89,6 +90,7 @@ struct ChatChannelView: View {
     .onReceive(membershipPresenter.$allUserState) { state in
       if case .success(let data) = state {
         contacts = data.filter { $0.userId != currentUser.userId }
+        users = data
       }
     }
     .onReceive(presenter.$channelsState) { state in

@@ -13,7 +13,7 @@ struct ChatChannel {
 
   var id: UUID = UUID()
   var channelName: String = ""
-  var users: [User] = []
+  var users = [User]()
 }
 
 struct Chat {
@@ -26,5 +26,5 @@ struct Chat {
   var isRead: Bool = false
   var channelName: String = ""
   var assignment: Assignment = .empty
-  var seenBy: [User] = []
+  var seenBy = [User]()
 }

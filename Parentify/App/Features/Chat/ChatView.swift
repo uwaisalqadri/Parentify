@@ -12,23 +12,23 @@ struct ChatView: View {
 
   @ObservedObject var presenter: ChatPresenter
   @ObservedObject var membershipPresenter: MembershipPresenter
-  @State private var inputText: String = ""
-  @State private var chats: [Chat] = []
-  @State private var isShowDialog: Bool = false
+  @State private var inputText = ""
+  @State private var chats = [Chat]()
+  @State private var isShowDialog = false
 
   let assignment: Assignment
   let section: ChatChannelSection
-  let channelName: String
+  let channel: ChatChannel
   let currentUser: User
   let sender: User
 
-  init(presenter: ChatPresenter, membershipPresenter: MembershipPresenter, section: ChatChannelSection,  channelName: String, assignment: Assignment, currentUser: User, sender: User) {
+  init(presenter: ChatPresenter, membershipPresenter: MembershipPresenter, section: ChatChannelSection,  channel: ChatChannel, assignment: Assignment, currentUser: User, sender: User) {
     self.currentUser = currentUser
     self.sender = sender
     self.presenter = presenter
     self.membershipPresenter = membershipPresenter
     self.section = section
-    self.channelName = channelName
+    self.channel = channel
     self.assignment = assignment
 
     presenter.fetchChats()
@@ -70,12 +70,20 @@ struct ChatView: View {
 
       ChatInputField(text: $inputText) { text in
         presenter.uploadChat(
-          chat: .init(sender: currentUser, message: text, sentDate: Date(), isRead: false, channelName: channelName, assignment: assignment, seenBy: [])
+          chat: .init(
+            sender: currentUser,
+            message: text,
+            sentDate: Date(),
+            isRead: false,
+            channelName: channel.channelName,
+            assignment: assignment,
+            seenBy: section == .direct ? [sender] : []
+          )
         )
       }
 
     }
-    .navigationBarTitle(section == .direct ? sender.name : channelName)
+    .navigationBarTitle(section == .direct ? sender.name : channel.channelName)
     .navigationBarTitleDisplayMode(.inline)
     .gesture(
       DragGesture(minimumDistance: 20, coordinateSpace: .global)
@@ -96,7 +104,7 @@ struct ChatView: View {
             .padding(.top, 45)
 
         case .group:
-          ImageMembersCard(members: [.empty, .empty, .empty])
+          ImageMembersCard(members: channel.users)
             .frame(width: 100, height: 100)
             .padding(.trailing, 10)
             .padding(.top, 35)
@@ -109,9 +117,13 @@ struct ChatView: View {
       if case .success(let data) = state {
         switch section {
         case .direct:
-          chats = data.filter { $0.channelName.isEmpty && $0.sender.userId == currentUser.userId || $0.sender.userId == sender.userId }
+          chats = data.filter {
+            $0.channelName.isEmpty &&
+            $0.sender.userId == currentUser.userId &&
+            $0.seenBy.first?.userId == sender.userId
+          }
         case .group:
-          chats = data.filter { $0.channelName == channelName }
+          chats = data.filter { $0.channelName == channel.channelName }
         }
       }
     }
@@ -123,7 +135,15 @@ struct ChatView: View {
         secondaryButton: .cancel(Text("Yes"), action: {
           isShowDialog.toggle()
           presenter.uploadChat(
-            chat: .init(sender: currentUser, message: "assignment_type", sentDate: Date(), isRead: false, channelName: channelName, assignment: assignment, seenBy: [])
+            chat: .init(
+              sender: currentUser,
+              message: "assignment_type",
+              sentDate: Date(),
+              isRead: false,
+              channelName: channel.channelName,
+              assignment: assignment,
+              seenBy: section == .direct ? [sender] : []
+            )
           )
         })
       )

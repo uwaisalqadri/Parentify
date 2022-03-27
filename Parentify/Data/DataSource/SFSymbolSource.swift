@@ -13,9 +13,9 @@ enum SortOrder: String, CaseIterable {
 }
 
 class SFSymbolSource {
-  private var symbolsSortedByDefault: [SFSymbol] = []
-  private var symbolsSortedByName: [SFSymbol] = []
-  private var multicolorSymbols: [SFSymbol] = []
+  private var symbolsSortedByDefault = [SFSymbol]()
+  private var symbolsSortedByName = [SFSymbol]()
+  private var multicolorSymbols = [SFSymbol]()
 
   init() {
     loadSymbols()

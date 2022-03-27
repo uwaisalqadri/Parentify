@@ -14,44 +14,45 @@ struct ImageMembersCard: View {
   var body: some View {
 
     if members.count == 1 {
-      ImageCard()
+      ImageCard(profileImage: members[0].profilePict)
+        .frame(width: 38, height: 38)
 
     } else if members.count == 2 {
       HStack {
-        ImageCard()
-        ImageCard()
+        ImageCard(profileImage: members[0].profilePict).frame(width: 38, height: 38)
+        ImageCard(profileImage: members[1].profilePict).frame(width: 38, height: 38)
       }
 
     } else if members.count == 3 {
       VStack {
         HStack {
-          ImageCard()
+          ImageCard(profileImage: members[0].profilePict)
             .frame(width: 38, height: 38)
 
-          ImageCard()
+          ImageCard(profileImage: members[1].profilePict)
             .frame(width: 38, height: 38)
         }
 
         HStack {
-          ImageCard()
+          ImageCard(profileImage: members[2].profilePict)
             .frame(width: 38, height: 38)
         }
       }
     } else if members.count == 4 {
       VStack {
         HStack {
-          ImageCard()
+          ImageCard(profileImage: members[0].profilePict)
             .frame(width: 38, height: 38)
 
-          ImageCard()
+          ImageCard(profileImage: members[1].profilePict)
             .frame(width: 38, height: 38)
         }
 
         HStack {
-          ImageCard()
+          ImageCard(profileImage: members[2].profilePict)
             .frame(width: 38, height: 38)
 
-          ImageCard()
+          ImageCard(profileImage: members[3].profilePict)
             .frame(width: 38, height: 38)
         }
       }
