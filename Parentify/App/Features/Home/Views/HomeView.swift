@@ -34,147 +34,145 @@ struct HomeView: View {
 
   var body: some View {
     NavigationView {
-      GeometryReader { geometry in
-        ScrollView(.vertical, showsIndicators: false) {
-          VStack(alignment: .leading) {
-            HStack {
-              VStack(alignment: .leading) {
-                Text("Welcome")
-                  .foregroundColor(.gray)
-                  .font(.system(size: 17, weight: .regular))
+      ScrollView(.vertical, showsIndicators: false) {
+        VStack(alignment: .leading) {
+          HStack {
+            VStack(alignment: .leading) {
+              Text("Welcome")
+                .foregroundColor(.gray)
+                .font(.system(size: 17, weight: .regular))
 
-                Text(membershipPresenter.userState.value?.name ?? "")
-                  .foregroundColor(.black)
-                  .font(.system(size: 18, weight: .bold))
-              }
+              Text(membershipPresenter.userState.value?.name ?? "")
+                .foregroundColor(.black)
+                .font(.system(size: 18, weight: .bold))
+            }
 
-              Spacer()
+            Spacer()
 
-              NavigationLink(destination: router.routeProfile()) {
-                ImageCard(profileImage: membershipPresenter.userState.value?.profilePict ?? UIImage())
-                  .frame(width: 50, height: 50, alignment: .center)
-              }
+            NavigationLink(destination: router.routeProfile()) {
+              ImageCard(profileImage: membershipPresenter.userState.value?.profilePict ?? UIImage())
+                .frame(width: 50, height: 50, alignment: .center)
+            }
 
-            }.padding([.horizontal, .top], 32)
+          }.padding([.horizontal, .top], 32)
 
-            MessagesCard(
-              messages: $messages,
+          MessagesCard(
+            messages: $messages,
+            isParent: isParent,
+            router: router,
+            onAddMessage: {
+              isAddMessage.toggle()
+            }
+          )
+          .frame(height: 243)
+          .padding(.top, 20)
+          .padding(.horizontal, 25)
+
+          NavigationLink(destination: router.routeChatChannel()) {
+            OpenChatCard(unreadChats: $unreadChats)
+              .padding(.top, 28)
+              .padding(.horizontal, 25)
+          }
+
+          ForEach(
+            Array(assignmentGroups.enumerated()),
+            id: \.offset
+          ) { index, item in
+
+            AssignmentGroupRow(
+              router: assignmentRouter,
+              selectedAssignmentId: selectedAssignmentId,
+              isShowDetail: $isShowDetail,
               isParent: isParent,
-              router: router,
-              onAddMessage: {
-                isAddMessage.toggle()
+              assignmentGroup: item,
+              onSwipe: { action in
+                switch action {
+                case .finished(let assignment):
+                  assignmentPresenter.updateFinishedAssignment(assignment: assignment)
+                case .none:
+                  break
+                }
+              },
+              onDelete: { assignment in
+                assignmentPresenter.deleteAssignment(assignment: assignment)
+              },
+              onShowDetail: { assignmentId in
+                selectedAssignmentId = assignmentId
+                isShowDetail.toggle()
+              },
+              onUploaded: {
+                assignmentPresenter.fetchAssignments()
               }
             )
-            .frame(height: 243)
-            .padding(.top, 20)
-            .padding(.horizontal, 25)
-
-            NavigationLink(destination: router.routeChatChannel()) {
-              OpenChatCard(unreadChats: $unreadChats)
-                .padding(.top, 28)
-                .padding(.horizontal, 25)
-            }
-
-            ForEach(
-              Array(assignmentGroups.enumerated()),
-              id: \.offset
-            ) { index, item in
-
-              AssignmentGroupRow(
-                router: assignmentRouter,
-                selectedAssignmentId: selectedAssignmentId,
-                isShowDetail: $isShowDetail,
-                isParent: isParent,
-                assignmentGroup: item,
-                onSwipe: { action in
-                  switch action {
-                  case .finished(let assignment):
-                    assignmentPresenter.updateFinishedAssignment(assignment: assignment)
-                  case .none:
-                    break
-                  }
-                },
-                onDelete: { assignment in
-                  assignmentPresenter.deleteAssignment(assignment: assignment)
-                },
-                onShowDetail: { assignmentId in
-                  selectedAssignmentId = assignmentId
-                  isShowDetail.toggle()
-                },
-                onUploaded: {
-                  assignmentPresenter.fetchAssignments()
-                }
-              )
-            }
-
           }
+
         }
-        .navigationBarHidden(true)
-        .progressHUD(isShowing: $membershipPresenter.userState.isLoading)
-        .onAppear {
+      }
+      .navigationBarHidden(true)
+      .progressHUD(isShowing: $membershipPresenter.userState.isLoading)
+      .onAppear {
+        presenter.fetchMessages()
+        assignmentPresenter.fetchAssignments()
+        chatPresenter.fetchUnreadChats()
+      }
+      .onReceive(presenter.$addMessageState) { state in
+        if case .success = state {
+          isAddMessage.toggle()
           presenter.fetchMessages()
+        }
+      }
+      .onReceive(membershipPresenter.$userState) { state in
+        if case .success(let profile) = state {
+          isParent = profile.isParent
+          currentUser = profile
+        }
+      }
+      .onReceive(membershipPresenter.$allUserState) { state in
+        switch state {
+        case .success(let data):
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            isUserExist = data.filter { $0.email == currentUser.email }.count > 0
+          }
+        case .error:
+          isUserExist = false
+        default:
+          break
+        }
+      }
+      .onReceive(assignmentPresenter.$assignmentsState) { state in
+        if case .success(let data) = state {
+          let filteredData = data.filterAssignedAssignments(currentUser: currentUser)
+          assignmentGroups = getAssignmentGroups(assignments: isParent ? data : filteredData)
+        }
+      }
+      .onReceive(assignmentPresenter.$deleteAssignmentState) { state in
+        if case .success = state {
           assignmentPresenter.fetchAssignments()
-          chatPresenter.fetchUnreadChats()
         }
-        .onReceive(presenter.$addMessageState) { state in
-          if case .success = state {
-            isAddMessage.toggle()
-            presenter.fetchMessages()
-          }
+      }
+      .onReceive(chatPresenter.$unreadChatsState) { state in
+        if case .success(let data) = state {
+          unreadChats = data
         }
-        .onReceive(membershipPresenter.$userState) { state in
-          if case .success(let profile) = state {
-            isParent = profile.isParent
-            currentUser = profile
-          }
+      }
+      .onReceive(presenter.$messagesState) { state in
+        if case .success(let data) = state {
+          messages = data
         }
-        .onReceive(membershipPresenter.$allUserState) { state in
-          switch state {
-          case .success(let data):
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-              isUserExist = data.filter { $0.email == currentUser.email }.count > 0
-            }
-          case .error:
-            isUserExist = false
-          default:
-            break
-          }
+      }
+      .fullScreenCover(isPresented: $isSignedOut) {
+        router.routeSignIn()
+      }
+      .customDialog(isShowing: $isAddMessage) {
+        AddMessageDialog { textMessage in
+          let role = membershipPresenter.userState.value?.role ?? .children
+          presenter.addMessage(message: .init(message: textMessage, role: role, sentDate: Date()))
+        } onDismiss: {
+          isAddMessage.toggle()
         }
-        .onReceive(assignmentPresenter.$assignmentsState) { state in
-          if case .success(let data) = state {
-            let filteredData = data.filterAssignedAssignments(currentUser: currentUser)
-            assignmentGroups = getAssignmentGroups(assignments: isParent ? data : filteredData)
-          }
-        }
-        .onReceive(assignmentPresenter.$deleteAssignmentState) { state in
-          if case .success = state {
-            assignmentPresenter.fetchAssignments()
-          }
-        }
-        .onReceive(chatPresenter.$unreadChatsState) { state in
-          if case .success(let data) = state {
-            unreadChats = data
-          }
-        }
-        .onReceive(presenter.$messagesState) { state in
-          if case .success(let data) = state {
-            messages = data
-          }
-        }
-        .fullScreenCover(isPresented: $isSignedOut) {
-          router.routeSignIn()
-        }
-        .customDialog(isShowing: $isAddMessage) {
-          AddMessageDialog { textMessage in
-            let role = membershipPresenter.userState.value?.role ?? .children
-            presenter.addMessage(message: .init(message: textMessage, role: role, sentDate: Date()))
-          } onDismiss: {
-            isAddMessage.toggle()
-          }
-        }
-
       }
     }
+    .navigationViewStyle(.stack)
     .onAppear {
       assignmentGroups = getAssignmentGroups(assignments: [])
       membershipPresenter.fetchUser()

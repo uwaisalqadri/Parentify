@@ -156,6 +156,7 @@ struct AssignmentDetailView: View {
     .padding(.horizontal, 20)
     .navigationTitle(assignment.title)
     .navigationBarTitleDisplayMode(.inline)
+    .navigationViewStyle(.stack)
     .fullScreenCover(isPresented: $isShowChat) {
       NavigationView {
         router.routeChatChannel(assignment: assignment)

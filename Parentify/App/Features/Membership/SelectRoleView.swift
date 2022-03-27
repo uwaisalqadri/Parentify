@@ -48,6 +48,7 @@ struct SelectRoleView: View {
         }
       )
     }
+    .navigationViewStyle(.stack)
   }
 }
 

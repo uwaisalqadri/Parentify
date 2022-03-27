@@ -44,7 +44,7 @@ struct SignInView: View {
             text: $email,
             image: UIImage(systemName: "envelope.fill")
           )
-            .padding(.bottom, 17)
+          .padding(.bottom, 17)
 
           CommonTextField(
             placeholder: "Password",
@@ -89,7 +89,7 @@ struct SignInView: View {
           Spacer()
 
         }
-        .padding(.horizontal, 25)
+        .padding(.horizontal, isIpad() ? 170 : 25)
         .showSheet(isPresented: $isSelectRole) {
           router.routeSelectRole(email: email) { role in
             print("JEJEJE", role)
@@ -136,6 +136,7 @@ struct SignInView: View {
     }
     .progressHUD(isShowing: $presenter.allUserState.isLoading)
     .progressHUD(isShowing: $presenter.signInState.isLoading)
+    .navigationViewStyle(.stack)
     .onTapGesture {
       hideKeyboard()
     }

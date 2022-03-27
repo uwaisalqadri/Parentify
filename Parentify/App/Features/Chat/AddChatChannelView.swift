@@ -58,5 +58,6 @@ struct AddChatChannelView: View {
       }
 
     }
+    .navigationViewStyle(.stack)
   }
 }

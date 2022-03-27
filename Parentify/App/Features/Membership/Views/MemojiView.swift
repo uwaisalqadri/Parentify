@@ -30,6 +30,6 @@ struct MemojiView: View {
             }
           }
         }
-    }
+    }.navigationViewStyle(.stack)
   }
 }
