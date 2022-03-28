@@ -12,11 +12,11 @@ import Firebase
 
 struct Provider: IntentTimelineProvider {
   func placeholder(in context: Context) -> SimpleEntry {
-    SimpleEntry(date: Date(), configuration: ConfigurationIntent(), iconName: "shippingbox.fill", title: "Not Found", message: "No task founded")
+    SimpleEntry(configuration: ConfigurationIntent(), assignment: .empty, message: .empty)
   }
 
   func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let entry = SimpleEntry(date: Date(), configuration: configuration, iconName: "shippingbox.fill", title: "Not Found", message: "No task founded")
+    let entry = SimpleEntry(configuration: configuration, assignment: .empty, message: .empty)
     completion(entry)
   }
 
@@ -24,21 +24,16 @@ struct Provider: IntentTimelineProvider {
     let firebaseManager: FirebaseManager = DefaultFirebaseManager()
     var entries: [SimpleEntry] = []
 
-    firebaseManager.fetchAssignments { result in
+    firebaseManager.fetchAssignmentWithMessage { result in
       switch result {
-      case .success(let assignments):
+      case .success(let data):
+        let entry = SimpleEntry(
+          configuration: configuration,
+          assignment: data.assignment.map(),
+          message: data.message.map()
+        )
 
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        for assignment in assignments {
-          let entry = SimpleEntry(
-            date: assignment.dateCreated?.date ?? Date(),
-            configuration: configuration,
-            iconName: assignment.iconName ?? "",
-            title: assignment.title ?? "",
-            message: assignment.description ?? ""
-          )
-          entries.append(entry)
-        }
+        entries.append(entry)
 
       case .failure(let error):
         print(error)
@@ -51,11 +46,10 @@ struct Provider: IntentTimelineProvider {
 }
 
 struct SimpleEntry: TimelineEntry {
-  let date: Date
+  let date: Date = Date()
   let configuration: ConfigurationIntent
-  let iconName: String
-  let title: String
-  let message: String
+  let assignment: Assignment
+  let message: Message
 }
 
 struct WidgetAssignmentRow: View {
@@ -64,7 +58,7 @@ struct WidgetAssignmentRow: View {
 
   var body: some View {
     HStack {
-      Image(systemName: entry.iconName)
+      Image(systemName: entry.assignment.iconName)
         .resizable()
         .frame(width: 14, height: 10)
         .foregroundColor(.white)
@@ -76,13 +70,13 @@ struct WidgetAssignmentRow: View {
         .padding(.leading, 4)
 
       VStack(alignment: .leading) {
-        Text(entry.title)
+        Text(entry.assignment.title)
           .foregroundColor(.black)
           .font(.system(size: 8, weight: .semibold))
           .padding(.bottom, 1)
           .lineLimit(1)
 
-        Text(entry.date.toString(format: "MMMM d, yyyy"))
+        Text(entry.assignment.dateCreated.toString(format: "MMMM d, yyyy"))
           .foregroundColor(.gray)
           .font(.system(size: 8, weight: .regular))
           .padding(.top, -6)
@@ -96,6 +90,7 @@ struct WidgetAssignmentRow: View {
 }
 
 struct WidgetMessagesRow: View {
+  var entry: Provider.Entry
 
   var body: some View {
     HStack {
@@ -109,11 +104,11 @@ struct WidgetMessagesRow: View {
   }
 
   var text: some View {
-    Text("Ayah: ")
+    Text("\(entry.message.role.rawValue): ")
       .font(.system(size: 7, weight: .semibold))
       .foregroundColor(.purpleColor)
     +
-    Text("Jangan lupa ngerjain PR ya bil, udah ditagih sama bu guru Fatimah")
+    Text(entry.message.message)
       .foregroundColor(.black)
       .font(.system(size: 7, weight: .regular))
   }
@@ -131,7 +126,7 @@ struct ParentifyWidgetEntryView : View {
       WidgetAssignmentRow(entry: entry)
         .padding(.top, -4)
 
-      WidgetMessagesRow()
+      WidgetMessagesRow(entry: entry)
     }
   }
 }
