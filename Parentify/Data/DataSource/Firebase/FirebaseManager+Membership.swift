@@ -137,7 +137,7 @@ extension DefaultFirebaseManager {
 
   func fetchMessages(completion: @escaping CompletionResult<[MessageEntity]>) {
     firestoreCollection(.messages)
-      .orderByDate(recordDate: .message)
+      .orderByDate(recordDate: .message, descending: true)
       .getDocuments { querySnapshot, error in
         if let error = error {
           completion(.failure(.invalidRequest(error: error)))

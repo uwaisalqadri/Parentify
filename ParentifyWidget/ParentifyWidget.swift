@@ -11,13 +11,33 @@ import Intents
 import Firebase
 
 struct Provider: IntentTimelineProvider {
+
+  private var sampleEntry: SimpleEntry = {
+    return SimpleEntry(
+      configuration: ConfigurationIntent(),
+      assignment: .init(
+        iconName: "briefcase.fill",
+        title: "Mengerjakan PR",
+        description: "",
+        type: .needToDone ,
+        dateCreated: Date(),
+        attachments: [],
+        assignedTo: []
+      ),
+      message: .init(
+        message: "Jangan lupa ngerjain PR ya bil, udah ditagih sama bu guru",
+        role: .mother,
+        sentDate: Date()
+      )
+    )
+  }()
+
   func placeholder(in context: Context) -> SimpleEntry {
-    SimpleEntry(configuration: ConfigurationIntent(), assignment: .empty, message: .empty)
+    sampleEntry
   }
 
   func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let entry = SimpleEntry(configuration: configuration, assignment: .empty, message: .empty)
-    completion(entry)
+    completion(sampleEntry)
   }
 
   func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
@@ -53,21 +73,18 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct WidgetAssignmentRow: View {
-
   var entry: Provider.Entry
 
   var body: some View {
     HStack {
       Image(systemName: entry.assignment.iconName)
-        .resizable()
-        .frame(width: 14, height: 10)
+        .scaleEffect(0.84)
         .foregroundColor(.white)
         .background(
           Color("PurpleColor")
             .frame(width: 27, height: 27, alignment: .center)
             .cornerRadius(8)
         )
-        .padding(.leading, 4)
 
       VStack(alignment: .leading) {
         Text(entry.assignment.title)
@@ -83,14 +100,27 @@ struct WidgetAssignmentRow: View {
       }
       .padding(.leading, 5)
     }
+    .frame(maxWidth: .infinity)
     .padding(16)
     .cardShadow(cornerRadius: 19)
+    .padding(.horizontal, 10)
 
   }
 }
 
 struct WidgetMessagesRow: View {
   var entry: Provider.Entry
+
+  var roleName: String {
+    switch entry.message.role {
+    case .father:
+      return "Ayah"
+    case .mother:
+      return "Ibu"
+    case .children:
+      return "unknown"
+    }
+  }
 
   var body: some View {
     HStack {
@@ -100,17 +130,17 @@ struct WidgetMessagesRow: View {
         .padding(16)
     }
     .cardShadow(cornerRadius: 19)
-    .padding(.horizontal, 16)
+    .padding(.horizontal, 10)
   }
 
   var text: some View {
-    Text("\(entry.message.role.rawValue): ")
-      .font(.system(size: 7, weight: .semibold))
+    Text("\(roleName): ")
+      .font(.system(size: 8, weight: .semibold))
       .foregroundColor(.purpleColor)
     +
     Text(entry.message.message)
       .foregroundColor(.black)
-      .font(.system(size: 7, weight: .regular))
+      .font(.system(size: 8, weight: .regular))
   }
 }
 
@@ -120,11 +150,10 @@ struct ParentifyWidgetEntryView : View {
   var body: some View {
     VStack {
       Image("Icon")
-        .scaleEffect(0.7)
-        .padding(.top, -10)
+        .scaleEffect(0.95)
+        .padding(.top, -9)
 
       WidgetAssignmentRow(entry: entry)
-        .padding(.top, -4)
 
       WidgetMessagesRow(entry: entry)
     }
@@ -146,8 +175,8 @@ struct ParentifyWidget: Widget {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("WidgetBackground"))
     }
-    .configurationDisplayName("My Widget")
-    .description("This is an example widget.")
+    .configurationDisplayName("Parentify")
+    .description("See the current Assignment and recent Important Message ")
     .supportedFamilies([.systemSmall])
   }
 }

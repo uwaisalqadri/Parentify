@@ -133,33 +133,19 @@ extension DefaultFirebaseManager {
 
   func fetchAssignmentWithMessage(completion: @escaping CompletionResult<(assignment: AssignmentEntity, message: MessageEntity)>) {
 
-    var assignment: AssignmentEntity? = nil
-    var message: MessageEntity? = nil
-
-    fetchAssignments { result in
-      switch result {
-      case .success(let data):
-        assignment = data.first
-      default:
+    fetchAssignments { assignmentResult in
+      if case .success(let assignments) = assignmentResult {
+        self.fetchMessages { messageResult in
+          if case .success(let messages) = messageResult {
+            guard let assignment = assignments.first, let message = messages.first else { return }
+            completion(.success((assignment: assignment, message: message)))
+          } else {
+            completion(.failure(.unknownError))
+          }
+        }
+      } else {
         completion(.failure(.unknownError))
       }
-    }
-
-    fetchMessages { result in
-      switch result {
-      case .success(let data):
-        message = data.first
-      default:
-        completion(.failure(.unknownError))
-      }
-    }
-
-    if assignment != nil && message != nil,
-        let assignment = assignment,
-        let message = message {
-      completion(.success((assignment: assignment, message: message)))
-    } else {
-      completion(.failure(.unknownError))
     }
   }
 
