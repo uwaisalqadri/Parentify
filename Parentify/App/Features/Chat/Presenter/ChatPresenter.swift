@@ -64,10 +64,6 @@ class ChatPresenter: ObservableObject {
     }
   }
 
-  func stopChannels() {
-    firebaseManager.stopChannels()
-  }
-
   func deleteChat(chat: Chat) {
     deleteChatState = .loading
     firebaseManager.deleteChat(chat: chat.map()) { result in

@@ -560,7 +560,7 @@
 			children = (
 				91B3295227BCD73000FBFA00 /* Router */,
 				91B3295327BCD73600FBFA00 /* Presenter */,
-				91B3295427BCD73E00FBFA00 /* Views */,
+				91B3295527BCD7A200FBFA00 /* HomeView.swift */,
 				9170623227BF7274005C2983 /* ContentView.swift */,
 			);
 			path = Home;
@@ -701,14 +701,6 @@
 				91B3297527BCDF9C00FBFA00 /* HomePresenter.swift */,
 			);
 			path = Presenter;
-			sourceTree = "<group>";
-		};
-		91B3295427BCD73E00FBFA00 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				91B3295527BCD7A200FBFA00 /* HomeView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		91F7EF0927BB59400008DDD6 /* Frameworks */ = {

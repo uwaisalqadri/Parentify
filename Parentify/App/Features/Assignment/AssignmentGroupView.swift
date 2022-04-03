@@ -116,6 +116,7 @@ struct AssignmentGroupView: View {
     .onAppear {
       assignmentGroup = getAssignmentGroups(assignments: [])[0]
       membershipPresenter.fetchUser()
+      presenter.fetchLiveAssignments()
     }
     .onDisappear {
       presenter.stopAssignments()
@@ -123,7 +124,6 @@ struct AssignmentGroupView: View {
     .onReceive(membershipPresenter.$userState) { state in
       if case .success(let data) = state {
         currentUser = data
-        presenter.fetchLiveAssignments()
       }
     }
     .onReceive(presenter.$assignmentsState) { state in

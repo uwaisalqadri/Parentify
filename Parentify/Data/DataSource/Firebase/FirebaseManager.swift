@@ -44,7 +44,6 @@ protocol FirebaseManager {
   func fetchChats(completion: @escaping CompletionResult<[ChatEntity]>)
   func fetchUnreadChats(completion: @escaping CompletionResult<Int>)
   func stopChats()
-  func stopChannels()
 }
 
 class DefaultFirebaseManager: FirebaseManager {

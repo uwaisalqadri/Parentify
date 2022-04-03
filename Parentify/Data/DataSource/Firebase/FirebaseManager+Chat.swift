@@ -27,33 +27,24 @@ extension DefaultFirebaseManager {
   }
 
   func fetchChannels(completion: @escaping CompletionResult<[ChatChannelEntity]>) {
-    if channelListener == nil {
-      channelListener = firestoreCollection(.channel)
-        .addSnapshotListener { querySnapshot, error in
-          if let error = error {
-            completion(.failure(.invalidRequest(error: error)))
-          } else if let querySnapshot = querySnapshot {
-            var channels = [ChatChannelEntity]()
-            for document in  querySnapshot.documents {
-              do {
-                if let channel = try document.data(as: ChatChannelEntity.self) {
-                  channels.append(channel)
-                }
-                completion(.success(channels))
-              } catch {
-                completion(.failure(.unknownError))
+    firestoreCollection(.channel)
+      .getDocuments { querySnapshot, error in
+        if let error = error {
+          completion(.failure(.invalidRequest(error: error)))
+        } else if let querySnapshot = querySnapshot {
+          var channels = [ChatChannelEntity]()
+          for document in  querySnapshot.documents {
+            do {
+              if let channel = try document.data(as: ChatChannelEntity.self) {
+                channels.append(channel)
               }
+              completion(.success(channels))
+            } catch {
+              completion(.failure(.unknownError))
             }
           }
         }
-    }
-  }
-
-  func stopChannels() {
-    if channelListener != nil {
-      channelListener?.remove()
-      channelListener = nil
-    }
+      }
   }
 
   func uploadChat(chat: ChatEntity, completion: @escaping CompletionResult<Bool>) {

@@ -181,7 +181,7 @@ struct HomeView: View {
       isSignedOut = DefaultFirebaseManager.shared.firebaseAuth.currentUser == nil
     }
     .onDisappear {
-      membershipPresenter.stopUser()
+      assignmentPresenter.stopAssignments()
     }
   }
 

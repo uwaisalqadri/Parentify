@@ -23,6 +23,7 @@ struct ProfileView: View {
   @State private var isShowEditProfile = true
   @State private var isShowDeveloper = false
   @State private var isSignedOut = false
+  @State private var isConfirmSignOut = false
 
   let router: MembershipRouter
 
@@ -112,7 +113,7 @@ struct ProfileView: View {
 
         if isUserExist {
           Button(action: {
-            signOut()
+            isConfirmSignOut.toggle()
           }) {
             HStack {
               Text("Sign Out")
@@ -146,6 +147,15 @@ struct ProfileView: View {
     }
     .progressHUD(isShowing: $presenter.userState.isLoading)
     .navigationTitle("Profile")
+    .alert(isPresented: $isConfirmSignOut) {
+      Alert(
+        title: Text("Confirm Sign Out?"),
+        dismissButton: .default(Text("Yes")) {
+          isConfirmSignOut.toggle()
+          signOut()
+        }
+      )
+    }
     .sheet(isPresented: $isShowMemojiTextView) {
       MemojiView(profileImage: $profileImage, isShowMemojiTextView: $isShowMemojiTextView)
     }

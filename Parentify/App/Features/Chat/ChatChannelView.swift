@@ -27,10 +27,6 @@ struct ChatChannelView: View {
     self.presenter = presenter
     self.membershipPresenter = membershipPresenter
     self.assignment = assignment
-
-    membershipPresenter.fetchUsers()
-    membershipPresenter.fetchUser()
-    presenter.fetchChannels()
   }
 
   var body: some View {
@@ -70,13 +66,43 @@ struct ChatChannelView: View {
         }
       }
     }
-    .navigationTitle("Chats")
-    .navigationBarTitleDisplayMode(.large)
+    .navigationBarBackButtonHidden(true)
+    .overlay(
+      Text("Chats")
+        .font(.system(size: 34, weight: .bold))
+        .offset(x: 0, y: -30)
+        .padding(.leading, 20)
+      , alignment: .topLeading
+    )
+    .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        VStack {
+          Button(action : {
+            presentationMode.wrappedValue.dismiss()
+          }) {
+            HStack {
+              Image(systemName: "chevron.left")
+              Text("Back").padding(.trailing, -5)
+            }.foregroundColor(.accentColor)
+          }
+        }
+
+      }
+    }
     .progressHUD(isShowing: $presenter.addChatChannelState.isLoading)
     .showSheet(isPresented: $isAddChatChannel) {
       AddChatChannelView(users: users) { name, members in
         presenter.addChatChannel(channel: .init(channelName: name, users: members))
+        presenter.fetchChannels()
       }
+    }
+    .onAppear {
+      membershipPresenter.fetchUsers()
+      membershipPresenter.fetchUser()
+      presenter.fetchChannels()
+    }
+    .onDisappear {
+      membershipPresenter.stopUser()
     }
     .onReceive(presenter.$addChatChannelState) { state in
       if case .success = state {
