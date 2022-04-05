@@ -14,8 +14,8 @@ struct SignInView: View {
   @EnvironmentObject var googleAuthManager: GoogleAuthManager
   @AppStorage(Constant.isUserExist) private var isUserExist: Bool = false
 
-  @State var email: String = "uwaisalqadri@icloud.com"
-  @State var password: String = "Wasweswos123"
+  @State var email: String = ""
+  @State var password: String = ""
   @State var isSelectRole: Bool = false
   @State private var signInError: Error?
   @State private var isShowAlert: Bool = false
@@ -42,14 +42,16 @@ struct SignInView: View {
           CommonTextField(
             placeholder: "Email",
             text: $email,
-            image: UIImage(systemName: "envelope.fill")
+            image: UIImage(systemName: "envelope.fill"),
+            keyboardType: .emailAddress
           )
           .padding(.bottom, 17)
 
           CommonTextField(
             placeholder: "Password",
             text: $password,
-            image: UIImage(systemName: "lock.fill")
+            image: UIImage(systemName: "lock.fill"),
+            isPassword: true
           )
 
           Button(action: {
@@ -91,9 +93,7 @@ struct SignInView: View {
         }
         .padding(.horizontal, isIpad() ? 170 : 25)
         .showSheet(isPresented: $isSelectRole) {
-          router.routeSelectRole(email: email) { role in
-            print("JEJEJE", role)
-          }
+          router.routeSelectRole(email: email) { role in }
         }
         .alert(isPresented: $isShowAlert) {
           Alert(
@@ -140,6 +140,9 @@ struct SignInView: View {
     .onTapGesture {
       hideKeyboard()
     }
+    .onAppear {
+      isUserExist = false
+    }
     .onReceive(dismissSelectRole) { _ in
       isSelectRole = false
       isUserExist = true
@@ -148,12 +151,13 @@ struct SignInView: View {
   }
 
   private func signInUser(email: String, password: String, isUserExist: Bool) {
+    self.isUserExist = isUserExist
+
     if !isUserExist || signInError?.localizedDescription == "There is no user record corresponding to this identifier. The user may have been deleted." {
       isSelectRole.toggle()
       presenter.registerUser(email: email, password: password)
     } else {
       presenter.signInUser(email: email, password: password)
-      self.isUserExist = true
     }
   }
 

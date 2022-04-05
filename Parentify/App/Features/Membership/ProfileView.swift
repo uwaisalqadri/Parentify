@@ -50,7 +50,7 @@ struct ProfileView: View {
 
         VStack {
           HStack {
-            Text(isUserExist ? "Complete Profile" : "Edit Profile")
+            Text(isUserExist ? "Edit Profile" : "Complete Profile")
               .font(.system(size: 17, weight: .bold))
 
             Spacer()
@@ -146,14 +146,18 @@ struct ProfileView: View {
 
     }
     .progressHUD(isShowing: $presenter.userState.isLoading)
+    .progressHUD(isShowing: $presenter.updateUserState.isLoading)
     .navigationTitle("Profile")
     .alert(isPresented: $isConfirmSignOut) {
       Alert(
         title: Text("Confirm Sign Out?"),
-        dismissButton: .default(Text("Yes")) {
+        primaryButton: .default(Text("No"), action: {
+          isConfirmSignOut.toggle()
+        }),
+        secondaryButton: .destructive(Text("Yes"), action: {
           isConfirmSignOut.toggle()
           signOut()
-        }
+        })
       )
     }
     .sheet(isPresented: $isShowMemojiTextView) {
@@ -180,6 +184,11 @@ struct ProfileView: View {
         Notifications.dismissSelectRole.post()
       }
     }
+    .onReceive(presenter.$updateUserState) { state in
+      if case .success = state {
+        isShowEditProfile.toggle()
+      }
+    }
   }
 
   private func signOut() {
@@ -189,34 +198,19 @@ struct ProfileView: View {
   }
 
   private func signInUser() {
-    guard let user = DefaultFirebaseManager.shared.firebaseAuth.currentUser,
-          let googleUser = GIDSignIn.sharedInstance.currentUser else { return }
+    let profile: User = .init(
+      userId: DefaultFirebaseManager.shared.firebaseAuth.currentUser?.uid ?? "",
+      role: profile.role,
+      name: GIDSignIn.sharedInstance.currentUser?.profile?.name ?? profile.name,
+      email: GIDSignIn.sharedInstance.currentUser?.profile?.email ?? profile.email,
+      isParent: profile.role != .children ? true : false,
+      profilePict: profileImage
+    )
 
     if !isUserExist {
-      let profile: User = .init(
-        userId: user.uid,
-        role: profile.role,
-        name: googleUser.profile?.name ?? profile.name,
-        email: googleUser.profile?.email ?? profile.email,
-        isParent: profile.role != .children ? true : false,
-        profilePict: profileImage
-      )
-
       presenter.createUser(user: profile)
-
     } else {
-      let profile: User = .init(
-        userId: user.uid,
-        role: profile.role,
-        name: googleUser.profile?.name ?? profile.name,
-        email: googleUser.profile?.email ?? profile.email,
-        isParent: profile.role != .children ? true : false,
-        profilePict: profileImage
-      )
-
       presenter.updateUser(user: profile)
-      presenter.fetchUser()
-      isShowEditProfile.toggle()
     }
   }
 }

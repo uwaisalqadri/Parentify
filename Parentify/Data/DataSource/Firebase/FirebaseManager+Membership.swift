@@ -99,14 +99,18 @@ extension DefaultFirebaseManager {
       .getDocuments { querySnapshot, error in
         if let error = error {
           completion(.failure(.invalidRequest(error: error)))
-        } else if let querySnapshot = querySnapshot {
+        } else if let querySnapshot = querySnapshot, !querySnapshot.isEmpty {
           var users = [UserEntity]()
           for document in querySnapshot.documents {
             do {
-              if let user = try document.data(as: UserEntity.self) {
-                users.append(user)
+              if document.exists {
+                if let user = try document.data(as: UserEntity.self) {
+                  users.append(user)
+                }
+                completion(.success(users))
+              } else {
+                completion(.failure(.cantCreateUser))
               }
-              completion(.success(users))
             } catch {
               completion(.failure(.unknownError))
             }

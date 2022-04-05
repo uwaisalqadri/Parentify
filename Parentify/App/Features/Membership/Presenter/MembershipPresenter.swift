@@ -12,6 +12,7 @@ class MembershipPresenter: ObservableObject {
   @Published var userState: ViewState<User> = .initiate
   @Published var allUserState: ViewState<[User]> = .initiate
   @Published var createUserState: ViewState<Bool> = .initiate
+  @Published var updateUserState: ViewState<Bool> = .initiate
   @Published var registerState: ViewState<Bool> = .initiate
   @Published var signInState: ViewState<Bool> = .initiate
   @Published var signOutState: ViewState<Bool> = .initiate
@@ -69,14 +70,14 @@ class MembershipPresenter: ObservableObject {
   }
 
   func updateUser(user: User) {
-    createUserState = .loading
+    updateUserState = .loading
     firebaseManager.updateUser(user: user.map()) { result in
       switch result {
       case .success(let isSuccess):
-        self.createUserState = .success(data: isSuccess)
+        self.updateUserState = .success(data: isSuccess)
       case .failure(let firebaseError):
         if case .invalidRequest(let error) = firebaseError {
-          self.createUserState = .error(error: error)
+          self.updateUserState = .error(error: error)
         }
       }
     }

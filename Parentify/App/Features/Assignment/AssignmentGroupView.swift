@@ -57,7 +57,7 @@ struct AssignmentGroupView: View {
 
           }.padding(.horizontal, 22)
 
-          if presenter.assignmentsState != .loading && assignmentGroup.assignments.isEmpty {
+          if assignmentGroup.assignments.isEmpty {
             HStack(alignment: .center) {
               Spacer()
 
@@ -102,13 +102,11 @@ struct AssignmentGroupView: View {
     }
     .navigationTitle(assignmentGroup.title)
     .navigationBarTitleDisplayMode(.inline)
-    .progressHUD(isShowing: $presenter.assignmentsState.isLoading)
     .background(
       NavigationLink(
         destination: router.routeAssignmentDetail(isParent: isParent, assignmentId: assignmentId) {
           onUploaded?()
-        },
-        isActive: $isAddAssignment
+        }, isActive: $isAddAssignment
       ) {
         EmptyView()
       }.buttonStyle(FlatLinkStyle())

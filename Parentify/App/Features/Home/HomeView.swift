@@ -26,7 +26,6 @@ struct HomeView: View {
   @State var isShowDetail = false
   @State var isShowProgress = false
   @State var isAddMessage = false
-  @State var isParent = false
   @State var isSignedOut = false
 
   let router: HomeRouter
@@ -58,7 +57,7 @@ struct HomeView: View {
 
           MessagesCard(
             messages: $messages,
-            isParent: isParent,
+            isParent: currentUser.isParent,
             router: router,
             onAddMessage: {
               isAddMessage.toggle()
@@ -83,7 +82,7 @@ struct HomeView: View {
               router: assignmentRouter,
               selectedAssignmentId: selectedAssignmentId,
               isShowDetail: $isShowDetail,
-              isParent: isParent,
+              isParent: currentUser.isParent,
               assignmentGroup: item,
               onSwipe: { action in
                 switch action {
@@ -110,6 +109,7 @@ struct HomeView: View {
       }
       .navigationBarHidden(true)
       .progressHUD(isShowing: $membershipPresenter.userState.isLoading)
+      .progressHUD(isShowing: $membershipPresenter.allUserState.isLoading)
       .onAppear {
         presenter.fetchMessages()
         assignmentPresenter.fetchAssignments()
@@ -123,11 +123,10 @@ struct HomeView: View {
       }
       .onReceive(membershipPresenter.$userState) { state in
         if case .success(let profile) = state {
-          isParent = profile.isParent
           currentUser = profile
         }
       }
-      .onReceive(membershipPresenter.$allUserState) { state in
+      .onReceive(membershipPresenter.$allUserState.dropFirst()) { state in
         switch state {
         case .success(let data):
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
@@ -142,7 +141,7 @@ struct HomeView: View {
       .onReceive(assignmentPresenter.$assignmentsState) { state in
         if case .success(let data) = state {
           let filteredData = data.filterAssignedAssignments(currentUser: currentUser)
-          assignmentGroups = getAssignmentGroups(assignments: isParent ? data : filteredData)
+          assignmentGroups = getAssignmentGroups(assignments: currentUser.isParent ? data : filteredData)
         }
       }
       .onReceive(assignmentPresenter.$deleteAssignmentState) { state in
@@ -165,7 +164,7 @@ struct HomeView: View {
       }
       .customDialog(isShowing: $isAddMessage) {
         AddMessageDialog { textMessage in
-          let role = membershipPresenter.userState.value?.role ?? .children
+          let role = currentUser.role
           presenter.addMessage(message: .init(message: textMessage, role: role, sentDate: Date()))
         } onDismiss: {
           isAddMessage.toggle()
@@ -176,7 +175,12 @@ struct HomeView: View {
     .onAppear {
       assignmentGroups = getAssignmentGroups(assignments: [])
       membershipPresenter.fetchUser()
-      membershipPresenter.fetchUsers()
+
+      if isUserExist {
+        membershipPresenter.fetchUsers()
+      } else {
+        signOut()
+      }
 
       isSignedOut = DefaultFirebaseManager.shared.firebaseAuth.currentUser == nil
     }

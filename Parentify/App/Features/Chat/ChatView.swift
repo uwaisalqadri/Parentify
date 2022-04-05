@@ -129,10 +129,10 @@ struct ChatView: View {
     }
     .alert(isPresented: $isShowDialog) {
       Alert(
-        title: Text("Send Assignment?"),
+        title: Text("Lampirkan Tugas?"),
         message: nil,
         primaryButton: .destructive(Text("No")),
-        secondaryButton: .cancel(Text("Yes"), action: {
+        secondaryButton: .default(Text("Yes"), action: {
           isShowDialog.toggle()
           presenter.uploadChat(
             chat: .init(

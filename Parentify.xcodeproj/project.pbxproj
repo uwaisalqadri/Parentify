@@ -132,6 +132,7 @@
 		91C4054827DC9303007174A0 /* ChatEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C4054727DC9303007174A0 /* ChatEntity.swift */; };
 		91C4054A27DC94F5007174A0 /* ChatMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C4054927DC94F5007174A0 /* ChatMapper.swift */; };
 		91C4054D27DCB006007174A0 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 91C4054C27DCB006007174A0 /* Introspect */; };
+		91D2CAAE27FBD80B00E0F686 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91D2CAAD27FBD80B00E0F686 /* LaunchScreen.storyboard */; };
 		91E8FDB827E6051700FC34C6 /* AddChatChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E8FDB727E6051700FC34C6 /* AddChatChannelView.swift */; };
 		91E8FDBA27E6883000FC34C6 /* AttachUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E8FDB927E6883000FC34C6 /* AttachUserView.swift */; };
 		91F7EEEB27BB340E0008DDD6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91F7EEEA27BB340E0008DDD6 /* GoogleService-Info.plist */; };
@@ -272,6 +273,7 @@
 		91C4054527DC92EC007174A0 /* ChatChannelEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatChannelEntity.swift; sourceTree = "<group>"; };
 		91C4054727DC9303007174A0 /* ChatEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEntity.swift; sourceTree = "<group>"; };
 		91C4054927DC94F5007174A0 /* ChatMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMapper.swift; sourceTree = "<group>"; };
+		91D2CAAD27FBD80B00E0F686 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		91E8FDB727E6051700FC34C6 /* AddChatChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatChannelView.swift; sourceTree = "<group>"; };
 		91E8FDB927E6883000FC34C6 /* AttachUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachUserView.swift; sourceTree = "<group>"; };
 		91F7EEEA27BB340E0008DDD6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -441,6 +443,7 @@
 				9128776127DAC1570065A7B0 /* SymbolsSortedByName.txt */,
 				91413FB327BA95AA00799155 /* Assets.xcassets */,
 				91F7EEEA27BB340E0008DDD6 /* GoogleService-Info.plist */,
+				91D2CAAD27FBD80B00E0F686 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -841,6 +844,7 @@
 				91413FC527BA95AA00799155 /* Assets.xcassets in Resources */,
 				9128776227DAC1570065A7B0 /* SymbolsSortedByDefault.txt in Resources */,
 				91F7EEEB27BB340E0008DDD6 /* GoogleService-Info.plist in Resources */,
+				91D2CAAE27FBD80B00E0F686 /* LaunchScreen.storyboard in Resources */,
 				9128776327DAC1570065A7B0 /* SymbolsSortedByName.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1125,6 +1129,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
@@ -1160,6 +1165,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;

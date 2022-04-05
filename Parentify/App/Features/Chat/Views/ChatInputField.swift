@@ -14,7 +14,7 @@ struct ChatInputField: View {
 
   var body: some View {
     HStack {
-      TextField("Type Chat...", text: $text)
+      TextField("Tulis Chat...", text: $text)
         .font(.system(size: 13, weight: .medium))
         .foregroundColor(.black)
         .autocapitalization(.none)
