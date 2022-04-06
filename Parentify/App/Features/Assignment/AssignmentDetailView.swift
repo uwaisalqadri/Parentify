@@ -184,20 +184,23 @@ struct AssignmentDetailView: View {
         }
       }
     }
-    .onReceive(presenter.$addAssignmentState) { state in
-      if case .success = state {
+    .onViewStatable(
+      data: presenter.$addAssignmentState,
+      onSuccess: { _ in
         presentationMode.wrappedValue.dismiss()
         onUploaded?()
       }
-    }
-    .onReceive(presenter.$updateAssignmentState) { state in
-      if case .success = state {
+    )
+    .onViewStatable(
+      data: presenter.$updateAssignmentState,
+      onSuccess: { _ in
         presentationMode.wrappedValue.dismiss()
         onUploaded?()
       }
-    }
-    .onReceive(presenter.$assignmentDetailState) { state in
-      if case .success(let data) = state {
+    )
+    .onViewStatable(
+      data: presenter.$assignmentDetailState,
+      onSuccess: { data in
         assignment = data
         title = assignment.title
         description = assignment.description
@@ -208,12 +211,13 @@ struct AssignmentDetailView: View {
           selectedImage = attachment.toImage() ?? UIImage()
         }
       }
-    }
-    .onReceive(membershipPresenter.$allUserState) { state in
-      if case .success(let data) = state {
+    )
+    .onViewStatable(
+      data: membershipPresenter.$allUserState,
+      onSuccess: { data in
         children = data
       }
-    }
+    )
     .onTapGesture {
       hideKeyboard()
     }

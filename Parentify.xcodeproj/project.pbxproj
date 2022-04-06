@@ -54,6 +54,7 @@
 		9170623327BF7274005C2983 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170623227BF7274005C2983 /* ContentView.swift */; };
 		9170623527BF79D9005C2983 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170623427BF79D9005C2983 /* ActivityIndicator.swift */; };
 		9170623727BF85E8005C2983 /* ProgressHUDModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170623627BF85E8005C2983 /* ProgressHUDModifier.swift */; };
+		9177387527FDD6EB0015CC74 /* ViewStateModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9177387427FDD6EB0015CC74 /* ViewStateModifier.swift */; };
 		9181DFD727E35E130028B5D8 /* ChatAssignmentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9181DFD627E35E130028B5D8 /* ChatAssignmentRow.swift */; };
 		9181DFD927E403380028B5D8 /* ImageMembersCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9181DFD827E403370028B5D8 /* ImageMembersCard.swift */; };
 		918EE07727D43DFF00D38EA1 /* GoogleAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918EE07627D43DFF00D38EA1 /* GoogleAuthManager.swift */; };
@@ -218,6 +219,7 @@
 		9170623227BF7274005C2983 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9170623427BF79D9005C2983 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		9170623627BF85E8005C2983 /* ProgressHUDModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUDModifier.swift; sourceTree = "<group>"; };
+		9177387427FDD6EB0015CC74 /* ViewStateModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStateModifier.swift; sourceTree = "<group>"; };
 		9181DFD627E35E130028B5D8 /* ChatAssignmentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAssignmentRow.swift; sourceTree = "<group>"; };
 		9181DFD827E403370028B5D8 /* ImageMembersCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMembersCard.swift; sourceTree = "<group>"; };
 		918EE07627D43DFF00D38EA1 /* GoogleAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthManager.swift; sourceTree = "<group>"; };
@@ -543,6 +545,7 @@
 				91413FE527BA9AFC00799155 /* CardShadowModifier.swift */,
 				9170623627BF85E8005C2983 /* ProgressHUDModifier.swift */,
 				91BD8C1E27CF1990006B8055 /* CustomDialogModifier.swift */,
+				9177387427FDD6EB0015CC74 /* ViewStateModifier.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -933,6 +936,7 @@
 				912C5CDE27D6CA5500A5E882 /* AssignmentMapper.swift in Sources */,
 				91413FF327BAA0AB00799155 /* String.swift in Sources */,
 				918EE07E27D57A6B00D38EA1 /* ImagePicker.swift in Sources */,
+				9177387527FDD6EB0015CC74 /* ViewStateModifier.swift in Sources */,
 				91B3296827BCDE3400FBFA00 /* AssignmentDetailView.swift in Sources */,
 				91FF767F27BE3E43001B9CED /* BottomSheetModifier.swift in Sources */,
 				918EE07727D43DFF00D38EA1 /* GoogleAuthManager.swift in Sources */,

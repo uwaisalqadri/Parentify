@@ -32,12 +32,13 @@ struct MessagesView: View {
     .onAppear {
       homePresenter.fetchMessages()
     }
-    .onReceive(homePresenter.$addMessageState) { state in
-      if case .success = state {
+    .onViewStatable(
+      data: homePresenter.$addMessageState,
+      onSuccess: { _ in
         isAddMessage.toggle()
         homePresenter.fetchMessages()
       }
-    }
+    )
     .toolbar {
       ToolbarItem {
         if isParent {

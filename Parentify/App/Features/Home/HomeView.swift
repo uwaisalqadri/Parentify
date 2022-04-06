@@ -114,50 +114,55 @@ struct HomeView: View {
         assignmentPresenter.fetchAssignments()
         chatPresenter.fetchUnreadChats()
       }
-      .onReceive(presenter.$addMessageState) { state in
-        if case .success = state {
+      .onViewStatable(
+        data: presenter.$addMessageState,
+        onSuccess: { _ in
           isAddMessage.toggle()
           presenter.fetchMessages()
         }
-      }
-      .onReceive(membershipPresenter.$userState) { state in
-        if case .success(let profile) = state {
+      )
+      .onViewStatable(
+        data: membershipPresenter.$userState,
+        onSuccess: { profile in
           currentUser = profile
         }
-      }
-      .onReceive(membershipPresenter.$allUserState.dropFirst()) { state in
-        switch state {
-        case .success(let data):
+      )
+      .onViewStatable(
+        data: membershipPresenter.$allUserState,
+        onSuccess: { data in
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             isUserExist = data.filter { $0.email == currentUser.email }.count > 0
           }
-        case .error:
+        },
+        onError: { _ in
           isUserExist = false
-        default:
-          break
         }
-      }
-      .onReceive(assignmentPresenter.$assignmentsState) { state in
-        if case .success(let data) = state {
+      )
+      .onViewStatable(
+        data: assignmentPresenter.$assignmentsState,
+        onSuccess: { data in
           let filteredData = data.filterAssignedAssignments(currentUser: currentUser)
           assignmentGroups = getAssignmentGroups(assignments: currentUser.isParent ? data : filteredData)
         }
-      }
-      .onReceive(assignmentPresenter.$deleteAssignmentState) { state in
-        if case .success = state {
+      )
+      .onViewStatable(
+        data: assignmentPresenter.$deleteAssignmentState,
+        onSuccess: { _ in
           assignmentPresenter.fetchAssignments()
         }
-      }
-      .onReceive(chatPresenter.$unreadChatsState) { state in
-        if case .success(let data) = state {
+      )
+      .onViewStatable(
+        data: chatPresenter.$unreadChatsState,
+        onSuccess: { data in
           unreadChats = data
         }
-      }
-      .onReceive(presenter.$messagesState) { state in
-        if case .success(let data) = state {
+      )
+      .onViewStatable(
+        data: presenter.$messagesState,
+        onSuccess: { data in
           messages = data
         }
-      }
+      )
       .fullScreenCover(isPresented: $isSignedOut) {
         router.routeSignIn()
       }

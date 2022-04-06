@@ -135,14 +135,15 @@ struct ProfileView: View {
         }
 
       }
-      .onReceive(presenter.$userState) { state in
-        if case .success(let user) = state {
+      .onViewStatable(
+        data: presenter.$userState,
+        onSuccess: { user in
           if isUserExist {
             profile = user
             profileImage = user.profilePict
           }
         }
-      }
+      )
 
     }
     .progressHUD(isShowing: $presenter.userState.isLoading)
@@ -179,16 +180,18 @@ struct ProfileView: View {
         presenter.stopUser()
       }
     }
-    .onReceive(presenter.$createUserState) { state in
-      if case .success = state {
+    .onViewStatable(
+      data: presenter.$createUserState,
+      onSuccess: { _ in
         Notifications.dismissSelectRole.post()
       }
-    }
-    .onReceive(presenter.$updateUserState) { state in
-      if case .success = state {
+    )
+    .onViewStatable(
+      data: presenter.$updateUserState,
+      onSuccess: { _ in
         isShowEditProfile.toggle()
       }
-    }
+    )
   }
 
   private func signOut() {

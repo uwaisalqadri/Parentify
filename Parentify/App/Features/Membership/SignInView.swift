@@ -102,30 +102,32 @@ struct SignInView: View {
             dismissButton: .default(Text("Oke Sip!"))
           )
         }
-        .onReceive(presenter.$allUserState.dropFirst()) { state in
-          if case .success(let data) = state {
+        .onViewStatable(
+          data: presenter.$allUserState,
+          onSuccess: { data in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
               let isMatchEmail = data.filter { $0.email == email }.count > 0
               signInUser(email: email, password: password, isUserExist: data.isEmpty ? false : isMatchEmail)
             }
           }
-        }
-        .onReceive(presenter.$signInState) { state in
-          if case .error(let error) = state {
+        )
+        .onViewStatable(
+          data: presenter.$signInState,
+          onSuccess: { success in
+            isSignedIn = success
+            isShowAlert = false
+          },
+          onError: { error in
             signInError = error
             isShowAlert = true
-          } else if case .success(let isSuccess) = state {
-            isSignedIn = isSuccess
-            isShowAlert = false
-          } else {
-            isShowAlert = false
           }
-        }
-        .onReceive(presenter.$registerState) { state in
-          if case .success = state {
+        )
+        .onViewStatable(
+          data: presenter.$registerState,
+          onSuccess: { _ in
             isSelectRole.toggle()
           }
-        }
+        )
         .onReceive(googleAuthManager.$state) { state in
           if case .signedIn = state {
             guard let user = GIDSignIn.sharedInstance.currentUser else { return }

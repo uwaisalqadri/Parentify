@@ -131,13 +131,15 @@ struct AssignmentGroupView: View {
     .onDisappear {
       presenter.stopAssignments()
     }
-    .onReceive(membershipPresenter.$userState) { state in
-      if case .success(let data) = state {
+    .onViewStatable(
+      data: membershipPresenter.$userState,
+      onSuccess: { data in
         currentUser = data
       }
-    }
-    .onReceive(presenter.$assignmentsState) { state in
-      if case .success(let data) = state {
+    )
+    .onViewStatable(
+      data: presenter.$assignmentsState,
+      onSuccess: { data in
         let needToDone = data.filter { $0.type == .needToDone }
         let additional = data.filter { $0.type == .additional }
 
@@ -152,8 +154,7 @@ struct AssignmentGroupView: View {
           )[1]
         }
       }
-
-    }
+    )
   }
 
 }
