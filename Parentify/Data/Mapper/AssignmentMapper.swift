@@ -23,7 +23,8 @@ extension AssignmentEntity {
       type: AssigmnentType(rawValue: type?.rawValue ?? "")!,
       dateCreated: dateCreated?.toDate() ?? Date(),
       attachments: attachments ?? [],
-      assignedTo: assignedTo?.map { $0.map() } ?? []
+      assignedTo: assignedTo?.map { $0.map() } ?? [],
+      isDone: isDone ?? false
     )
   }
 }
@@ -38,13 +39,16 @@ extension Assignment {
       type: AssigmnentTypeEntity(rawValue: type.rawValue),
       dateCreated: String(dateCreated.timeIntervalSince1970),
       attachments: attachments,
-      assignedTo: assignedTo.map { $0.map() }
+      assignedTo: assignedTo.map { $0.map() },
+      isDone: isDone
     )
   }
 }
 
 extension Array where Element == Assignment {
   func filterAssignedAssignments(currentUser: User) -> [Assignment] {
-    return self.filter { $0.assignedTo.filter { $0.userId == currentUser.userId }.count > 0 }
+    return self
+      .filter { $0.assignedTo.filter { $0.userId == currentUser.userId }.count > 0 }
+      .filter { $0.isDone == false }
   }
 }

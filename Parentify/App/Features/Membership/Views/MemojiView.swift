@@ -25,7 +25,7 @@ struct MemojiView: View {
             Button(action: {
               isShowMemojiTextView = false
             }) {
-              Text("Done")
+              Text("Selesai")
                 .foregroundColor(.purpleColor)
             }
           }

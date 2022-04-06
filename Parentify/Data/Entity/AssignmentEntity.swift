@@ -34,8 +34,9 @@ struct AssignmentEntity: BodyCodable, Codable {
   var dateCreated: String?
   var attachments: [String]?
   var assignedTo: [UserEntity]?
+  var isDone: Bool?
 
-  init(id: String?, iconName: String?, title: String?, description: String?, type: AssigmnentTypeEntity?, dateCreated: String?, attachments: [String]?, assignedTo: [UserEntity]?) {
+  init(id: String?, iconName: String?, title: String?, description: String?, type: AssigmnentTypeEntity?, dateCreated: String?, attachments: [String]?, assignedTo: [UserEntity]?, isDone: Bool?) {
     self.id = id
     self.iconName = iconName
     self.title = title
@@ -44,5 +45,6 @@ struct AssignmentEntity: BodyCodable, Codable {
     self.dateCreated = dateCreated
     self.attachments = attachments
     self.assignedTo = assignedTo
+    self.isDone = isDone
   }
 }

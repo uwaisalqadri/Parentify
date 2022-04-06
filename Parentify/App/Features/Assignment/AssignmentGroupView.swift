@@ -42,7 +42,17 @@ struct AssignmentGroupView: View {
                 isParent: isParent,
                 onSwipe: { action in
                   if case .finished(let assignment) = action {
-                    presenter.updateFinishedAssignment(assignment: assignment)
+                    presenter.updateFinishedAssignment(assignment: .init(
+                      id: assignment.id,
+                      iconName: assignment.iconName,
+                      title: assignment.title,
+                      description: assignment.description,
+                      type: assignment.type,
+                      dateCreated: assignment.dateCreated,
+                      attachments: assignment.attachments,
+                      assignedTo: assignment.assignedTo,
+                      isDone: true
+                    ))
                   }
                 },
                 onDelete: { assignment in
@@ -67,9 +77,11 @@ struct AssignmentGroupView: View {
                   .foregroundColor(.purpleColor)
                   .frame(width: 60, height: 60)
 
-                Text("Add Assignment")
-                  .font(.system(size: 20, weight: .semibold))
+                Text("Tambahkan Tugas, Reminder, atau Important Task")
+                  .font(.system(size: 15, weight: .semibold))
                   .foregroundColor(.purpleColor)
+                  .multilineTextAlignment(.center)
+                  .padding(.horizontal, 40)
               }
 
               Spacer()

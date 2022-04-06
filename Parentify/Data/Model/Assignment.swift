@@ -32,4 +32,5 @@ struct Assignment {
   var dateCreated: Date = Date()
   var attachments = [String]()
   var assignedTo = [User]()
+  var isDone: Bool = false
 }

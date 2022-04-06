@@ -109,7 +109,6 @@ struct HomeView: View {
       }
       .navigationBarHidden(true)
       .progressHUD(isShowing: $membershipPresenter.userState.isLoading)
-      .progressHUD(isShowing: $membershipPresenter.allUserState.isLoading)
       .onAppear {
         presenter.fetchMessages()
         assignmentPresenter.fetchAssignments()

@@ -42,7 +42,8 @@ class MembershipPresenter: ObservableObject {
   }
 
   func fetchUsers(isChildren: Bool = false) {
-    allUserState = .loading
+    allUserState = .success(data: [])
+
     firebaseManager.fetchUsers(isChildren: isChildren) { result in
       switch result {
       case .success(let data):

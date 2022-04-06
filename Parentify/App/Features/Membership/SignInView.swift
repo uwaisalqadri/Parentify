@@ -102,11 +102,11 @@ struct SignInView: View {
             dismissButton: .default(Text("Oke Sip!"))
           )
         }
-        .onReceive(presenter.$allUserState) { state in
+        .onReceive(presenter.$allUserState.dropFirst()) { state in
           if case .success(let data) = state {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
               let isMatchEmail = data.filter { $0.email == email }.count > 0
-              signInUser(email: email, password: password, isUserExist: isMatchEmail)
+              signInUser(email: email, password: password, isUserExist: data.isEmpty ? false : isMatchEmail)
             }
           }
         }
@@ -119,6 +119,11 @@ struct SignInView: View {
             isShowAlert = false
           } else {
             isShowAlert = false
+          }
+        }
+        .onReceive(presenter.$registerState) { state in
+          if case .success = state {
+            isSelectRole.toggle()
           }
         }
         .onReceive(googleAuthManager.$state) { state in
@@ -134,7 +139,6 @@ struct SignInView: View {
 
       }
     }
-    .progressHUD(isShowing: $presenter.allUserState.isLoading)
     .progressHUD(isShowing: $presenter.signInState.isLoading)
     .navigationViewStyle(.stack)
     .onTapGesture {
@@ -154,7 +158,6 @@ struct SignInView: View {
     self.isUserExist = isUserExist
 
     if !isUserExist || signInError?.localizedDescription == "There is no user record corresponding to this identifier. The user may have been deleted." {
-      isSelectRole.toggle()
       presenter.registerUser(email: email, password: password)
     } else {
       presenter.signInUser(email: email, password: password)

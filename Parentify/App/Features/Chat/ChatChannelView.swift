@@ -67,13 +67,8 @@ struct ChatChannelView: View {
       }
     }
     .navigationBarBackButtonHidden(true)
-    .overlay(
-      Text("Chats")
-        .font(.system(size: 34, weight: .bold))
-        .offset(x: 0, y: -30)
-        .padding(.leading, 20)
-      , alignment: .topLeading
-    )
+    .navigationBarTitleDisplayMode(.large)
+    .navigationBarTitle("Chats")
     .toolbar {
       ToolbarItem(placement: .navigationBarLeading) {
         VStack {

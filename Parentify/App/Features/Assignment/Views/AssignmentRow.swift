@@ -79,9 +79,10 @@ struct AssignmentGroupRow: View {
             .foregroundColor(.purpleColor)
             .frame(width: 40, height: 40)
 
-          Text("Add Assignment")
+          Text("Tambahkan Tugas, Reminder, atau Important Task")
             .font(.system(size: 10, weight: .semibold))
             .foregroundColor(.purpleColor)
+            .padding(.horizontal, 40)
         }
 
         Spacer()
@@ -104,7 +105,7 @@ struct AssignmentRow: View {
   var body: some View {
     ZStack(alignment: .topTrailing) {
 
-      Text("Done")
+      Text("Selesai")
         .foregroundColor(.green)
         .font(.system(size: 15, weight: .bold))
         .padding([.top, .trailing], 30)
@@ -173,7 +174,7 @@ struct AssignmentCard: View {
             .foregroundColor(.black)
             .font(.system(size: 14, weight: .semibold))
 
-          Text(assignment.dateCreated.toString(format: "MMMM d, yyyy"))
+          Text(assignment.dateCreated.toString(format: "h:mm a, d MMMM yyyy"))
             .foregroundColor(.gray)
             .font(.system(size: 14, weight: .medium))
         }.padding(.leading, 20)

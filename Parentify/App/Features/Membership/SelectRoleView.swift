@@ -49,6 +49,8 @@ struct SelectRoleView: View {
       )
     }
     .navigationViewStyle(.stack)
+    .navigationBarTitle("Siapa kamu dalam keluarga?")
+    .navigationBarTitleDisplayMode(.inline)
   }
 }
 
