@@ -136,7 +136,7 @@ struct ProfileView: View {
 
       }
       .onViewStatable(
-        data: presenter.$userState,
+        presenter.$userState,
         onSuccess: { user in
           if isUserExist {
             profile = user
@@ -181,13 +181,13 @@ struct ProfileView: View {
       }
     }
     .onViewStatable(
-      data: presenter.$createUserState,
+      presenter.$createUserState,
       onSuccess: { _ in
         Notifications.dismissSelectRole.post()
       }
     )
     .onViewStatable(
-      data: presenter.$updateUserState,
+      presenter.$updateUserState,
       onSuccess: { _ in
         isShowEditProfile.toggle()
       }

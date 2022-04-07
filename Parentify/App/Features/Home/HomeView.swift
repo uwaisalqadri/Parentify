@@ -115,20 +115,20 @@ struct HomeView: View {
         chatPresenter.fetchUnreadChats()
       }
       .onViewStatable(
-        data: presenter.$addMessageState,
+        presenter.$addMessageState,
         onSuccess: { _ in
           isAddMessage.toggle()
           presenter.fetchMessages()
         }
       )
       .onViewStatable(
-        data: membershipPresenter.$userState,
+        membershipPresenter.$userState,
         onSuccess: { profile in
           currentUser = profile
         }
       )
       .onViewStatable(
-        data: membershipPresenter.$allUserState,
+        membershipPresenter.$allUserState,
         onSuccess: { data in
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             isUserExist = data.filter { $0.email == currentUser.email }.count > 0
@@ -139,26 +139,26 @@ struct HomeView: View {
         }
       )
       .onViewStatable(
-        data: assignmentPresenter.$assignmentsState,
+        assignmentPresenter.$assignmentsState,
         onSuccess: { data in
           let filteredData = data.filterAssignedAssignments(currentUser: currentUser)
           assignmentGroups = getAssignmentGroups(assignments: currentUser.isParent ? data : filteredData)
         }
       )
       .onViewStatable(
-        data: assignmentPresenter.$deleteAssignmentState,
+        assignmentPresenter.$deleteAssignmentState,
         onSuccess: { _ in
           assignmentPresenter.fetchAssignments()
         }
       )
       .onViewStatable(
-        data: chatPresenter.$unreadChatsState,
+        chatPresenter.$unreadChatsState,
         onSuccess: { data in
           unreadChats = data
         }
       )
       .onViewStatable(
-        data: presenter.$messagesState,
+        presenter.$messagesState,
         onSuccess: { data in
           messages = data
         }

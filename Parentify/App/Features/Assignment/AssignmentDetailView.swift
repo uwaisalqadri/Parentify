@@ -185,21 +185,21 @@ struct AssignmentDetailView: View {
       }
     }
     .onViewStatable(
-      data: presenter.$addAssignmentState,
+      presenter.$addAssignmentState,
       onSuccess: { _ in
         presentationMode.wrappedValue.dismiss()
         onUploaded?()
       }
     )
     .onViewStatable(
-      data: presenter.$updateAssignmentState,
+      presenter.$updateAssignmentState,
       onSuccess: { _ in
         presentationMode.wrappedValue.dismiss()
         onUploaded?()
       }
     )
     .onViewStatable(
-      data: presenter.$assignmentDetailState,
+      presenter.$assignmentDetailState,
       onSuccess: { data in
         assignment = data
         title = assignment.title
@@ -213,7 +213,7 @@ struct AssignmentDetailView: View {
       }
     )
     .onViewStatable(
-      data: membershipPresenter.$allUserState,
+      membershipPresenter.$allUserState,
       onSuccess: { data in
         children = data
       }

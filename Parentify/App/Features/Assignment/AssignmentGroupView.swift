@@ -132,13 +132,13 @@ struct AssignmentGroupView: View {
       presenter.stopAssignments()
     }
     .onViewStatable(
-      data: membershipPresenter.$userState,
+      membershipPresenter.$userState,
       onSuccess: { data in
         currentUser = data
       }
     )
     .onViewStatable(
-      data: presenter.$assignmentsState,
+      presenter.$assignmentsState,
       onSuccess: { data in
         let needToDone = data.filter { $0.type == .needToDone }
         let additional = data.filter { $0.type == .additional }

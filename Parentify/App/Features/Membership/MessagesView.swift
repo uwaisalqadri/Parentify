@@ -37,14 +37,14 @@ struct MessagesView: View {
       membershipPresenter.stopUser()
     }
     .onViewStatable(
-      data: homePresenter.$addMessageState,
+      homePresenter.$addMessageState,
       onSuccess: { _ in
         isAddMessage.toggle()
         homePresenter.fetchMessages()
       }
     )
     .onViewStatable(
-      data: membershipPresenter.$userState,
+      membershipPresenter.$userState,
       onSuccess: { user in
         currentUser = user
       }

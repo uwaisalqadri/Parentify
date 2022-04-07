@@ -103,7 +103,7 @@ struct SignInView: View {
           )
         }
         .onViewStatable(
-          data: presenter.$allUserState,
+          presenter.$allUserState,
           onSuccess: { data in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
               let isMatchEmail = data.filter { $0.email == email }.count > 0
@@ -112,7 +112,7 @@ struct SignInView: View {
           }
         )
         .onViewStatable(
-          data: presenter.$signInState,
+          presenter.$signInState,
           onSuccess: { success in
             isSignedIn = success
             isShowAlert = false
@@ -123,7 +123,7 @@ struct SignInView: View {
           }
         )
         .onViewStatable(
-          data: presenter.$registerState,
+          presenter.$registerState,
           onSuccess: { _ in
             isSelectRole.toggle()
           }

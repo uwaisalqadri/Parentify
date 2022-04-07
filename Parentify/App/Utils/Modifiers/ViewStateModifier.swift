@@ -36,7 +36,7 @@ struct ViewStateModifier<Data>: ViewModifier {
 
 extension View {
   func onViewStatable<Data>(
-    data: Published<ViewState<Data>>.Publisher,
+    _ data: Published<ViewState<Data>>.Publisher,
     onSuccess: ((Data) -> Void)? = nil,
     onLoading: (() -> Void)? = nil,
     onEmpty: (() -> Void)? = nil,

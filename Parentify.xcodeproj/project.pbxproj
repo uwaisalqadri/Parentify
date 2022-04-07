@@ -425,7 +425,6 @@
 				91B3294727BCD4F700FBFA00 /* Chat */,
 				91B3294627BCD4D700FBFA00 /* Membership */,
 				91B3294527BCD4C800FBFA00 /* Home */,
-				9128775C27DAC09E0065A7B0 /* SelectIconView.swift */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -658,6 +657,7 @@
 		91B3294E27BCD71500FBFA00 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9128775C27DAC09E0065A7B0 /* SelectIconView.swift */,
 				91B3297F27BCE2AE00FBFA00 /* AssignmentRow.swift */,
 				9128776427DAC18A0065A7B0 /* IconRow.swift */,
 			);
