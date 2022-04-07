@@ -11,8 +11,8 @@ struct MessagesView: View {
 
   @ObservedObject var homePresenter: HomePresenter
   @ObservedObject var membershipPresenter: MembershipPresenter
-  let isParent: Bool
 
+  @State private var currentUser: User = .empty
   @State var isAddMessage: Bool = false
 
   var body: some View {
@@ -31,6 +31,10 @@ struct MessagesView: View {
     .navigationBarTitle("Pesan Penting")
     .onAppear {
       homePresenter.fetchMessages()
+      membershipPresenter.fetchUser()
+    }
+    .onDisappear {
+      membershipPresenter.stopUser()
     }
     .onViewStatable(
       data: homePresenter.$addMessageState,
@@ -39,9 +43,15 @@ struct MessagesView: View {
         homePresenter.fetchMessages()
       }
     )
+    .onViewStatable(
+      data: membershipPresenter.$userState,
+      onSuccess: { user in
+        currentUser = user
+      }
+    )
     .toolbar {
       ToolbarItem {
-        if isParent {
+        if currentUser.isParent {
           Button(action: {
             isAddMessage.toggle()
           }) {
@@ -53,7 +63,7 @@ struct MessagesView: View {
     }
     .customDialog(isShowing: $isAddMessage) {
       AddMessageDialog { textMessage in
-        let role = membershipPresenter.userState.value?.role ?? .children
+        let role = currentUser.role
         homePresenter.addMessage(message: .init(message: textMessage, role: role, sentDate: Date()))
       } onDismiss: {
         isAddMessage.toggle()

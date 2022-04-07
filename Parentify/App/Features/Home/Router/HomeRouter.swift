@@ -28,9 +28,9 @@ struct HomeRouter {
     return router.routeSignIn()
   }
 
-  func routeMessages(isParent: Bool) -> MessagesView {
+  func routeMessages() -> MessagesView {
     let router: MembershipRouter = assembler.resolve()
-    return router.routeMessages(isParent: isParent)
+    return router.routeMessages()
   }
 
   func routeChatChannel() -> ChatChannelView {
