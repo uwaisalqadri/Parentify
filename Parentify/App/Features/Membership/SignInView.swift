@@ -114,7 +114,7 @@ struct SignInView: View {
         .onViewStatable(
           presenter.$signInState,
           onSuccess: { success in
-            isSignedIn = success
+            isSignedIn = true
             isShowAlert = false
           },
           onError: { error in
@@ -125,6 +125,7 @@ struct SignInView: View {
         .onViewStatable(
           presenter.$registerState,
           onSuccess: { _ in
+            isUserExist = true
             isSelectRole.toggle()
           }
         )
@@ -157,8 +158,6 @@ struct SignInView: View {
   }
 
   private func signInUser(email: String, password: String, isUserExist: Bool) {
-    self.isUserExist = isUserExist
-
     if !isUserExist || signInError?.localizedDescription == "There is no user record corresponding to this identifier. The user may have been deleted." {
       presenter.registerUser(email: email, password: password)
     } else {

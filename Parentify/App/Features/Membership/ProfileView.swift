@@ -151,7 +151,7 @@ struct ProfileView: View {
     .navigationTitle("Profile")
     .alert(isPresented: $isConfirmSignOut) {
       Alert(
-        title: Text("Confirm Sign Out?"),
+        title: Text("Anda Yakin ingin Keluar dari Aplikasi?"),
         primaryButton: .default(Text("No"), action: {
           isConfirmSignOut.toggle()
         }),
@@ -173,11 +173,6 @@ struct ProfileView: View {
     .onAppear {
       if isUserExist {
         presenter.fetchUser()
-      }
-    }
-    .onDisappear {
-      if isUserExist {
-        presenter.stopUser()
       }
     }
     .onViewStatable(

@@ -213,13 +213,13 @@ struct AssignmentCard: View {
           }
       )
       .contextMenu {
-        Button(action: {
-          onShowDetail?(assignment.id)
-        }) {
-          Label("Detail", systemImage: "info.circle.fill")
-        }
-
         if isParent {
+          Button(action: {
+            onShowDetail?(assignment.id)
+          }) {
+            Label("Detail", systemImage: "info.circle.fill")
+          }
+
           if #available(iOS 15.0, *) {
             Button(role: .destructive) {
               onDelete?(assignment)

@@ -24,7 +24,7 @@ struct ChatAssignmentRow: View {
       }
       .padding(.trailing, 12)
 
-      Image(systemName: "plus")
+      Image(systemName: assignment.iconName)
         .foregroundColor(.white)
         .background(
           Color
@@ -34,7 +34,9 @@ struct ChatAssignmentRow: View {
         )
         .padding(.trailing, 10)
     }
-    .padding(23)
+    .padding(.vertical, 23)
+    .padding(.trailing, 23)
+    .padding(.leading, 23)
     .cardShadow(cornerRadius: 27)
     .frame(width: 220, height: 100)
 

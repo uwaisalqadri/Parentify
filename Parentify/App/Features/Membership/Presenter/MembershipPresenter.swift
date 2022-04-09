@@ -37,10 +37,6 @@ class MembershipPresenter: ObservableObject {
     }
   }
 
-  func stopUser() {
-    firebaseManager.stopUser()
-  }
-
   func fetchUsers(isChildren: Bool = false) {
     allUserState = .success(data: [])
 

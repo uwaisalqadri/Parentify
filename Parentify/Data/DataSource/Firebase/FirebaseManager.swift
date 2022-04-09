@@ -22,7 +22,6 @@ protocol FirebaseManager {
   func updateUser(user: UserEntity, completion: @escaping CompletionResult<Bool>)
   func fetchUser(completion: @escaping CompletionResult<UserEntity>)
   func fetchUsers(isChildren: Bool, completion: @escaping CompletionResult<[UserEntity]>)
-  func stopUser()
 
   func addAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
   func updateAssignment(assignment: AssignmentEntity, completion: @escaping CompletionResult<Bool>)
@@ -53,7 +52,6 @@ class DefaultFirebaseManager: FirebaseManager {
 
   var chatListener: ListenerRegistration?
   var channelListener: ListenerRegistration?
-  var userListener: ListenerRegistration?
   var assignmentListener: ListenerRegistration?
 
 }

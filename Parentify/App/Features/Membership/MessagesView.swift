@@ -33,9 +33,6 @@ struct MessagesView: View {
       homePresenter.fetchMessages()
       membershipPresenter.fetchUser()
     }
-    .onDisappear {
-      membershipPresenter.stopUser()
-    }
     .onViewStatable(
       homePresenter.$addMessageState,
       onSuccess: { _ in

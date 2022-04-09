@@ -18,7 +18,7 @@ struct AssignmentGroupView: View {
   @State private var isShowDetail: Bool = false
   @State private var isAddAssignment: Bool = false
 
-  @State private var assignmentGroup: AssignmentGroup = .empty
+  @State private var assignmentGroup: AssignmentGroup = getAssignmentGroups(assignments: [])[0]
   @State private var selectedAssignment: Assignment = .empty
 
   let isParent: Bool
@@ -124,7 +124,6 @@ struct AssignmentGroupView: View {
       }.buttonStyle(FlatLinkStyle())
     )
     .onAppear {
-      assignmentGroup = getAssignmentGroups(assignments: [])[0]
       membershipPresenter.fetchUser()
       presenter.fetchLiveAssignments()
     }

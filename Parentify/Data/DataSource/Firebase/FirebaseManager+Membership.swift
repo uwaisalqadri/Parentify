@@ -72,25 +72,23 @@ extension DefaultFirebaseManager {
 
   func fetchUser(completion: @escaping CompletionResult<UserEntity>) {
     guard let email = firebaseAuth.currentUser?.email else { return }
-    if userListener == nil {
-      userListener = firestoreCollection(.membership)
-        .document(email)
-        .addSnapshotListener { querySnapshot, error in
-          if let error = error {
-            completion(.failure(.invalidRequest(error: error)))
-          } else {
-            let result = Result { try querySnapshot?.data(as: UserEntity.self) }
-            switch result {
-            case .success(let data):
-              if let data = data {
-                completion(.success(data))
-              }
-            case .failure:
-              completion(.failure(.unknownError))
+    firestoreCollection(.membership)
+      .document(email)
+      .addSnapshotListener { querySnapshot, error in
+        if let error = error {
+          completion(.failure(.invalidRequest(error: error)))
+        } else {
+          let result = Result { try querySnapshot?.data(as: UserEntity.self) }
+          switch result {
+          case .success(let data):
+            if let data = data {
+              completion(.success(data))
             }
+          case .failure:
+            completion(.failure(.unknownError))
           }
         }
-    }
+      }
   }
 
   func fetchUsers(isChildren: Bool = false, completion: @escaping CompletionResult<[UserEntity]>) {
@@ -117,13 +115,6 @@ extension DefaultFirebaseManager {
           }
         }
       }
-  }
-
-  func stopUser() {
-    if userListener != nil {
-      userListener?.remove()
-      userListener = nil
-    }
   }
 
   func addMessage(message: MessageEntity, completion: @escaping CompletionResult<Bool>) {

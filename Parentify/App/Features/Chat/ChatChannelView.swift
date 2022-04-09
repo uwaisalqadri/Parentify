@@ -30,39 +30,43 @@ struct ChatChannelView: View {
   }
 
   var body: some View {
-    List {
-      Section(header: Text("Direct")) {
-        ForEach(contacts, id: \.userId) { user in
-          NavigationLink(
-            destination: router.routeChat(currentUser: currentUser, sender: user, assignment: assignment, channel: .empty, section: .direct)
-          ) {
-            ChatChannelRow(section: .direct, contact: user)
-          }.buttonStyle(PlainButtonStyle())
-        }
-      }
-
-      Section(header: Text("Group")) {
-        HStack {
-          Text("Buat Grup")
-            .font(.system(size: 15, weight: .semibold))
-            .foregroundColor(.purpleColor)
-
-          Spacer()
-
-          Button(action: {
-            isAddChatChannel.toggle()
-          }) {
-            Image(systemName: "plus")
-              .foregroundColor(.purpleColor)
+    ZStack {
+      if !presenter.channelsState.isLoading {
+        List {
+          Section(header: Text("Direct")) {
+            ForEach(contacts, id: \.userId) { user in
+              NavigationLink(
+                destination: router.routeChat(currentUser: currentUser, sender: user, assignment: assignment, channel: .empty, section: .direct)
+              ) {
+                ChatChannelRow(section: .direct, contact: user)
+              }.buttonStyle(PlainButtonStyle())
+            }
           }
-        }
 
-        ForEach(channels, id: \.id) { channel in
-          NavigationLink(
-            destination: router.routeChat(currentUser: currentUser, sender: .empty, assignment: assignment, channel: channel, section: .group)
-          ) {
-            ChatChannelRow(section: .group, channel: channel)
-          }.buttonStyle(PlainButtonStyle())
+          Section(header: Text("Group")) {
+            HStack {
+              Text("Buat Grup")
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundColor(.purpleColor)
+
+              Spacer()
+
+              Button(action: {
+                isAddChatChannel.toggle()
+              }) {
+                Image(systemName: "plus")
+                  .foregroundColor(.purpleColor)
+              }
+            }
+
+            ForEach(channels, id: \.id) { channel in
+              NavigationLink(
+                destination: router.routeChat(currentUser: currentUser, sender: .empty, assignment: assignment, channel: channel, section: .group)
+              ) {
+                ChatChannelRow(section: .group, channel: channel)
+              }.buttonStyle(PlainButtonStyle())
+            }
+          }
         }
       }
     }
@@ -94,10 +98,10 @@ struct ChatChannelView: View {
     .onAppear {
       membershipPresenter.fetchUsers()
       membershipPresenter.fetchUser()
-      presenter.fetchChannels()
-    }
-    .onDisappear {
-      membershipPresenter.stopUser()
+
+      DispatchQueue.main.async {
+        presenter.fetchChannels()
+      }
     }
     .onReceive(presenter.$addChatChannelState) { state in
       if case .success = state {

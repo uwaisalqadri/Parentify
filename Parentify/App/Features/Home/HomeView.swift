@@ -41,7 +41,7 @@ struct HomeView: View {
                 .foregroundColor(.gray)
                 .font(.system(size: 17, weight: .regular))
 
-              Text(membershipPresenter.userState.value?.name ?? "")
+              Text(currentUser.name)
                 .foregroundColor(.black)
                 .font(.system(size: 18, weight: .bold))
             }
@@ -49,7 +49,7 @@ struct HomeView: View {
             Spacer()
 
             NavigationLink(destination: router.routeProfile()) {
-              ImageCard(profileImage: membershipPresenter.userState.value?.profilePict ?? UIImage())
+              ImageCard(profileImage: currentUser.profilePict)
                 .frame(width: 50, height: 50, alignment: .center)
             }
 
@@ -113,6 +113,7 @@ struct HomeView: View {
         presenter.fetchMessages()
         assignmentPresenter.fetchAssignments()
         chatPresenter.fetchUnreadChats()
+        membershipPresenter.fetchUsers()
       }
       .onViewStatable(
         presenter.$addMessageState,
@@ -131,7 +132,7 @@ struct HomeView: View {
         membershipPresenter.$allUserState,
         onSuccess: { data in
           DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            isUserExist = data.filter { $0.email == currentUser.email }.count > 0
+            isUserExist = data.filter { $0.userId == currentUser.userId }.count > 0
           }
         },
         onError: { _ in
@@ -182,8 +183,6 @@ struct HomeView: View {
 
       if isUserExist {
         membershipPresenter.fetchUsers()
-      } else {
-        signOut()
       }
 
       isSignedOut = DefaultFirebaseManager.shared.firebaseAuth.currentUser == nil
